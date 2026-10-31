@@ -1,21 +1,247 @@
 :root {
+  --cor-fundo: #f7f8fa;
+  --cor-superficie: #ffffff;
+  --cor-texto: #1f2933;
+  --cor-texto-suave: #52606d;
+  --cor-borda: #d9dee4;
+  --cor-primaria: #1d4ed8;
+  --cor-primaria-escura: #1e40af;
+  --cor-primaria-clara: #e8eefc;
+  --cor-aviso: #fdf6e3;
+  --cor-aviso-borda: #e8c66b;
+  --cor-erro: #b42318;
+
   font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  line-height: 1.5;
-  color: #1f2933;
-  background-color: #f7f8fa;
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--cor-texto);
+  background-color: var(--cor-fundo);
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
 }
 
-main {
-  max-width: 40rem;
-  margin: 0 auto;
-  padding: 2rem 1rem;
+button,
+textarea {
+  font: inherit;
 }
 
-.status {
-  color: #616e7c;
-  font-size: 0.875rem;
+.cabecalho,
+main,
+.rodape {
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.cabecalho {
+  padding-top: 2rem;
+  padding-bottom: 1rem;
+}
+
+.cabecalho h1 {
+  margin: 0 0 0.25rem;
+  font-size: 1.6rem;
+  line-height: 1.2;
+}
+
+.cabecalho p {
+  margin: 0;
+  color: var(--cor-texto-suave);
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding-bottom: 2rem;
+}
+
+/* Formulário */
+
+.formulario {
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.formulario-rotulo {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.formulario textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 5rem;
+  padding: 0.75rem;
+  border: 1px solid var(--cor-borda);
+  border-radius: 8px;
+  color: var(--cor-texto);
+}
+
+.formulario textarea:focus {
+  outline: 2px solid var(--cor-primaria);
+  outline-offset: 1px;
+  border-color: transparent;
+}
+
+.formulario-rodape {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.75rem;
+}
+
+.contador {
+  font-size: 0.85rem;
+  color: var(--cor-texto-suave);
+}
+
+.formulario button {
+  min-height: 44px;
+  padding: 0 1.5rem;
+  border: none;
+  border-radius: 8px;
+  background: var(--cor-primaria);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.formulario button:hover:not(:disabled) {
+  background: var(--cor-primaria-escura);
+}
+
+.formulario button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Resposta */
+
+.resposta {
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-left: 4px solid var(--cor-primaria);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+}
+
+.resposta.sem-informacao {
+  background: var(--cor-aviso);
+  border-color: var(--cor-aviso-borda);
+}
+
+.resposta-pergunta {
+  margin: 0 0 0.5rem;
+  font-weight: 600;
+}
+
+.resposta-texto {
+  margin: 0;
+}
+
+.fontes {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--cor-borda);
+}
+
+.fontes h3 {
+  margin: 0 0 0.5rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--cor-texto-suave);
+}
+
+.fontes ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fontes blockquote {
+  margin: 0.25rem 0;
+  padding-left: 0.75rem;
+  border-left: 3px solid var(--cor-borda);
+  color: var(--cor-texto-suave);
+}
+
+.fontes a {
+  color: var(--cor-primaria);
+}
+
+.erro {
+  margin: 0;
+  color: var(--cor-erro);
+}
+
+/* Sugestões */
+
+.sugestoes h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.1rem;
+}
+
+.temas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tema {
+  min-height: 44px;
+  padding: 0 1rem;
+  border: 1px solid var(--cor-borda);
+  border-radius: 999px;
+  background: var(--cor-superficie);
+  color: var(--cor-texto);
+  cursor: pointer;
+}
+
+.tema:hover,
+.tema.ativo {
+  border-color: var(--cor-primaria);
+  background: var(--cor-primaria-clara);
+  color: var(--cor-primaria-escura);
+}
+
+.perguntas-sugeridas {
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.perguntas-sugeridas button {
+  width: 100%;
+  min-height: 44px;
+  padding: 0.6rem 1rem;
+  text-align: left;
+  border: 1px solid var(--cor-borda);
+  border-radius: 8px;
+  background: var(--cor-superficie);
+  color: var(--cor-primaria-escura);
+  cursor: pointer;
+}
+
+.perguntas-sugeridas button:hover {
+  background: var(--cor-primaria-clara);
+}
+
+.rodape {
+  padding-bottom: 2rem;
+  font-size: 0.85rem;
+  color: var(--cor-texto-suave);
 }
