@@ -1,9 +1,10 @@
 import logging
+import os
 from functools import lru_cache
 
-import anthropic
 from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException
 from fastapi.responses import JSONResponse
+from google.genai import errors as erros_gemini
 from pydantic import BaseModel, ConfigDict, Field
 
 from app.config import ConfiguracaoAusente, carregar_configuracao
@@ -41,6 +42,8 @@ def obter_repositorio():
 
 @lru_cache
 def obter_ia():
+    if not os.getenv("GEMINI_API_KEY", "").strip():
+        raise ConfiguracaoAusente("Variável GEMINI_API_KEY não configurada no arquivo backend/.env")
     return AssistenteIA()
 
 
@@ -123,7 +126,7 @@ def perguntar(pergunta: Pergunta, repositorio=Depends(obter_repositorio), ia=Dep
             resultado = ia.responder(pergunta.texto, trechos)
         except RecusaDaIA:
             resultado = {"encontrou": False, "resposta": RESPOSTA_SEM_INFORMACAO, "trechos_usados": []}
-        except anthropic.APIError:
+        except erros_gemini.APIError:
             logger.exception("Falha ao gerar resposta com a IA")
             raise HTTPException(status_code=502, detail="Não foi possível gerar a resposta agora.")
 

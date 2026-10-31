@@ -1,6 +1,6 @@
 # Configuração dos serviços externos
 
-O Oráculo usa três serviços. Cada um precisa de uma conta e de chaves, que ficam no arquivo `backend/.env` (esse arquivo **nunca** vai para o GitHub).
+O Oráculo usa três serviços, todos com plano gratuito. Cada um precisa de uma conta e de chaves, que ficam no arquivo `backend/.env` (esse arquivo **nunca** vai para o GitHub).
 
 Antes de começar, copie o modelo:
 
@@ -31,14 +31,16 @@ Guarda a cartilha do TRT4, as perguntas feitas e os pedidos de WhatsApp.
 
 Para atualizar a cartilha no futuro, rode `python scripts/extrair_cartilha.py` e depois `python scripts/carregar_cartilha.py`.
 
-## 2. Anthropic (inteligência artificial)
+## 2. Google Gemini (inteligência artificial, gratuito)
 
-Gera as respostas a partir dos trechos da cartilha e pesquisa os sites e vídeos enviados pelo WhatsApp.
+Gera as respostas a partir dos trechos da cartilha e pesquisa no Google os sites e vídeos enviados pelo WhatsApp. O plano gratuito não pede cartão de crédito.
 
-1. Crie uma conta em https://console.anthropic.com.
-2. Em **Billing**, adicione créditos (o uso é pago por consulta; cada pergunta custa poucos centavos).
-3. Em **API Keys**, clique em **Create Key** e copie a chave para `ANTHROPIC_API_KEY`.
-4. Em **Settings > Privacy**, confirme que a **pesquisa na web** (web search) está habilitada para a organização.
+1. Acesse https://aistudio.google.com e entre com uma conta Google.
+2. Aceite os termos de uso, se aparecerem.
+3. Clique em **Get API key** (ou **Criar chave de API**) e depois em **Create API key**. Se pedir um projeto, deixe o Google criar um novo.
+4. Copie a chave (começa com `AIza`) para `GEMINI_API_KEY`.
+
+> O plano gratuito tem limites diários de uso, suficientes para testes e para a apresentação. Nesse plano, o Google pode usar o conteúdo das requisições para melhorar seus produtos; por isso, o Oráculo envia à IA apenas a pergunta e os trechos da cartilha, nunca o telefone do usuário.
 
 ## 3. Twilio (WhatsApp)
 

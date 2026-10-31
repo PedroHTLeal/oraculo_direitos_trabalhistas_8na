@@ -250,7 +250,7 @@ A definição das automações de integração contínua e deploy será realizad
 | Qualidade do frontend | ESLint | Verificação automática de padrões e erros no código React. |
 | Controle de versão | Git + GitHub | Versionamento e colaboração (RNF10, RNF11). |
 | Banco de dados | Supabase (PostgreSQL) | Banco gerenciado e gratuito no início, com busca textual em português (ignorando acentos) e controle de acesso por tabela (RNF03). |
-| Inteligência Artificial | Claude Opus 5.5 (Anthropic) | Gera respostas em linguagem simples usando só os trechos da cartilha e pesquisa na web os sites e vídeos complementares, sem precisar de outras APIs de busca. |
+| Inteligência Artificial | Google Gemini (plano gratuito) | Gera respostas em linguagem simples usando só os trechos da cartilha e pesquisa no Google os sites e vídeos complementares, sem custo e sem outras APIs de busca (RNF09). |
 | WhatsApp | Twilio (Sandbox) | Ambiente de teste gratuito para enviar mensagens de WhatsApp, adequado para a demonstração do projeto. |
 
 As ferramentas de integração contínua e deploy serão definidas nas próximas Sprints.
@@ -303,9 +303,9 @@ Em computadores, a resposta aparece no painel azul, no lugar da órbita de temas
 
 **Registro de erros (RNF06, PB21):** falhas na IA, no banco ou no envio do WhatsApp são registradas no log do servidor, e um pedido que falha fica marcado como "erro" no banco, sem ficar pendente para sempre.
 
-**Situação:** a cartilha já está carregada no Supabase e a busca foi validada com o banco real, com perguntas como "Quantos dias de ferias eu tenho?" (sem acento), "O que recebo se for demitido sem justa causa?", "Empregada doméstica tem FGTS?" e "Fui humilhado pelo meu chefe". Nesse teste foi encontrado e corrigido um erro na função de busca, que impedia palavras como "estágio" de serem encontradas. A geração da resposta pela IA e o envio pelo WhatsApp foram testados com versões simuladas e aguardam as contas da Anthropic e da Twilio (ver `docs/configuracao.md`).
+**Situação:** a cartilha já está carregada no Supabase e a busca foi validada com o banco real, com perguntas como "Quantos dias de ferias eu tenho?" (sem acento), "O que recebo se for demitido sem justa causa?", "Empregada doméstica tem FGTS?" e "Fui humilhado pelo meu chefe". Nesse teste foi encontrado e corrigido um erro na função de busca, que impedia palavras como "estágio" de serem encontradas. A geração da resposta pela IA e o envio pelo WhatsApp foram testados com versões simuladas e aguardam as chaves do Gemini e da Twilio (ver `docs/configuracao.md`).
 
-**Testes automatizados do backend:** 36 testes, cobrindo a busca e a geração da resposta, as fontes exibidas, o caso sem informação, o pedido pelo WhatsApp (consentimento, telefone inválido, falha na pesquisa), a validação de telefones, a filtragem dos links e vídeos, o tamanho da mensagem e a variedade de temas nos trechos buscados.
+**Testes automatizados do backend:** 42 testes, cobrindo a busca e a geração da resposta, as fontes exibidas, o caso sem informação, o pedido pelo WhatsApp (consentimento, telefone inválido, falha na pesquisa), a validação de telefones, a filtragem dos links e vídeos, o tamanho da mensagem, a variedade de temas nos trechos buscados e a leitura das respostas e pesquisas do Gemini.
 
 ### Novo visual
 
@@ -339,3 +339,4 @@ Princípios aplicados: muito espaço em branco, títulos fortes, poucos elemento
 | 31/10/2026 | Seção 14: paleta alterada para azul-escuro `#030C2C` e dourado `#E8B20F`. |
 | 31/10/2026 | Seções 6, 9, 11, 12 e 13: base de conhecimento no Supabase, respostas com IA e envio de conteúdo pelo WhatsApp. |
 | 31/10/2026 | Seção 13: cartilha carregada no Supabase, busca validada com o banco real, tabela de sinônimos e limite de trechos por tema. |
+| 31/10/2026 | Seção 12: a IA passou a ser o Google Gemini (plano gratuito), para manter o projeto sem custo (RNF09). |

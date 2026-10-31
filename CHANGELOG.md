@@ -4,6 +4,28 @@ Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o
 
 ---
 
+## 0.5.0 — IA gratuita com Google Gemini
+
+**Data:** 31/10/2026 · **Branch:** `base-conhecimento` · **Integração:** junto com as versões 0.4.x
+
+**Objetivo:** manter o projeto sem nenhum custo, trocando a IA paga (Claude, da Anthropic) pelo plano gratuito do Google Gemini.
+
+**O que foi feito:**
+- As respostas passaram a ser geradas pelo Gemini (`gemini-flash-latest`), com as mesmas regras: usar só os trechos da cartilha, linguagem simples e indicação das fontes.
+- Os 2 sites e os 2 vídeos enviados pelo WhatsApp passaram a ser pesquisados no Google pelo próprio Gemini. O sistema segue cada link da pesquisa até o endereço final e busca o título real da página ou do vídeo.
+- Se a pesquisa não trouxer vídeos, a mensagem indica uma busca pronta no YouTube sobre o tema.
+- Novos testes da integração com o Gemini (42 no total).
+- Guia de configuração, modelo do `.env`, README e relatório atualizados.
+
+**Como agrega ao projeto:**
+- Atende ao RNF09 (custo operacional): IA, banco de dados e WhatsApp agora usam apenas planos gratuitos.
+- Uma única chave do Google cobre a geração das respostas e a pesquisa de materiais, simplificando a configuração.
+- Os links enviados continuam vindo só de resultados reais da pesquisa, evitando endereços inventados.
+
+**Pendente:** testar com as chaves do Gemini e da Twilio.
+
+---
+
 ## 0.4.1 — Busca validada no Supabase real
 
 **Data:** 31/10/2026 · **Branch:** `base-conhecimento` · **Integração:** junto com a versão 0.4.0

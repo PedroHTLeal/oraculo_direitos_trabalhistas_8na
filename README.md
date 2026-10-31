@@ -54,7 +54,7 @@ A interface deve priorizar simplicidade e clareza, permitindo uma consulta sem c
 - **Backend:** Python 3.12 com [FastAPI](https://fastapi.tiangolo.com/), testes com pytest
 - **Frontend:** React com [Vite](https://vite.dev/)
 - **Banco de dados:** [Supabase](https://supabase.com/) (PostgreSQL), com busca textual em português
-- **Inteligência Artificial:** [Claude](https://www.anthropic.com/) (Anthropic), para gerar respostas e pesquisar materiais complementares
+- **Inteligência Artificial:** [Google Gemini](https://ai.google.dev/) (plano gratuito), para gerar respostas e pesquisar materiais complementares no Google
 - **WhatsApp:** [Twilio](https://www.twilio.com/) (Sandbox)
 
 ## Como funciona
@@ -77,7 +77,7 @@ O histórico de cada versão enviada ao GitHub está em [CHANGELOG.md](CHANGELOG
 
 ## Como executar
 
-Pré-requisitos: Python 3.12+ e Node.js 20+, além das contas no Supabase, na Anthropic e na Twilio. O passo a passo para criá-las e preencher o `backend/.env` está em [docs/configuracao.md](docs/configuracao.md).
+Pré-requisitos: Python 3.12+ e Node.js 20+, além das contas gratuitas no Supabase, no Google AI Studio (Gemini) e na Twilio. O passo a passo para criá-las e preencher o `backend/.env` está em [docs/configuracao.md](docs/configuracao.md).
 
 **Backend** (em `backend/`):
 
