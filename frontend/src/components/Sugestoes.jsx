@@ -9,7 +9,9 @@ function Sugestoes({ temas, aoEscolher }) {
 
   return (
     <section className="sugestoes" aria-labelledby="titulo-sugestoes">
-      <h2 id="titulo-sugestoes">Temas mais procurados</h2>
+      <p className="chamada" id="titulo-sugestoes">
+        Temas mais procurados
+      </p>
       <div className="temas">
         {temas.map((item) => (
           <button
@@ -19,7 +21,8 @@ function Sugestoes({ temas, aoEscolher }) {
             aria-pressed={item.tema === temaAberto}
             onClick={() => setTemaAberto(item.tema === temaAberto ? null : item.tema)}
           >
-            {item.tema}
+            <span className="tema-nome">{item.tema}</span>
+            <span className="tema-total">{item.perguntas.length} perguntas</span>
           </button>
         ))}
       </div>
@@ -28,7 +31,10 @@ function Sugestoes({ temas, aoEscolher }) {
           {tema.perguntas.map((pergunta) => (
             <li key={pergunta}>
               <button type="button" onClick={() => aoEscolher(pergunta)}>
-                {pergunta}
+                <span>{pergunta}</span>
+                <span className="seta" aria-hidden="true">
+                  →
+                </span>
               </button>
             </li>
           ))}

@@ -4,6 +4,28 @@ Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o
 
 ---
 
+## 0.3.0 — Novo visual
+
+**Data:** 31/10/2026 · **Branch:** `novo-visual` · **Integração:** Pull Request para `main`, após a integração de `tela-perguntas`
+
+**Objetivo:** deixar a plataforma mais bonita e com identidade própria, seguindo o estilo visual do FlowFocus, para transmitir confiança e tornar o uso mais agradável.
+
+**O que foi feito:**
+- Identidade visual: logotipo do Oráculo, fonte Plus Jakarta Sans e paleta azul-marinho (`#0C236F`) com verde de destaque (`#07F98B`).
+- Layout dividido em computadores: conteúdo à esquerda e painel azul à direita, com os temas girando em órbita ao redor de uma balança da justiça e uma frase sobre o propósito do sistema.
+- Temas sugeridos exibidos como cartões, com destaque em azul no tema selecionado.
+- Campo de pergunta e cartão de resposta redesenhados, com bordas suaves e cantos arredondados.
+- No celular, o painel azul é ocultado para priorizar o conteúdo.
+- Acessibilidade: indicador de foco visível para navegação por teclado, áreas de toque de no mínimo 44px e animação desativada para quem prefere reduzir movimento.
+- Relatório: nova seção 14 (Identidade Visual).
+
+**Como agrega ao projeto:**
+- Reforça RNF01 e RNF02 (experiência simples e acessível em celular e computador) e avança PB04 (frontend).
+- Uma aparência profissional transmite confiança, o que é importante para um sistema que orienta sobre direitos.
+- Define a identidade visual do projeto, item que constava no índice do relatório original e agora tem conteúdo próprio.
+
+---
+
 ## 0.2.0 — Tela de perguntas
 
 **Data:** 31/10/2026 · **Branch:** `tela-perguntas` · **Integração:** Pull Request para `main`

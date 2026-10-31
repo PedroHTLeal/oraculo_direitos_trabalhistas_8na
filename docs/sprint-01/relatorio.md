@@ -27,6 +27,7 @@ Preparado pela equipe Kaleido Void Studios
 11. Repositório GitHub
 12. Tecnologias Definidas
 13. Andamento do Desenvolvimento
+14. Identidade Visual
 
 ## 1. Identificação da Equipe
 
@@ -268,13 +269,32 @@ Enquanto o RAG não é implementado (PB06), a API responde que ainda não encont
 
 **Testes automatizados do backend:** 7 testes, cobrindo a verificação da API, as sugestões, o formato da resposta e a validação das perguntas (vazias, muito curtas ou muito longas).
 
+### Novo visual
+
+A tela de perguntas recebeu a identidade visual descrita na seção 14. Em computadores, a tela é dividida em duas partes: à esquerda, o conteúdo (pergunta, resposta e temas); à direita, um painel azul com os temas girando em órbita ao redor de uma balança da justiça e uma frase sobre o propósito do sistema. No celular, o painel azul é ocultado para priorizar o conteúdo (RNF02). Os temas sugeridos passaram a ser exibidos como cartões.
+
+## 14. Identidade Visual
+
+| Elemento | Definição |
+| --- | --- |
+| Logotipo | Símbolo circular em azul-marinho com um ponto verde, seguido do nome "Oráculo" e do complemento "Direitos Trabalhistas" |
+| Fonte | Plus Jakarta Sans (pesos 400 a 800) |
+| Azul-marinho `#0C236F` | Cor principal: botões, tema selecionado e painel lateral |
+| Verde `#07F98B` | Cor de destaque: núcleo da órbita, ponto do logotipo e indicador de foco para navegação por teclado |
+| Texto `#1C1C1C` / `#5C5C5C` | Texto principal e texto de apoio |
+| Bordas `#E2E2E2` | Cartões e campos, com cantos arredondados de 14px |
+| Símbolo | Balança da justiça, representando direitos e equilíbrio nas relações de trabalho |
+
+Princípios aplicados: muito espaço em branco, títulos fortes, poucos elementos por tela, áreas de toque de no mínimo 44px para uso no celular e animação desativada automaticamente para quem configura o sistema para reduzir movimento (acessibilidade).
+
 ## Histórico de alterações
 
 | Data | Alteração |
 | --- | --- |
-| 31/10/2026 | Seção 4 renomeada de "Identidade Visual" para "Objetivos", com a numeração 4.1, 4.2 e 4.3 alinhada ao conteúdo. |
+| 31/10/2026 | Seção 4 renomeada de "Identidade Visual" para "Objetivos", com a numeração 4.1, 4.2 e 4.3 alinhada ao conteúdo. A identidade visual passou a ter seção própria (14). |
 | 31/10/2026 | Seções 6 e 9: incluída a coluna "Situação" em requisitos funcionais e backlog. |
 | 31/10/2026 | Seção 7: observação atualizada, pois as tecnologias da aplicação foram definidas. |
 | 31/10/2026 | Seção 10: Sprint 02 marcada como adiantada e Sprint 03 como iniciada. |
 | 31/10/2026 | Seção 11: incluídas a estrutura do repositório, a estratégia de branches com Pull Requests e o registro de versões no CHANGELOG. |
 | 31/10/2026 | Novas seções 12 (Tecnologias Definidas) e 13 (Andamento do Desenvolvimento). |
+| 31/10/2026 | Nova seção 14 (Identidade Visual) e descrição do novo visual na seção 13. |

@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react'
 import { buscarSugestoes, enviarPergunta } from './api'
 import CartaoResposta from './components/CartaoResposta'
 import FormularioPergunta from './components/FormularioPergunta'
+import Logo from './components/Logo'
 import Sugestoes from './components/Sugestoes'
+import Vitrine from './components/Vitrine'
 
 function App() {
   const [texto, setTexto] = useState('')
@@ -31,36 +33,47 @@ function App() {
   }
 
   return (
-    <>
-      <header className="cabecalho">
-        <h1>Oráculo dos Direitos Trabalhistas</h1>
-        <p>Tire suas dúvidas sobre direitos e obrigações no trabalho, em linguagem simples.</p>
-      </header>
+    <div className="pagina">
+      <div className="painel">
+        <header>
+          <Logo />
+        </header>
 
-      <main>
-        <FormularioPergunta
-          texto={texto}
-          aoMudarTexto={setTexto}
-          aoEnviar={perguntar}
-          carregando={carregando}
-        />
+        <main>
+          <div className="apresentacao">
+            <p className="chamada">Tire sua dúvida</p>
+            <h1>O que você quer saber sobre o seu trabalho?</h1>
+            <p className="subtitulo">
+              Pergunte do seu jeito. A resposta vem em linguagem simples e com a fonte consultada.
+            </p>
+          </div>
 
-        {erro && (
-          <p className="erro" role="alert">
-            {erro}
-          </p>
-        )}
+          <FormularioPergunta
+            texto={texto}
+            aoMudarTexto={setTexto}
+            aoEnviar={perguntar}
+            carregando={carregando}
+          />
 
-        {resposta && !erro && <CartaoResposta dados={resposta} />}
+          {erro && (
+            <p className="erro" role="alert">
+              {erro}
+            </p>
+          )}
 
-        <Sugestoes temas={temas} aoEscolher={perguntar} />
-      </main>
+          {resposta && !erro && <CartaoResposta dados={resposta} />}
 
-      <footer className="rodape">
-        As respostas têm caráter informativo e não substituem a orientação de um advogado, sindicato
-        ou da Justiça do Trabalho.
-      </footer>
-    </>
+          <Sugestoes temas={temas} aoEscolher={perguntar} />
+        </main>
+
+        <footer className="rodape">
+          Oráculo · Respostas informativas, que não substituem a orientação de um advogado, sindicato ou
+          da Justiça do Trabalho.
+        </footer>
+      </div>
+
+      <Vitrine />
+    </div>
   )
 }
 
