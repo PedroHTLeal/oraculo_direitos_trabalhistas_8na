@@ -4,6 +4,33 @@ Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o
 
 ---
 
+## 0.4.0 — Base de conhecimento, respostas com IA e WhatsApp
+
+**Data:** 31/10/2026 · **Branch:** `base-conhecimento` · **Integração:** Pull Request para `main`, após `tela-perguntas` e `novo-visual`
+
+**Objetivo:** fazer o Oráculo responder de verdade, com base na cartilha do TRT4 guardada no Supabase, e permitir que o usuário receba conteúdo complementar (2 sites e 2 vídeos) no WhatsApp.
+
+**O que foi feito:**
+- Extração automática das 25 páginas da Cartilha de Direitos e Obrigações no Trabalho do TRT4, divididas em 217 trechos com tema, seção e link da fonte.
+- Estrutura do banco no Supabase: tabelas de trechos, perguntas e pedidos de WhatsApp, busca textual em português que ignora acentos e acesso público bloqueado.
+- Respostas geradas pela IA (Claude) usando somente os trechos encontrados, em linguagem simples, com as fontes conferidas pelo sistema.
+- A resposta aparece no painel azul, no lugar da órbita de temas; no celular, abaixo do campo de pergunta.
+- Botão "Saiba mais pelo WhatsApp": pede o telefone e o consentimento (LGPD); a IA pesquisa 2 sites e 2 vídeos do YouTube, e a Twilio envia tudo para o WhatsApp do usuário.
+- Registro de erros no servidor e situação de cada pedido no banco.
+- Guia de configuração das contas (`docs/configuracao.md`) e modelo do arquivo de chaves (`backend/.env.example`).
+- 35 testes automatizados no backend (antes eram 7).
+
+**Como agrega ao projeto:**
+- Implementa o núcleo do sistema: RF04 a RF11, os casos de uso UC01 a UC05 e os itens PB02, PB05, PB06, PB07 e PB08 do backlog.
+- Adianta a implementação do RAG e da IA, prevista para a Sprint 04.
+- A IA só usa a cartilha e o sistema confere as fontes citadas, o que reduz respostas inventadas (RNF08).
+- Os links e vídeos enviados são só os encontrados de fato na pesquisa, evitando endereços inventados.
+- O consentimento obrigatório, a validação do telefone e o bloqueio de acesso público ao banco atendem ao RNF03 (LGPD).
+
+**Pendente:** o teste com os serviços reais depende da criação das contas no Supabase, na Anthropic e na Twilio.
+
+---
+
 ## 0.3.1 — Nova paleta de cores
 
 **Data:** 31/10/2026 · **Branch:** `novo-visual` · **Integração:** junto com a versão 0.3.0

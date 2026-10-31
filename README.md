@@ -53,12 +53,23 @@ A interface deve priorizar simplicidade e clareza, permitindo uma consulta sem c
 
 - **Backend:** Python 3.12 com [FastAPI](https://fastapi.tiangolo.com/), testes com pytest
 - **Frontend:** React com [Vite](https://vite.dev/)
+- **Banco de dados:** [Supabase](https://supabase.com/) (PostgreSQL), com busca textual em português
+- **Inteligência Artificial:** [Claude](https://www.anthropic.com/) (Anthropic), para gerar respostas e pesquisar materiais complementares
+- **WhatsApp:** [Twilio](https://www.twilio.com/) (Sandbox)
+
+## Como funciona
+
+1. O usuário faz uma pergunta.
+2. O backend busca no Supabase os trechos mais relevantes da cartilha do TRT4.
+3. A IA escreve uma resposta simples usando **somente** esses trechos e indica quais usou como fonte.
+4. Se o usuário pedir para saber mais, informa o WhatsApp; a IA pesquisa 2 sites e 2 vídeos do YouTube sobre o assunto e a Twilio envia tudo para o celular dele.
 
 ## Estrutura do repositório
 
 ```
-backend/    API em Python (FastAPI)
+backend/    API em Python (FastAPI), scripts e dados da cartilha
 frontend/   Interface web em React
+supabase/   Estrutura do banco de dados (SQL)
 docs/       Documentação do projeto e relatórios das Sprints
 ```
 
@@ -66,7 +77,7 @@ O histórico de cada versão enviada ao GitHub está em [CHANGELOG.md](CHANGELOG
 
 ## Como executar
 
-Pré-requisitos: Python 3.12+ e Node.js 20+.
+Pré-requisitos: Python 3.12+ e Node.js 20+, além das contas no Supabase, na Anthropic e na Twilio. O passo a passo para criá-las e preencher o `backend/.env` está em [docs/configuracao.md](docs/configuracao.md).
 
 **Backend** (em `backend/`):
 

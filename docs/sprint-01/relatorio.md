@@ -111,14 +111,14 @@ A interface deverá priorizar simplicidade, clareza e facilidade de utilização
 | RF01 | O sistema deverá permitir o acesso às funcionalidades básicas sem a necessidade de criação de uma conta. | Atendido |
 | RF02 | O sistema deverá apresentar perguntas e temas sugeridos na página inicial. | Atendido |
 | RF03 | O sistema deverá permitir que o usuário digite uma pergunta livremente. | Atendido |
-| RF04 | O sistema deverá utilizar uma abordagem RAG para buscar informações relevantes na base de conhecimento. | Não iniciado |
-| RF05 | O sistema deverá gerar respostas utilizando as informações recuperadas da base de conhecimento. | Não iniciado |
-| RF06 | O sistema deverá apresentar as respostas em linguagem acessível ao usuário. | Não iniciado |
-| RF07 | O sistema deverá informar a fonte utilizada para a resposta. | Em andamento |
-| RF08 | O sistema deverá permitir que o usuário consulte o conteúdo original utilizado como referência. | Em andamento |
-| RF09 | O sistema deverá informar quando não encontrar informações suficientes na base de conhecimento para responder à pergunta. | Em andamento |
-| RF10 | O sistema deverá permitir que o usuário solicite informações complementares sobre o assunto pesquisado. | Não iniciado |
-| RF11 | O sistema deverá permitir o envio de conteúdos complementares por meio do WhatsApp quando solicitado pelo usuário. | Não iniciado |
+| RF04 | O sistema deverá utilizar uma abordagem RAG para buscar informações relevantes na base de conhecimento. | Implementado (teste real pendente) |
+| RF05 | O sistema deverá gerar respostas utilizando as informações recuperadas da base de conhecimento. | Implementado (teste real pendente) |
+| RF06 | O sistema deverá apresentar as respostas em linguagem acessível ao usuário. | Implementado (teste real pendente) |
+| RF07 | O sistema deverá informar a fonte utilizada para a resposta. | Implementado (teste real pendente) |
+| RF08 | O sistema deverá permitir que o usuário consulte o conteúdo original utilizado como referência. | Implementado (teste real pendente) |
+| RF09 | O sistema deverá informar quando não encontrar informações suficientes na base de conhecimento para responder à pergunta. | Implementado (teste real pendente) |
+| RF10 | O sistema deverá permitir que o usuário solicite informações complementares sobre o assunto pesquisado. | Implementado (teste real pendente) |
+| RF11 | O sistema deverá permitir o envio de conteúdos complementares por meio do WhatsApp quando solicitado pelo usuário. | Implementado (teste real pendente) |
 | RF12 | O sistema deverá permitir que o usuário selecione temas para acompanhar. | Não iniciado |
 | RF13 | O sistema deverá permitir o envio de atualizações relacionadas aos temas selecionados pelo usuário. | Não iniciado |
 | RF14 | O sistema deverá possuir uma área administrativa. | Não iniciado |
@@ -178,13 +178,13 @@ O Product Backlog representa as principais atividades e funcionalidades planejad
 | ID | Item | Descrição | Área | Situação |
 | --- | --- | --- | --- | --- |
 | PB01 | Levantamento de requisitos | Definir e documentar as necessidades do sistema. | Fábrica de Software | Concluído |
-| PB02 | Modelagem do banco de dados | Estruturar as informações que serão armazenadas pelo sistema. | Desenvolvimento | Não iniciado |
+| PB02 | Modelagem do banco de dados | Estruturar as informações que serão armazenadas pelo sistema. | Desenvolvimento | Concluído |
 | PB03 | Desenvolvimento do backend | Criar a estrutura responsável pelo processamento das requisições. | Desenvolvimento | Em andamento |
 | PB04 | Desenvolvimento do frontend | Criar a interface de interação com o usuário. | Desenvolvimento | Em andamento |
-| PB05 | Construção da base de conhecimento | Organizar os conteúdos utilizados pelo sistema. | Tópicos Avançados | Não iniciado |
-| PB06 | Implementação do RAG | Desenvolver o mecanismo de recuperação das informações relevantes. | Tópicos Avançados | Não iniciado |
-| PB07 | Integração com banco de dados | Integrar a aplicação à estrutura de armazenamento. | Desenvolvimento | Não iniciado |
-| PB08 | Integração com WhatsApp | Criar o fluxo para envio de conteúdos complementares e atualizações. | Integração | Não iniciado |
+| PB05 | Construção da base de conhecimento | Organizar os conteúdos utilizados pelo sistema. | Tópicos Avançados | Concluído |
+| PB06 | Implementação do RAG | Desenvolver o mecanismo de recuperação das informações relevantes. | Tópicos Avançados | Em andamento |
+| PB07 | Integração com banco de dados | Integrar a aplicação à estrutura de armazenamento. | Desenvolvimento | Em andamento |
+| PB08 | Integração com WhatsApp | Criar o fluxo para envio de conteúdos complementares e atualizações. | Integração | Em andamento |
 | PB09 | Automação com n8n | Estruturar as automações relacionadas às integrações externas. | Integração / DevOps | Não iniciado |
 | PB10 | Área administrativa | Desenvolver as funcionalidades para manutenção da base e auditoria. | Desenvolvimento | Não iniciado |
 | PB11 | Testes do sistema | Verificar o funcionamento das funcionalidades e integrações. | DevOps Tools | Em andamento |
@@ -197,7 +197,7 @@ O Product Backlog representa as principais atividades e funcionalidades planejad
 | PB18 | Automação de testes | Estruturar a execução automatizada de testes durante o desenvolvimento. | DevOps Tools | Em andamento |
 | PB19 | Integração contínua | Automatizar a validação das alterações realizadas no projeto. | DevOps Tools | Não iniciado |
 | PB20 | Deploy automatizado | Estruturar o processo de disponibilização de novas versões da aplicação. | DevOps Tools | Não iniciado |
-| PB21 | Monitoramento e logs | Registrar informações importantes para identificação de erros e acompanhamento do sistema. | DevOps Tools | Não iniciado |
+| PB21 | Monitoramento e logs | Registrar informações importantes para identificação de erros e acompanhamento do sistema. | DevOps Tools | Em andamento |
 
 ## 10. Cronograma Inicial
 
@@ -225,9 +225,10 @@ O GitHub é utilizado para organização do código, controle de versões, colab
 **Estrutura do repositório:**
 
 ```
-backend/    API em Python (FastAPI) e seus testes
+backend/    API em Python (FastAPI), testes, scripts e dados da cartilha
 frontend/   Interface web em React
-docs/       Documentação do projeto e relatórios das Sprints
+supabase/   Estrutura do banco de dados (SQL)
+docs/       Documentação do projeto, guia de configuração e relatórios das Sprints
 ```
 
 **Estratégia de branches:**
@@ -248,8 +249,11 @@ A definição das automações de integração contínua e deploy será realizad
 | Testes do backend | pytest | Ferramenta padrão de testes em Python, base para a automação de testes (PB18). |
 | Qualidade do frontend | ESLint | Verificação automática de padrões e erros no código React. |
 | Controle de versão | Git + GitHub | Versionamento e colaboração (RNF10, RNF11). |
+| Banco de dados | Supabase (PostgreSQL) | Banco gerenciado e gratuito no início, com busca textual em português (ignorando acentos) e controle de acesso por tabela (RNF03). |
+| Inteligência Artificial | Claude Opus 5.5 (Anthropic) | Gera respostas em linguagem simples usando só os trechos da cartilha e pesquisa na web os sites e vídeos complementares, sem precisar de outras APIs de busca. |
+| WhatsApp | Twilio (Sandbox) | Ambiente de teste gratuito para enviar mensagens de WhatsApp, adequado para a demonstração do projeto. |
 
-As tecnologias de IA (modelo de linguagem e banco vetorial), banco de dados, integração com WhatsApp, integração contínua e deploy serão definidas nas próximas Sprints.
+As ferramentas de integração contínua e deploy serão definidas nas próximas Sprints.
 
 ## 13. Andamento do Desenvolvimento
 
@@ -265,9 +269,42 @@ Primeira tela do sistema, que atende ao caso de uso UC01 (Realizar pergunta):
 - layout adaptado para celular e computador (RNF01, RNF02);
 - aviso de que as respostas têm caráter informativo.
 
-Enquanto o RAG não é implementado (PB06), a API responde que ainda não encontrou informações suficientes, já no formato final (resposta, fontes e indicação se encontrou). Assim, a tela não precisará mudar quando a IA for conectada.
+Na primeira versão, a API respondia que ainda não havia informações suficientes, já no formato final (resposta, fontes e indicação se encontrou). Com isso, a tela não precisou mudar quando a IA foi conectada (ver "Base de conhecimento, IA e WhatsApp" abaixo).
 
-**Testes automatizados do backend:** 7 testes, cobrindo a verificação da API, as sugestões, o formato da resposta e a validação das perguntas (vazias, muito curtas ou muito longas).
+### Base de conhecimento, IA e WhatsApp
+
+**Base de conhecimento (PB05):** um script extrai automaticamente as 25 páginas da Cartilha de Direitos e Obrigações no Trabalho do TRT4 e as divide em 217 trechos, um por subtítulo, cada um com o tema, a seção e o link da página original. Os trechos ficam salvos no repositório (`backend/dados/cartilha.json`) e são carregados no Supabase.
+
+**Banco de dados (PB02, PB07):** o Supabase guarda três tabelas:
+
+| Tabela | Conteúdo |
+| --- | --- |
+| `trechos` | Os trechos da cartilha, com um índice de busca em português que ignora acentos |
+| `perguntas` | As perguntas feitas e as respostas geradas, para auditoria (UC08), sem dados pessoais |
+| `solicitacoes_whatsapp` | Os pedidos de conteúdo pelo WhatsApp: telefone, consentimento, situação do envio e materiais enviados |
+
+O acesso às tabelas é bloqueado para o público; só o backend, com a chave de serviço, lê e grava os dados (RNF03).
+
+**Como a resposta é gerada (RAG, PB06):**
+
+1. A pergunta é usada para buscar no Supabase os 6 trechos mais relevantes (busca textual; palavras no tema e no subtítulo pesam mais).
+2. A IA recebe somente esses trechos e escreve uma resposta curta e simples (RF05, RF06), indicando quais trechos usou.
+3. O sistema confere se os trechos citados vieram mesmo da busca e os mostra como fonte, com o texto original e o link para a cartilha (RF07, RF08).
+4. Se nenhum trecho for encontrado, ou se a IA concluir que eles não respondem à pergunta, a tela informa que não há informação suficiente (RF09).
+
+Em computadores, a resposta aparece no painel azul, no lugar da órbita de temas; no celular, logo abaixo do campo de pergunta.
+
+**Saiba mais pelo WhatsApp (RF10, RF11, UC04, UC05, PB08):**
+
+1. Abaixo da resposta, o botão "Saiba mais pelo WhatsApp" abre uma janela que pede o telefone com DDD e o consentimento para o uso do número, conforme a LGPD (RNF03).
+2. O backend registra o pedido e, em segundo plano, a IA pesquisa na web 2 sites confiáveis e 2 vídeos do YouTube sobre o assunto. Só são aceitos links que apareceram de fato na pesquisa.
+3. A Twilio envia ao WhatsApp do usuário a resposta, os 2 sites e os 2 vídeos. A tela acompanha o envio e confirma quando ele termina.
+
+**Registro de erros (RNF06, PB21):** falhas na IA, no banco ou no envio do WhatsApp são registradas no log do servidor, e um pedido que falha fica marcado como "erro" no banco, sem ficar pendente para sempre.
+
+**Situação:** a funcionalidade está implementada e testada com versões simuladas do banco, da IA e do WhatsApp. O teste com os serviços reais depende da criação das contas no Supabase, na Anthropic e na Twilio, descrita em `docs/configuracao.md`.
+
+**Testes automatizados do backend:** 35 testes, cobrindo a busca e a geração da resposta, as fontes exibidas, o caso sem informação, o pedido pelo WhatsApp (consentimento, telefone inválido, falha na pesquisa), a validação de telefones, a filtragem dos links e vídeos e o tamanho da mensagem.
 
 ### Novo visual
 
@@ -299,3 +336,4 @@ Princípios aplicados: muito espaço em branco, títulos fortes, poucos elemento
 | 31/10/2026 | Novas seções 12 (Tecnologias Definidas) e 13 (Andamento do Desenvolvimento). |
 | 31/10/2026 | Nova seção 14 (Identidade Visual) e descrição do novo visual na seção 13. |
 | 31/10/2026 | Seção 14: paleta alterada para azul-escuro `#030C2C` e dourado `#E8B20F`. |
+| 31/10/2026 | Seções 6, 9, 11, 12 e 13: base de conhecimento no Supabase, respostas com IA e envio de conteúdo pelo WhatsApp. |

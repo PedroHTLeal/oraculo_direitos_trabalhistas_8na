@@ -3,6 +3,7 @@ import { buscarSugestoes, enviarPergunta } from './api'
 import CartaoResposta from './components/CartaoResposta'
 import FormularioPergunta from './components/FormularioPergunta'
 import Logo from './components/Logo'
+import ModalSaibaMais from './components/ModalSaibaMais'
 import Sugestoes from './components/Sugestoes'
 import Vitrine from './components/Vitrine'
 
@@ -12,6 +13,7 @@ function App() {
   const [resposta, setResposta] = useState(null)
   const [carregando, setCarregando] = useState(false)
   const [erro, setErro] = useState(null)
+  const [saibaMaisAberto, setSaibaMaisAberto] = useState(false)
 
   useEffect(() => {
     buscarSugestoes()
@@ -25,12 +27,15 @@ function App() {
     setErro(null)
     try {
       setResposta(await enviarPergunta(pergunta))
-    } catch {
-      setErro('Não foi possível enviar sua pergunta agora. Tente novamente em instantes.')
+    } catch (falha) {
+      setResposta(null)
+      setErro(falha.message)
     } finally {
       setCarregando(false)
     }
   }
+
+  const abrirSaibaMais = () => setSaibaMaisAberto(true)
 
   return (
     <div className="pagina">
@@ -61,7 +66,7 @@ function App() {
             </p>
           )}
 
-          {resposta && !erro && <CartaoResposta dados={resposta} />}
+          {resposta && !erro && !carregando && <CartaoResposta dados={resposta} aoSaberMais={abrirSaibaMais} />}
 
           <Sugestoes temas={temas} aoEscolher={perguntar} />
         </main>
@@ -72,7 +77,11 @@ function App() {
         </footer>
       </div>
 
-      <Vitrine />
+      <Vitrine resposta={erro ? null : resposta} carregando={carregando} aoSaberMais={abrirSaibaMais} />
+
+      {saibaMaisAberto && resposta && (
+        <ModalSaibaMais perguntaId={resposta.id} aoFechar={() => setSaibaMaisAberto(false)} />
+      )}
     </div>
   )
 }

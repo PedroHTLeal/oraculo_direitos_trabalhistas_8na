@@ -1,3 +1,6 @@
 -r requirements.txt
 pytest==8.3.4
 httpx==0.28.1
+# Usados apenas pelo script de extração da cartilha
+requests==2.34.2
+beautifulsoup4==4.15.0
