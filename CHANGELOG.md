@@ -4,6 +4,28 @@ Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o
 
 ---
 
+## 0.4.1 — Busca validada no Supabase real
+
+**Data:** 31/10/2026 · **Branch:** `base-conhecimento` · **Integração:** junto com a versão 0.4.0
+
+**Objetivo:** carregar a cartilha no Supabase do projeto e garantir que a busca encontre os trechos certos para perguntas escritas do jeito que as pessoas falam.
+
+**O que foi feito:**
+- Os 217 trechos da cartilha foram carregados no Supabase.
+- Correção de um erro na função de busca: as palavras da pergunta eram processadas duas vezes e termos como "estágio" não eram encontrados (`supabase/002_corrige_busca_e_sinonimos.sql`).
+- Nova tabela de sinônimos com 41 expressões do dia a dia (ex.: "demitido" → "dispensa", "patrão" → "empregador", "grávida" → "gestante"), editável pelo administrador.
+- Limite de 3 trechos por tema na busca, para a IA receber mais de um assunto quando a pergunta envolve vários.
+- Novo teste automatizado (36 no total) e guia de configuração atualizado com o segundo arquivo SQL.
+
+**Como agrega ao projeto:**
+- Valida com dados reais a parte de recuperação do RAG (PB06, RF04): perguntas como "Empregada doméstica tem FGTS?" e "Fui humilhado pelo meu chefe" agora encontram os temas Fundo de Garantia e Danos Morais.
+- Aproxima a linguagem do público-alvo (pessoas sem familiaridade com termos jurídicos) da linguagem da cartilha.
+- Mostra na prática a importância de testar com o ambiente real: o erro não aparecia nos testes com dados simulados.
+
+**Pendente:** testar a geração das respostas e o envio pelo WhatsApp, que dependem das chaves da Anthropic e da Twilio.
+
+---
+
 ## 0.4.0 — Base de conhecimento, respostas com IA e WhatsApp
 
 **Data:** 31/10/2026 · **Branch:** `base-conhecimento` · **Integração:** Pull Request para `main`, após `tela-perguntas` e `novo-visual`

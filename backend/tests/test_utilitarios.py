@@ -1,6 +1,7 @@
 import pytest
 
 from app.ia import eh_video_youtube, filtrar_materiais, formatar_trechos
+from app.repositorio import diversificar
 from app.telefone import TelefoneInvalido, normalizar_telefone
 from app.whatsapp import LIMITE_MENSAGEM, montar_mensagem
 
@@ -85,3 +86,13 @@ def test_mensagem_longa_e_encurtada_sem_perder_links():
     assert len(mensagem) <= LIMITE_MENSAGEM
     assert "https://www.gov.br/a" in mensagem
     assert "https://youtu.be/2" in mensagem
+
+
+def test_diversifica_trechos_por_tema():
+    trechos = [{"id": i, "tema": "Férias"} for i in range(5)] + [
+        {"id": 10, "tema": "Contrato de Estágio"},
+        {"id": 11, "tema": "Rescisão"},
+    ]
+    escolhidos = diversificar(trechos, limite=6)
+
+    assert [t["id"] for t in escolhidos] == [0, 1, 2, 10, 11]

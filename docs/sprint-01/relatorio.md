@@ -282,12 +282,13 @@ Na primeira versão, a API respondia que ainda não havia informações suficien
 | `trechos` | Os trechos da cartilha, com um índice de busca em português que ignora acentos |
 | `perguntas` | As perguntas feitas e as respostas geradas, para auditoria (UC08), sem dados pessoais |
 | `solicitacoes_whatsapp` | Os pedidos de conteúdo pelo WhatsApp: telefone, consentimento, situação do envio e materiais enviados |
+| `sinonimos` | Palavras do dia a dia e seus equivalentes na cartilha (ex.: "demitido" → "dispensa", "patrão" → "empregador"), editáveis pelo administrador (UC07) |
 
 O acesso às tabelas é bloqueado para o público; só o backend, com a chave de serviço, lê e grava os dados (RNF03).
 
 **Como a resposta é gerada (RAG, PB06):**
 
-1. A pergunta é usada para buscar no Supabase os 6 trechos mais relevantes (busca textual; palavras no tema e no subtítulo pesam mais).
+1. A pergunta é usada para buscar no Supabase os 6 trechos mais relevantes. A busca ignora acentos, acrescenta os sinônimos das palavras do dia a dia, dá mais peso a palavras no tema e no subtítulo e limita a 3 trechos por tema, para a IA ver mais de um assunto quando a pergunta envolve vários (ex.: "estagiário tem direito a férias?").
 2. A IA recebe somente esses trechos e escreve uma resposta curta e simples (RF05, RF06), indicando quais trechos usou.
 3. O sistema confere se os trechos citados vieram mesmo da busca e os mostra como fonte, com o texto original e o link para a cartilha (RF07, RF08).
 4. Se nenhum trecho for encontrado, ou se a IA concluir que eles não respondem à pergunta, a tela informa que não há informação suficiente (RF09).
@@ -302,9 +303,9 @@ Em computadores, a resposta aparece no painel azul, no lugar da órbita de temas
 
 **Registro de erros (RNF06, PB21):** falhas na IA, no banco ou no envio do WhatsApp são registradas no log do servidor, e um pedido que falha fica marcado como "erro" no banco, sem ficar pendente para sempre.
 
-**Situação:** a funcionalidade está implementada e testada com versões simuladas do banco, da IA e do WhatsApp. O teste com os serviços reais depende da criação das contas no Supabase, na Anthropic e na Twilio, descrita em `docs/configuracao.md`.
+**Situação:** a cartilha já está carregada no Supabase e a busca foi validada com o banco real, com perguntas como "Quantos dias de ferias eu tenho?" (sem acento), "O que recebo se for demitido sem justa causa?", "Empregada doméstica tem FGTS?" e "Fui humilhado pelo meu chefe". Nesse teste foi encontrado e corrigido um erro na função de busca, que impedia palavras como "estágio" de serem encontradas. A geração da resposta pela IA e o envio pelo WhatsApp foram testados com versões simuladas e aguardam as contas da Anthropic e da Twilio (ver `docs/configuracao.md`).
 
-**Testes automatizados do backend:** 35 testes, cobrindo a busca e a geração da resposta, as fontes exibidas, o caso sem informação, o pedido pelo WhatsApp (consentimento, telefone inválido, falha na pesquisa), a validação de telefones, a filtragem dos links e vídeos e o tamanho da mensagem.
+**Testes automatizados do backend:** 36 testes, cobrindo a busca e a geração da resposta, as fontes exibidas, o caso sem informação, o pedido pelo WhatsApp (consentimento, telefone inválido, falha na pesquisa), a validação de telefones, a filtragem dos links e vídeos, o tamanho da mensagem e a variedade de temas nos trechos buscados.
 
 ### Novo visual
 
@@ -337,3 +338,4 @@ Princípios aplicados: muito espaço em branco, títulos fortes, poucos elemento
 | 31/10/2026 | Nova seção 14 (Identidade Visual) e descrição do novo visual na seção 13. |
 | 31/10/2026 | Seção 14: paleta alterada para azul-escuro `#030C2C` e dourado `#E8B20F`. |
 | 31/10/2026 | Seções 6, 9, 11, 12 e 13: base de conhecimento no Supabase, respostas com IA e envio de conteúdo pelo WhatsApp. |
+| 31/10/2026 | Seção 13: cartilha carregada no Supabase, busca validada com o banco real, tabela de sinônimos e limite de trechos por tema. |
