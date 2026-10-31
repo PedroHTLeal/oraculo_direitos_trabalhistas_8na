@@ -277,10 +277,10 @@ A tela de perguntas recebeu a identidade visual descrita na seção 14. Em compu
 
 | Elemento | Definição |
 | --- | --- |
-| Logotipo | Símbolo circular em azul-marinho com um ponto verde, seguido do nome "Oráculo" e do complemento "Direitos Trabalhistas" |
+| Logotipo | Símbolo circular em azul-escuro com um ponto dourado, seguido do nome "Oráculo" e do complemento "Direitos Trabalhistas" |
 | Fonte | Plus Jakarta Sans (pesos 400 a 800) |
-| Azul-marinho `#0C236F` | Cor principal: botões, tema selecionado e painel lateral |
-| Verde `#07F98B` | Cor de destaque: núcleo da órbita, ponto do logotipo e indicador de foco para navegação por teclado |
+| Azul-escuro `#030C2C` | Cor principal: botões, tema selecionado, painel lateral e indicador de foco para navegação por teclado |
+| Dourado `#E8B20F` | Cor de destaque: núcleo da órbita, ponto do logotipo, detalhes do tema selecionado e botão "Perguntar" ao passar o mouse |
 | Texto `#1C1C1C` / `#5C5C5C` | Texto principal e texto de apoio |
 | Bordas `#E2E2E2` | Cartões e campos, com cantos arredondados de 14px |
 | Símbolo | Balança da justiça, representando direitos e equilíbrio nas relações de trabalho |
@@ -298,3 +298,4 @@ Princípios aplicados: muito espaço em branco, títulos fortes, poucos elemento
 | 31/10/2026 | Seção 11: incluídas a estrutura do repositório, a estratégia de branches com Pull Requests e o registro de versões no CHANGELOG. |
 | 31/10/2026 | Novas seções 12 (Tecnologias Definidas) e 13 (Andamento do Desenvolvimento). |
 | 31/10/2026 | Nova seção 14 (Identidade Visual) e descrição do novo visual na seção 13. |
+| 31/10/2026 | Seção 14: paleta alterada para azul-escuro `#030C2C` e dourado `#E8B20F`. |

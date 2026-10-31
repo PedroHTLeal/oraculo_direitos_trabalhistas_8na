@@ -4,10 +4,9 @@
   --cor-texto: #1c1c1c;
   --cor-texto-suave: #5c5c5c;
   --cor-borda: #e2e2e2;
-  --cor-marinho: #0c236f;
-  --cor-marinho-escuro: #081a55;
-  --cor-marinho-claro: #eef1fa;
-  --cor-destaque: #07f98b;
+  --cor-marinho: #030c2c;
+  --cor-marinho-claro: #f1f2f6;
+  --cor-destaque: #e8b20f;
   --cor-aviso: #fff8e6;
   --cor-aviso-borda: #f0d48c;
   --cor-erro: #b42318;
@@ -37,7 +36,7 @@ textarea {
 button:focus-visible,
 textarea:focus-visible,
 a:focus-visible {
-  outline: 3px solid var(--cor-destaque);
+  outline: 3px solid var(--cor-marinho);
   outline-offset: 2px;
 }
 
@@ -144,7 +143,7 @@ main {
   border-radius: var(--raio);
   padding: 0.5rem;
   background: var(--cor-fundo);
-  box-shadow: 0 6px 20px rgba(12, 35, 111, 0.06);
+  box-shadow: 0 6px 20px rgba(3, 12, 44, 0.06);
   transition: border-color 0.15s;
 }
 
@@ -199,11 +198,12 @@ main {
   color: #fff;
   font-weight: 700;
   cursor: pointer;
-  transition: background 0.15s;
+  transition: background 0.15s, color 0.15s;
 }
 
 .formulario button:hover:not(:disabled) {
-  background: var(--cor-marinho-escuro);
+  background: var(--cor-destaque);
+  color: var(--cor-marinho);
 }
 
 .formulario button:disabled {
@@ -218,7 +218,7 @@ main {
   border-radius: var(--raio);
   padding: 1.1rem 1.25rem;
   background: var(--cor-marinho-claro);
-  border-color: #d6ddf2;
+  border-color: #dcdfe8;
 }
 
 .resposta.sem-informacao {
@@ -238,7 +238,7 @@ main {
 .fontes {
   margin-top: 1rem;
   padding-top: 0.75rem;
-  border-top: 1px solid rgba(12, 35, 111, 0.12);
+  border-top: 1px solid rgba(3, 12, 44, 0.12);
 }
 
 .fontes h3 {
@@ -308,7 +308,7 @@ main {
 .tema:hover {
   border-color: var(--cor-marinho);
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(12, 35, 111, 0.08);
+  box-shadow: 0 6px 16px rgba(3, 12, 44, 0.08);
 }
 
 .tema.ativo {
@@ -471,7 +471,7 @@ main {
   border-radius: 50%;
   background: var(--cor-destaque);
   color: var(--cor-marinho);
-  box-shadow: 0 0 80px rgba(7, 249, 139, 0.35);
+  box-shadow: 0 0 80px rgba(232, 178, 15, 0.3);
 }
 
 .orbita-nucleo svg {

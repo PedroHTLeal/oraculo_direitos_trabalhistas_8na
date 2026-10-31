@@ -4,6 +4,25 @@ Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o
 
 ---
 
+## 0.3.1 — Nova paleta de cores
+
+**Data:** 31/10/2026 · **Branch:** `novo-visual` · **Integração:** junto com a versão 0.3.0
+
+**Objetivo:** dar ao Oráculo uma paleta própria, trocando o verde neon e o azul-marinho herdados do FlowFocus por dourado e azul-escuro.
+
+**O que foi feito:**
+- Cor principal alterada de azul-marinho `#0C236F` para azul-escuro `#030C2C` (botões, tema selecionado e painel lateral).
+- Cor de destaque alterada de verde neon `#07F98B` para dourado `#E8B20F` (núcleo da órbita, ponto do logotipo e detalhes do tema selecionado).
+- O botão "Perguntar" fica dourado ao passar o mouse.
+- O indicador de foco do teclado passou a ser azul-escuro, porque o dourado tem pouco contraste sobre o fundo branco.
+- Relatório: seção 14 atualizada com a nova paleta.
+
+**Como agrega ao projeto:**
+- Diferencia a identidade do Oráculo da referência visual usada. O dourado remete a valor e confiança, e o azul-escuro a seriedade, combinação comum em temas jurídicos.
+- Mantém a acessibilidade (RNF02): o foco do teclado continua bem visível e os textos seguem com bom contraste.
+
+---
+
 ## 0.3.0 — Novo visual
 
 **Data:** 31/10/2026 · **Branch:** `novo-visual` · **Integração:** Pull Request para `main`, após a integração de `tela-perguntas`
