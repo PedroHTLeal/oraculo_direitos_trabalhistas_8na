@@ -62,6 +62,8 @@ frontend/   Interface web em React
 docs/       Documentação do projeto e relatórios das Sprints
 ```
 
+O histórico de cada versão enviada ao GitHub está em [CHANGELOG.md](CHANGELOG.md).
+
 ## Como executar
 
 Pré-requisitos: Python 3.12+ e Node.js 20+.
