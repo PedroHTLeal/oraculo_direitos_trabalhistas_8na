@@ -49,13 +49,42 @@ Trabalhadores que desejam se informar sobre seus direitos e obrigações, com at
 
 A interface deve priorizar simplicidade e clareza, permitindo uma consulta sem conhecimentos técnicos ou jurídicos.
 
+## Tecnologias
+
+- **Backend:** Python 3.12 com [FastAPI](https://fastapi.tiangolo.com/), testes com pytest
+- **Frontend:** React com [Vite](https://vite.dev/)
+
 ## Estrutura do repositório
 
 ```
-docs/    Documentação do projeto e relatórios das Sprints
+backend/    API em Python (FastAPI)
+frontend/   Interface web em React
+docs/       Documentação do projeto e relatórios das Sprints
 ```
 
-As pastas da aplicação (frontend, backend, base de conhecimento) serão criadas quando as tecnologias forem definidas.
+## Como executar
+
+Pré-requisitos: Python 3.12+ e Node.js 20+.
+
+**Backend** (em `backend/`):
+
+```bash
+python -m venv .venv
+.venv\Scripts\activate        # Windows (no Linux/macOS: source .venv/bin/activate)
+pip install -r requirements-dev.txt
+uvicorn app.main:app --reload --port 8000
+```
+
+Testes: `pytest`
+
+**Frontend** (em `frontend/`, com o backend rodando):
+
+```bash
+npm install
+npm run dev
+```
+
+Acesse http://localhost:5173. Em desenvolvimento, as chamadas para `/api` são encaminhadas ao backend na porta 8000.
 
 ## Equipe
 
