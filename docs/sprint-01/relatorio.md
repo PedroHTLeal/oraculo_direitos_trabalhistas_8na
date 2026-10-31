@@ -229,7 +229,11 @@ frontend/   Interface web em React
 docs/       Documentação do projeto e relatórios das Sprints
 ```
 
-**Estratégia de branches:** cada funcionalidade é desenvolvida em um branch próprio (por exemplo, `estrutura-inicial` e `tela-perguntas`) e depois integrada ao branch principal.
+**Estratégia de branches:**
+
+- `main` é o branch principal e contém sempre a versão estável do projeto;
+- cada funcionalidade é desenvolvida em um branch próprio, criado a partir do `main` (por exemplo, `tela-perguntas`);
+- ao final, a funcionalidade é enviada ao GitHub e integrada ao `main` por meio de um **Pull Request**, que registra as alterações e permite sua revisão antes da integração.
 
 A definição das automações de integração contínua e deploy será realizada durante as próximas Sprints.
 
@@ -271,5 +275,5 @@ Enquanto o RAG não é implementado (PB06), a API responde que ainda não encont
 | 31/10/2026 | Seções 6 e 9: incluída a coluna "Situação" em requisitos funcionais e backlog. |
 | 31/10/2026 | Seção 7: observação atualizada, pois as tecnologias da aplicação foram definidas. |
 | 31/10/2026 | Seção 10: Sprint 02 marcada como adiantada e Sprint 03 como iniciada. |
-| 31/10/2026 | Seção 11: incluídas a estrutura do repositório e a estratégia de branches. |
+| 31/10/2026 | Seção 11: incluídas a estrutura do repositório e a estratégia de branches com Pull Requests. |
 | 31/10/2026 | Novas seções 12 (Tecnologias Definidas) e 13 (Andamento do Desenvolvimento). |
