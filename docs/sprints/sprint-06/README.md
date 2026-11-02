@@ -26,8 +26,27 @@ Correções apontadas na Pré-Banca, terceiro módulo implementado, integração
 | Correções da Pré-Banca | **Pendente:** aguardando as observações recebidas pela equipe |
 | Terceiro módulo | Implementado; a geração de respostas aguarda a chave gratuita do Gemini no `backend/.env` |
 | Integração entre módulos | Concluída (tabela acima) |
-| Melhorias na interface | Formulários de conta reaproveitados; abas na janela "Saiba mais"; menu por perfil; páginas iniciais por perfil (equipe → Dashboard, usuário → Meus temas) |
-| Ajustes de navegação | Depois de sair, a pessoa vai para "Entrar"; o topo da página leva cada perfil à sua área; "Meus temas" só aparece para quem recebe pelo WhatsApp |
+| Melhorias na interface | Abaixo da resposta, no painel azul (com o símbolo da órbita), o convite **"Quer saber mais sobre o assunto?"** com o botão **Sim**; ao clicar, a pessoa vê o que acontece se informar nome e WhatsApp antes de preencher qualquer dado; formulários de conta reaproveitados; menu por perfil |
+| Ajustes de navegação | Cada perfil começa pela sua área (equipe → Dashboard, usuário → Meus temas); depois de sair, a próxima pessoa não é mais levada à página da anterior (bug B06); "Meus temas" só aparece para quem recebe pelo WhatsApp |
+
+## Evidências
+
+Prints gerados em 02/11/2026 pelo roteiro automatizado [`capturar_evidencias.py`](../../ferramentas/capturar_evidencias.py), com o sistema rodando localmente e o banco real no Supabase. Todos os prints estão em [`docs/evidencias/`](../../evidencias/).
+
+**Consulta: tela inicial com o painel de órbita**
+
+![Consulta: tela inicial com o painel de órbita](../../evidencias/01-consulta-inicial.png)
+
+**Consulta no celular**
+
+![Consulta no celular](../../evidencias/33-celular-consulta.png)
+
+**Cadastro com WhatsApp no celular**
+
+![Cadastro com WhatsApp no celular](../../evidencias/34-celular-cadastro.png)
+
+
+A resposta gerada pela IA (no painel azul, com o convite "Quer saber mais sobre o assunto? Sim") ainda não tem print com dados reais: depende da chave gratuita do Gemini no `backend/.env`.
 
 ## Ajustes desta Sprint
 
@@ -37,6 +56,8 @@ Correções apontadas na Pré-Banca, terceiro módulo implementado, integração
 | [`231dc75`](https://github.com/PedroHTLeal/oraculo_direitos_trabalhistas_8na/commit/231dc75) | IA trocada pelo Google Gemini gratuito (projeto sem custo) |
 | [`7f76733`](https://github.com/PedroHTLeal/oraculo_direitos_trabalhistas_8na/commit/7f76733) | "Saiba mais" integrado à conta com WhatsApp |
 | [`04f09ab`](https://github.com/PedroHTLeal/oraculo_direitos_trabalhistas_8na/commit/04f09ab) | Integração "Incluir na base" a partir das perguntas sem resposta; menu por perfil |
+| [`ad724c3`](https://github.com/PedroHTLeal/oraculo_direitos_trabalhistas_8na/commit/ad724c3) | Correção do redirecionamento depois de sair do sistema |
+| [`d916d51`](https://github.com/PedroHTLeal/oraculo_direitos_trabalhistas_8na/commit/d916d51) | Convite "Quer saber mais sobre o assunto? Sim" com explicação antes do cadastro |
 
 ## Mudanças em relação ao planejado
 

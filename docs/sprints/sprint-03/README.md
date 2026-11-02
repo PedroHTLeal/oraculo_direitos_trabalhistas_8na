@@ -27,6 +27,34 @@ Banco de dados conectado, login funcional, cadastro de usuários, controle de pe
 | [`e5c21bf`](https://github.com/PedroHTLeal/oraculo_direitos_trabalhistas_8na/commit/e5c21bf) | Telas de login, cadastro e painel administrativo |
 | [`d9f800e`](https://github.com/PedroHTLeal/oraculo_direitos_trabalhistas_8na/commit/d9f800e) | Deploy local: o backend serve o site compilado; scripts de execução |
 
+## Evidências
+
+Prints gerados em 02/11/2026 pelo roteiro automatizado [`capturar_evidencias.py`](../../ferramentas/capturar_evidencias.py), com o sistema rodando localmente e o banco real no Supabase. Todos os prints estão em [`docs/evidencias/`](../../evidencias/).
+
+**Login: campos obrigatórios**
+
+![Login: campos obrigatórios](../../evidencias/02-login-validacao.png)
+
+**Login: telefone, e-mail ou senha incorretos**
+
+![Login: telefone, e-mail ou senha incorretos](../../evidencias/03-login-senha-errada.png)
+
+**Cadastro concluído (conta gravada no banco)**
+
+![Cadastro concluído (conta gravada no banco)](../../evidencias/06-cadastro-sucesso.png)
+
+**Controle de perfis: usuário comum sem acesso à base**
+
+![Controle de perfis: usuário comum sem acesso à base](../../evidencias/09-usuario-sem-acesso.png)
+
+**CRUD: consulta da base de conhecimento (dados do Supabase)**
+
+![CRUD: consulta da base de conhecimento (dados do Supabase)](../../evidencias/11-base-lista.png)
+
+**Gestão de usuários e perfis (administrador)**
+
+![Gestão de usuários e perfis (administrador)](../../evidencias/25-usuarios-lista.png)
+
 ## Como executar localmente
 
 1. Configure as contas e o arquivo `backend/.env` ([guia](../../configuracao.md)).

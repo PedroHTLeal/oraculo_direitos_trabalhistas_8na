@@ -1,26 +1,64 @@
 # Sprint 09 — Verificação completa e documentação
 
-**Situação:** Em andamento · [← Voltar ao índice](../../README.md)
+**Situação:** Em andamento: testes com o banco real concluídos; faltam os testes com a IA (Gemini) e o WhatsApp (Twilio) reais · [← Voltar ao índice](../../README.md)
 
 ## O que a Sprint pediu
 
 Testes funcionais, correção de bugs, testes de validação, testes de navegação e atualização da documentação técnica.
 
-## Testes já existentes
+## Como os testes foram feitos
 
-| Tipo | Como é feito | Situação |
+| Tipo | Ferramenta | Resultado |
 | --- | --- | --- |
-| Testes automatizados do backend | 97 testes com `pytest` (rodar `pytest` na pasta `backend/`) | Todos passando |
-| Testes funcionais | Login, cadastro, CRUD da base, usuários, temas, atualizações, relatórios, CSV e histórico | Cobertos pelos testes automatizados |
-| Testes de validação | Campos obrigatórios, tamanhos, formatos (e-mail, telefone, link, datas) e regras de negócio | Cobertos pelos testes automatizados |
-| Testes de navegação | Roteiro no navegador (Playwright + Edge) que percorre as telas e salva prints | [`capturar_evidencias.py`](../../ferramentas/capturar_evidencias.py) |
+| **Automatizados (backend)** | 97 testes com `pytest` (rodar `pytest` em `backend/`), com versões simuladas do banco, da IA e do WhatsApp | 97 de 97 passando |
+| **Funcionais, de validação e de navegação** | Roteiro [`capturar_evidencias.py`](../../ferramentas/capturar_evidencias.py), que usa o navegador Edge, o sistema rodando localmente e o **banco real** no Supabase. Cada passo verifica o que deve aparecer na tela e salva um print | 35 de 35 passos aprovados (02/11/2026) |
+| **Persistência** | O roteiro roda em duas fases; entre elas o sistema é encerrado e aberto de novo | Dados mantidos |
 
-## Bugs
+## Casos de teste (sistema real, 02/11/2026)
 
-O registro dos bugs encontrados e corrigidos até agora está na [Sprint 05](../sprint-05/README.md#bugs-encontrados-e-corrigidos).
+| # | Caso de teste | Perfil | Resultado esperado | Resultado obtido | Evidência |
+| --- | --- | --- | --- | --- | --- |
+| CT01 | Entrar sem preencher os campos | Visitante | Mensagem "Preencha o campo WhatsApp ou e-mail." | Conforme esperado | [print](../../evidencias/02-login-validacao.png) |
+| CT02 | Entrar com senha errada | Visitante | Mensagem genérica, sem revelar se a conta existe | Conforme esperado | [print](../../evidencias/03-login-senha-errada.png) |
+| CT03 | Cadastro com nome curto, telefone e senha inválidos e senhas diferentes | Visitante | Uma mensagem junto de cada campo | Conforme esperado | [print](../../evidencias/04-cadastro-validacao.png) |
+| CT04 | Cadastro com telefone já usado | Visitante | "Já existe uma conta com este telefone." | Conforme esperado | [print](../../evidencias/05-cadastro-telefone-repetido.png) |
+| CT05 | Cadastro válido | Visitante | Conta criada e pessoa levada a "Meus temas" | Conforme esperado | [print](../../evidencias/06-cadastro-sucesso.png) |
+| CT06 | Acompanhar tema sem escolher o tema | Usuário | "Preencha o campo tema." | Conforme esperado | [print](../../evidencias/07-temas-validacao.png) |
+| CT07 | Acompanhar o tema Férias | Usuário | Confirmação e tema na lista | Conforme esperado | [print](../../evidencias/08-temas-inscricao.png) |
+| CT08 | Abrir a base de conhecimento pelo endereço | Usuário | "Acesso não permitido" | Conforme esperado | [print](../../evidencias/09-usuario-sem-acesso.png) |
+| CT09 | Entrar como curador | Curador | Abre o Dashboard com dados reais | Conforme esperado (após a correção do bug B06) | [print](../../evidencias/10-dashboard.png) |
+| CT10 | Filtrar a base por tema e pesquisar "recesso" | Curador | Só trechos do tema com o termo | Conforme esperado | [print](../../evidencias/12-base-filtro.png) |
+| CT11 | Salvar trecho sem campos | Curador | "Preencha o campo tema." e demais campos | Conforme esperado | [print](../../evidencias/13-trecho-validacao.png) |
+| CT12 | Cadastrar, editar e salvar um trecho | Curador | Mensagens "Trecho cadastrado." e "Trecho atualizado." | Conforme esperado | [print](../../evidencias/16-trecho-atualizado.png) |
+| CT13 | Publicar atualização sem título | Curador | "Preencha o campo título." | Conforme esperado | [print](../../evidencias/17-atualizacao-validacao.png) |
+| CT14 | Publicar atualização do tema Férias sem o WhatsApp configurado | Curador | Publicação salva; envio marcado com erro e botão "Reenviar" | Conforme esperado | [print](../../evidencias/18-atualizacao-publicada.png) |
+| CT15 | Abrir o histórico de operações | Curador | "Acesso não permitido" (exclusivo do administrador) | Conforme esperado | [print](../../evidencias/19-curador-sem-acesso-historico.png) |
+| CT16 | Fechar e abrir o sistema e procurar o trecho cadastrado | Curador | Trecho continua salvo | Conforme esperado | [print](../../evidencias/20-persistencia-apos-reiniciar.png) |
+| CT17 | Excluir o trecho | Curador | Confirmação e depois "Trecho excluído." | Conforme esperado | [print](../../evidencias/22-trecho-excluido.png) |
+| CT18 | Exportar o relatório de perguntas | Curador | Arquivo CSV baixado | Conforme esperado | [CSV](../../evidencias/relatorio-perguntas.csv) |
+| CT19 | Ver as novidades do tema acompanhado | Usuário | A atualização publicada aparece em "Meus temas" | Conforme esperado | [print](../../evidencias/24-usuario-novidades.png) |
+| CT20 | Salvar novo usuário sem dados | Administrador | "Preencha o campo nome." | Conforme esperado | [print](../../evidencias/26-usuario-validacao.png) |
+| CT21 | Rebaixar o próprio perfil de administrador | Administrador | Bloqueado com explicação | Conforme esperado | [print](../../evidencias/27-regra-administrador.png) |
+| CT22 | Excluir o usuário cadastrado no CT05 | Administrador | Confirmação e "Usuário excluído." | Conforme esperado | [print](../../evidencias/29-usuario-excluido.png) |
+| CT23 | Filtrar o histórico pela ação "Exclusão" e exportar | Administrador | Só exclusões, com quem fez e quando; CSV baixado | Conforme esperado | [print](../../evidencias/31-historico-filtro-exclusao.png) · [CSV](../../evidencias/historico-de-operacoes.csv) |
+| CT24 | Consulta, cadastro e painel no celular | Todos | Telas adaptadas, sem rolagem lateral | Conforme esperado | [print](../../evidencias/35-celular-painel.png) |
 
-## Pendências
+## Bugs encontrados e corrigidos
 
-- Executar a bateria completa com o banco real e os serviços externos (Gemini e Twilio).
-- Tabela de casos de teste com resultado esperado e obtido, com evidências.
-- Revisão final da documentação técnica (diagramas, modelo de dados e instruções).
+| # | Bug | Como foi encontrado | Correção |
+| --- | --- | --- | --- |
+| B01 | A busca não encontrava "estágio" nem com a palavra exata | Teste com o banco real | Função de busca corrigida ([SQL 002](../../../supabase/002_corrige_busca_e_sinonimos.sql)) |
+| B02 | "Demitido", "patrão" e "FGTS" não encontravam os temas certos | Teste com o banco real | Tabela de sinônimos |
+| B03 | Erro 500 intermitente ao abrir a base | Roteiro de navegação | Repetição automática quando a conexão cai ([`4165443`](https://github.com/PedroHTLeal/oraculo_direitos_trabalhistas_8na/commit/4165443)) |
+| B04 | Filtro de período do dashboard sempre recusado | Testes automatizados | Validação própria do período |
+| B05 | A dica do gráfico cobria a legenda | Revisão dos prints | Dica posicionada sobre a barra ([`d916d51`](https://github.com/PedroHTLeal/oraculo_direitos_trabalhistas_8na/commit/d916d51)) |
+| B06 | Depois de sair, a próxima pessoa que entrava era levada para a página da pessoa anterior | Roteiro de navegação | O endereço de retorno não é guardado quando a pessoa clica em Sair ([`ad724c3`](https://github.com/PedroHTLeal/oraculo_direitos_trabalhistas_8na/commit/ad724c3)) |
+
+## Pendências e como serão resolvidas
+
+| Pendência | Ação prevista |
+| --- | --- |
+| Testar a resposta da IA com dados reais | Configurar a chave gratuita do Gemini e repetir a consulta com as perguntas de referência |
+| Testar o envio pelo WhatsApp | Configurar a Twilio (Sandbox), entrar no Sandbox com um celular e repetir os CT14 e o "Quer saber mais" |
+| Relatório de perguntas com dados | Gerado automaticamente depois que a IA estiver respondendo |
+| Diagramas técnicos (arquitetura, classes, MER e relacional) | Incluir no documento técnico ([Sprint 02](../sprint-02/README.md)) |

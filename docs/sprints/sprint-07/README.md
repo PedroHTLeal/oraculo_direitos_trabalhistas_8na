@@ -1,6 +1,6 @@
 # Sprint 07 — Dashboard, relatórios, filtros, exportação e histórico
 
-**Situação:** Concluída no código; teste com o banco real aguarda o script SQL 005 · [← Voltar ao índice](../../README.md)
+**Situação:** Concluída e testada com o banco real · [← Voltar ao índice](../../README.md)
 
 ## O que a Sprint pediu
 
@@ -23,6 +23,33 @@ Dashboard com dados reais, relatórios, pesquisas, filtros, exportação (quando
 - **Histórico só para o administrador:** ele mostra ações de todas as pessoas; o curador vê o dashboard e o relatório de perguntas, que não têm dados pessoais.
 - **Falha no histórico não bloqueia a operação:** se o registro falhar, a ação do usuário continua e o erro vai para o log do servidor.
 - **Gráficos:** cores validadas para contraste e daltonismo, dica ao passar o mouse e a opção "Ver dados em tabela" para acessibilidade.
+
+## Evidências
+
+Prints gerados em 02/11/2026 pelo roteiro automatizado [`capturar_evidencias.py`](../../ferramentas/capturar_evidencias.py), com o sistema rodando localmente e o banco real no Supabase. Todos os prints estão em [`docs/evidencias/`](../../evidencias/).
+
+**Dashboard com filtro de período e dados reais**
+
+![Dashboard com filtro de período e dados reais](../../evidencias/10-dashboard.png)
+
+**Relatório de perguntas com filtros e exportação**
+
+![Relatório de perguntas com filtros e exportação](../../evidencias/23-relatorio-perguntas.png)
+
+**Histórico de operações**
+
+![Histórico de operações](../../evidencias/30-historico.png)
+
+**Histórico filtrado pela ação "Exclusão"**
+
+![Histórico filtrado pela ação "Exclusão"](../../evidencias/31-historico-filtro-exclusao.png)
+
+**Histórico restrito ao administrador**
+
+![Histórico restrito ao administrador](../../evidencias/19-curador-sem-acesso-historico.png)
+
+
+Arquivos exportados no teste: [`historico-de-operacoes.csv`](../../evidencias/historico-de-operacoes.csv) e [`relatorio-perguntas.csv`](../../evidencias/relatorio-perguntas.csv) (este só com o cabeçalho, porque sem a chave do Gemini nenhuma pergunta foi respondida ainda).
 
 ## Ajustes desta Sprint
 

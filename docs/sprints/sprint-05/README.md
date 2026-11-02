@@ -1,6 +1,6 @@
 # Sprint 05 — Módulo 2: acompanhamento pelo WhatsApp
 
-**Situação:** Concluída no código; teste com o banco real aguarda os scripts SQL 004 e 005 · [← Voltar ao índice](../../README.md)
+**Situação:** Concluída e testada com o banco real; o envio real pelo WhatsApp aguarda a configuração da Twilio · [← Voltar ao índice](../../README.md)
 
 ## O que a Sprint pediu
 
@@ -40,6 +40,36 @@ Segundo módulo completo, integrado ao banco de dados, com regras de negócio at
 | Erro 500 intermitente ao abrir a base | O Supabase encerra conexões paradas | Repetição automática da operação ([`4165443`](https://github.com/PedroHTLeal/oraculo_direitos_trabalhistas_8na/commit/4165443)) |
 | Cadastros de teste recusados | O validador de e-mail não aceita o domínio reservado `.test` | Testes com domínio válido |
 | Filtro de período do dashboard sempre recusado | O valor chega como texto e não era convertido | Validação própria com mensagem clara |
+
+O registro completo de bugs, incluindo os encontrados depois, está na [Sprint 09](../sprint-09/README.md#bugs-encontrados-e-corrigidos).
+
+## Evidências
+
+Prints gerados em 02/11/2026 pelo roteiro automatizado [`capturar_evidencias.py`](../../ferramentas/capturar_evidencias.py), com o sistema rodando localmente e o banco real no Supabase. Todos os prints estão em [`docs/evidencias/`](../../evidencias/).
+
+**Regra: não pode haver duas contas com o mesmo telefone**
+
+![Regra: não pode haver duas contas com o mesmo telefone](../../evidencias/05-cadastro-telefone-repetido.png)
+
+**Meus temas: validação**
+
+![Meus temas: validação](../../evidencias/07-temas-validacao.png)
+
+**Meus temas: tema acompanhado (gravado no banco)**
+
+![Meus temas: tema acompanhado (gravado no banco)](../../evidencias/08-temas-inscricao.png)
+
+**Atualizações: validação do formulário**
+
+![Atualizações: validação do formulário](../../evidencias/17-atualizacao-validacao.png)
+
+**Atualização publicada; sem WhatsApp configurado o envio fica com erro e pode ser reenviado**
+
+![Atualização publicada; sem WhatsApp configurado o envio fica com erro e pode ser reenviado](../../evidencias/18-atualizacao-publicada.png)
+
+**A pessoa vê a novidade do tema que acompanha**
+
+![A pessoa vê a novidade do tema que acompanha](../../evidencias/24-usuario-novidades.png)
 
 ## Ajustes desta Sprint
 

@@ -22,6 +22,20 @@ Todas as funcionalidades previstas implementadas, controle de permissões revisa
 
 As permissões são verificadas **no servidor**, em cada rota: o menu só esconde o que a pessoa não pode usar, mas o bloqueio real acontece na API (erro 401 sem login e 403 sem permissão). Os testes automatizados cobrem acessos permitidos e negados para cada perfil.
 
+## Evidências de permissões
+
+**Usuário comum tentando abrir a base de conhecimento**
+
+![Usuário comum tentando abrir a base de conhecimento](../../evidencias/09-usuario-sem-acesso.png)
+
+**Curador tentando abrir o histórico (exclusivo do administrador)**
+
+![Curador tentando abrir o histórico (exclusivo do administrador)](../../evidencias/19-curador-sem-acesso-historico.png)
+
+**Regra: o sistema não pode ficar sem administrador ativo**
+
+![Regra: o sistema não pode ficar sem administrador ativo](../../evidencias/27-regra-administrador.png)
+
 ## Requisitos da Sprint 01
 
 | Requisito | Situação |

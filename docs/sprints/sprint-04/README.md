@@ -1,6 +1,6 @@
 # Sprint 04 — Módulo 1: gestão da base de conhecimento
 
-**Situação:** Concluída no código; evidências com o banco real em produção · [← Voltar ao índice](../../README.md)
+**Situação:** Concluída e testada com o banco real · [← Voltar ao índice](../../README.md)
 
 ## O que a Sprint pediu
 
@@ -33,4 +33,45 @@ A equipe (administradores e curadores) mantém os trechos da cartilha que a IA u
 
 ## Evidências
 
-Os prints ficam em `docs/evidencias/` e são gerados pelo roteiro automatizado [`capturar_evidencias.py`](../../ferramentas/capturar_evidencias.py), que percorre os fluxos no navegador.
+Prints gerados em 02/11/2026 pelo roteiro automatizado [`capturar_evidencias.py`](../../ferramentas/capturar_evidencias.py), com o sistema rodando localmente e o banco real no Supabase. Todos os prints estão em [`docs/evidencias/`](../../evidencias/).
+
+**Consulta com filtro por tema e pesquisa no texto**
+
+![Consulta com filtro por tema e pesquisa no texto](../../evidencias/12-base-filtro.png)
+
+**Validação: campos obrigatórios do trecho**
+
+![Validação: campos obrigatórios do trecho](../../evidencias/13-trecho-validacao.png)
+
+**Cadastrar: trecho gravado e encontrado na pesquisa**
+
+![Cadastrar: trecho gravado e encontrado na pesquisa](../../evidencias/14-trecho-cadastrado.png)
+
+**Atualizar: edição do trecho**
+
+![Atualizar: edição do trecho](../../evidencias/15-trecho-edicao.png)
+
+**Mensagem de sucesso após salvar**
+
+![Mensagem de sucesso após salvar](../../evidencias/16-trecho-atualizado.png)
+
+**Persistência: o trecho continua salvo depois de fechar e abrir o sistema**
+
+![Persistência: o trecho continua salvo depois de fechar e abrir o sistema](../../evidencias/20-persistencia-apos-reiniciar.png)
+
+**Excluir: confirmação antes de apagar**
+
+![Excluir: confirmação antes de apagar](../../evidencias/21-trecho-confirmar-exclusao.png)
+
+**Excluir: trecho removido**
+
+![Excluir: trecho removido](../../evidencias/22-trecho-excluido.png)
+
+**Mensagens de erro junto de cada campo**
+
+![Mensagens de erro junto de cada campo](../../evidencias/04-cadastro-validacao.png)
+
+**Navegação no celular**
+
+![Navegação no celular](../../evidencias/35-celular-painel.png)
+

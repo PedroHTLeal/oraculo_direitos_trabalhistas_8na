@@ -15,12 +15,12 @@ Esta pasta reúne tudo o que foi pedido e entregue em cada Sprint das disciplina
 | [01](sprints/sprint-01/README.md) | Planejamento inicial | Concluída | Requisitos, casos de uso, backlog, cronograma · [relatório completo](sprints/sprint-01/relatorio.md) |
 | [02](sprints/sprint-02/README.md) | Arquitetura, modelagem e protótipos | Em andamento | Banco no Supabase com a cartilha do TRT4, modelo relacional, telas e identidade visual |
 | [03](sprints/sprint-03/README.md) | Base funcional | Concluída | Login, cadastro, perfis, CRUD da base de conhecimento e deploy local |
-| [04](sprints/sprint-04/README.md) | Módulo 1: gestão da base de conhecimento | Concluída | Persistência, validações, mensagens de erro e navegação |
-| [05](sprints/sprint-05/README.md) | Módulo 2: acompanhamento pelo WhatsApp | Concluída no código | Conta com WhatsApp, temas acompanhados, atualizações, regras de negócio e bugs corrigidos |
+| [04](sprints/sprint-04/README.md) | Módulo 1: gestão da base de conhecimento | Concluída | Persistência (testada reiniciando o sistema), validações, mensagens de erro e navegação |
+| [05](sprints/sprint-05/README.md) | Módulo 2: acompanhamento pelo WhatsApp | Concluída (envio real aguarda a Twilio) | Conta com WhatsApp, temas acompanhados, atualizações, regras de negócio e bugs corrigidos |
 | [06](sprints/sprint-06/README.md) | Módulo 3 e integração | Em andamento | Consulta com IA (RAG), integração entre os módulos e ajustes de interface |
-| [07](sprints/sprint-07/README.md) | Dashboard e relatórios | Concluída no código | Dashboard, relatórios, pesquisas, filtros, CSV e histórico de operações |
+| [07](sprints/sprint-07/README.md) | Dashboard e relatórios | Concluída | Dashboard, relatórios, pesquisas, filtros, CSV e histórico de operações |
 | [08](sprints/sprint-08/README.md) | Consolidação | Em andamento | Matriz de permissões por perfil e situação dos requisitos |
-| [09](sprints/sprint-09/README.md) | Verificação e documentação | Em andamento | 97 testes automatizados e roteiro de testes no navegador |
+| [09](sprints/sprint-09/README.md) | Verificação e documentação | Em andamento | 97 testes automatizados, 24 casos de teste no sistema real, 6 bugs corrigidos |
 
 ## Os três módulos do sistema
 
@@ -37,5 +37,6 @@ Esta pasta reúne tudo o que foi pedido e entregue em cada Sprint das disciplina
 | [Guia de configuração](configuracao.md) | Como criar as contas gratuitas (Supabase, Google Gemini e Twilio) e preencher o `backend/.env` |
 | [Histórico de versões](../CHANGELOG.md) | Cada versão enviada ao GitHub: data, objetivo, o que mudou e como agrega |
 | [Scripts do banco](../supabase/) | Estrutura do banco, na ordem em que deve ser executada (001 a 005) |
+| [Evidências](evidencias/) | Prints e arquivos exportados nos testes com o sistema real |
 | [Ferramentas](ferramentas/) | Roteiro automatizado que testa as telas e gera as evidências |
 | [README do projeto](../README.md) | Visão geral, tecnologias e como executar |
