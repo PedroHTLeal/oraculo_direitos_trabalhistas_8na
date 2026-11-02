@@ -24,6 +24,16 @@ def saude():
     return {"status": "ok"}
 
 
+@app.exception_handler(Exception)
+def erro_inesperado(_, erro):
+    # Registra o erro técnico no log e mostra ao usuário uma mensagem compreensível
+    logger.exception("Erro inesperado", exc_info=erro)
+    return JSONResponse(
+        status_code=500,
+        content={"detail": "Ocorreu um erro inesperado e a operação não foi concluída. Tente novamente em instantes."},
+    )
+
+
 @app.exception_handler(ConfiguracaoAusente)
 def configuracao_ausente(_, erro):
     logger.error("Configuração ausente: %s", erro)

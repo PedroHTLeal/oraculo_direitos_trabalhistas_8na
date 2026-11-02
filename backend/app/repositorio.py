@@ -1,10 +1,40 @@
+import functools
+import logging
 from datetime import datetime, timezone
 
+import httpx
 from postgrest.exceptions import APIError
 from supabase import create_client
 
+logger = logging.getLogger(__name__)
+
 CANDIDATOS = 20
 MAXIMO_POR_TEMA = 3
+TENTATIVAS = 3
+
+# O Supabase às vezes encerra conexões que ficaram paradas; nesses casos basta repetir a operação
+ERROS_DE_CONEXAO = (httpx.RemoteProtocolError, httpx.ConnectError, httpx.ReadError, httpx.WriteError, httpx.PoolTimeout)
+
+
+def _repetir_se_a_conexao_cair(metodo):
+    @functools.wraps(metodo)
+    def executar(*args, **kwargs):
+        for tentativa in range(1, TENTATIVAS + 1):
+            try:
+                return metodo(*args, **kwargs)
+            except ERROS_DE_CONEXAO:
+                if tentativa == TENTATIVAS:
+                    raise
+                logger.warning("Conexão com o banco caiu em %s; tentando de novo", metodo.__name__)
+
+    return executar
+
+
+def _com_novas_tentativas(classe):
+    for nome, valor in list(vars(classe).items()):
+        if callable(valor) and not nome.startswith("_"):
+            setattr(classe, nome, _repetir_se_a_conexao_cair(valor))
+    return classe
 
 
 def diversificar(trechos, limite, maximo_por_tema=MAXIMO_POR_TEMA):
@@ -19,6 +49,7 @@ def diversificar(trechos, limite, maximo_por_tema=MAXIMO_POR_TEMA):
     return escolhidos
 
 
+@_com_novas_tentativas
 class RepositorioSupabase:
     """Acesso às tabelas do Supabase usadas pelo Oráculo."""
 
