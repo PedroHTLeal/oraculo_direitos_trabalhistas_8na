@@ -7,7 +7,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from app.config import ConfiguracaoAusente
-from app.rotas import autenticacao, base_conhecimento, consulta, inscricoes, usuarios
+from app.rotas import atualizacoes, autenticacao, base_conhecimento, consulta, inscricoes, relatorios, usuarios
 
 # Registro de erros (RNF06)
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
@@ -15,7 +15,7 @@ logger = logging.getLogger("oraculo")
 
 app = FastAPI(title="Oráculo dos Direitos Trabalhistas")
 
-for modulo in (consulta, autenticacao, usuarios, base_conhecimento, inscricoes):
+for modulo in (consulta, autenticacao, usuarios, base_conhecimento, inscricoes, atualizacoes, relatorios):
     app.include_router(modulo.rotas)
 
 
@@ -51,6 +51,9 @@ NOMES_DOS_CAMPOS = {
     "perfil": "perfil",
     "identificador": "telefone ou e-mail",
     "consentimento": "autorização",
+    "titulo": "título",
+    "conteudo": "conteúdo",
+    "url": "link",
 }
 
 
@@ -67,6 +70,8 @@ def traduzir_erro(erro):
         return f"O campo {campo} pode ter no máximo {contexto.get('max_length')} caracteres."
     if tipo == "value_error" and campo == "e-mail":
         return "Informe um e-mail válido, por exemplo nome@exemplo.com."
+    if tipo == "string_pattern_mismatch" and campo == "link":
+        return "O link precisa começar com http:// ou https://."
     if tipo == "literal_error":
         return f"Escolha um {campo} válido."
     return f"Verifique o campo {campo}."

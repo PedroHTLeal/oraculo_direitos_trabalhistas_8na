@@ -8,6 +8,7 @@ from google.genai import errors as erros_gemini
 
 from app.dependencias import obter_configuracao, obter_ia, obter_repositorio, obter_whatsapp, usuario_atual
 from app.esquemas import Fonte, PedidoSaibaMais, Pergunta, Resposta, SituacaoPedido
+from app.historico import registrar
 from app.ia import RecusaDaIA
 from app.sugestoes import SUGESTOES
 from app.whatsapp import montar_mensagem
@@ -85,6 +86,8 @@ def saiba_mais(
         raise HTTPException(status_code=404, detail="Pergunta não encontrada.")
 
     solicitacao_id = repositorio.criar_solicitacao(pedido.pergunta_id, telefone, usuario["id"])
+    descricao = f'Pediu conteúdo sobre "{pergunta["texto"][:80]}"'
+    registrar(repositorio, usuario, "pedir_whatsapp", "pergunta", pedido.pergunta_id, descricao)
     # A pesquisa de links e vídeos leva alguns segundos: roda depois de responder
     tarefas.add_task(enviar_conteudo_complementar, solicitacao_id, pergunta, telefone, repositorio, ia, whatsapp)
     return SituacaoPedido(id=solicitacao_id, status="pendente")

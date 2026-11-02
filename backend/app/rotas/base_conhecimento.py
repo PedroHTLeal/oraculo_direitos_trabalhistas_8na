@@ -7,6 +7,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query, Response
 
 from app.dependencias import equipe_de_conteudo, obter_repositorio
 from app.esquemas import DadosTrecho, PaginaTrechos, PerguntaRegistrada, Tema, Trecho
+from app.historico import registrar
 
 rotas = APIRouter(prefix="/api", tags=["Base de conhecimento"])
 
@@ -46,7 +47,9 @@ def obter_trecho(trecho_id: int, _=Depends(equipe_de_conteudo), repositorio=Depe
 @rotas.post("/base/trechos", response_model=Trecho, status_code=201)
 def criar_trecho(dados: DadosTrecho, usuario=Depends(equipe_de_conteudo), repositorio=Depends(obter_repositorio)):
     validar_tema(repositorio, dados.tema_id)
-    return repositorio.criar_trecho(dados.tema_id, dados.secao, dados.texto, usuario["id"])
+    trecho = repositorio.criar_trecho(dados.tema_id, dados.secao, dados.texto, usuario["id"])
+    registrar(repositorio, usuario, "criar", "trecho", trecho["id"], f'Incluiu "{dados.secao}" em {trecho["tema"]}')
+    return trecho
 
 
 @rotas.put("/base/trechos/{trecho_id}", response_model=Trecho)
@@ -60,13 +63,16 @@ def atualizar_trecho(
     trecho = repositorio.atualizar_trecho(trecho_id, dados.tema_id, dados.secao, dados.texto, usuario["id"])
     if not trecho:
         raise HTTPException(status_code=404, detail="Trecho não encontrado.")
+    registrar(repositorio, usuario, "alterar", "trecho", trecho_id, f'Alterou "{dados.secao}" em {trecho["tema"]}')
     return trecho
 
 
 @rotas.delete("/base/trechos/{trecho_id}", status_code=204)
-def excluir_trecho(trecho_id: int, _=Depends(equipe_de_conteudo), repositorio=Depends(obter_repositorio)):
-    if not repositorio.excluir_trecho(trecho_id):
+def excluir_trecho(trecho_id: int, usuario=Depends(equipe_de_conteudo), repositorio=Depends(obter_repositorio)):
+    trecho = repositorio.obter_trecho(trecho_id)
+    if not trecho or not repositorio.excluir_trecho(trecho_id):
         raise HTTPException(status_code=404, detail="Trecho não encontrado.")
+    registrar(repositorio, usuario, "excluir", "trecho", trecho_id, f'Excluiu "{trecho["secao"]}" de {trecho["tema"]}')
     return Response(status_code=204)
 
 

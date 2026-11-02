@@ -8,6 +8,7 @@ from fastapi import APIRouter, Depends, HTTPException, Response
 
 from app.dependencias import obter_repositorio, obter_token, usuario_atual
 from app.esquemas import Cadastro, Login, Sessao, Usuario
+from app.historico import registrar
 from app.repositorio import RegistroDuplicado
 from app.seguranca import expiracao_sessao, gerar_hash_senha, gerar_token, hash_token, verificar_senha
 from app.telefone import TelefoneInvalido, normalizar_telefone
@@ -48,6 +49,7 @@ def cadastrar(dados: Cadastro, repositorio=Depends(obter_repositorio)):
         )
     except RegistroDuplicado as erro:
         raise HTTPException(status_code=409, detail=f"{erro} Se a conta é sua, use a opção Entrar.")
+    registrar(repositorio, usuario, "cadastro", "conta", usuario["id"], "Criou a conta com WhatsApp")
     return abrir_sessao(repositorio, usuario)
 
 
@@ -58,6 +60,7 @@ def entrar(dados: Login, repositorio=Depends(obter_repositorio)):
         raise HTTPException(status_code=401, detail=CREDENCIAIS_INVALIDAS)
     if not usuario["ativo"]:
         raise HTTPException(status_code=403, detail="Seu acesso foi desativado. Procure um administrador.")
+    registrar(repositorio, usuario, "login", "conta", usuario["id"], "Entrou no sistema")
     return abrir_sessao(repositorio, {k: v for k, v in usuario.items() if k in Usuario.model_fields})
 
 

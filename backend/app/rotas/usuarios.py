@@ -4,11 +4,22 @@ from fastapi import APIRouter, Depends, HTTPException, Response
 
 from app.dependencias import obter_repositorio, somente_administrador
 from app.esquemas import AlteracaoUsuario, NovoUsuario, Usuario
+from app.historico import registrar
 from app.repositorio import RegistroDuplicado
 from app.seguranca import gerar_hash_senha
 from app.telefone import TelefoneInvalido, normalizar_telefone
 
 rotas = APIRouter(prefix="/api/usuarios", tags=["Usuários"])
+
+NOMES_DOS_PERFIS = {"administrador": "Administrador", "curador": "Curador", "usuario": "Usuário"}
+CAMPOS_LEGIVEIS = {
+    "nome": "nome",
+    "email": "e-mail",
+    "telefone": "WhatsApp",
+    "perfil": "perfil",
+    "ativo": "situação",
+    "senha_hash": "senha",
+}
 
 
 def validar_meio_de_login(perfil, email, telefone):
@@ -34,13 +45,16 @@ def listar(_=Depends(somente_administrador), repositorio=Depends(obter_repositor
 
 
 @rotas.post("", response_model=Usuario, status_code=201)
-def criar(dados: NovoUsuario, _=Depends(somente_administrador), repositorio=Depends(obter_repositorio)):
+def criar(dados: NovoUsuario, administrador=Depends(somente_administrador), repositorio=Depends(obter_repositorio)):
     telefone = telefone_normalizado(dados.telefone)
     validar_meio_de_login(dados.perfil, dados.email, telefone)
     try:
-        return repositorio.criar_usuario(dados.nome, dados.email, telefone, gerar_hash_senha(dados.senha), dados.perfil)
+        usuario = repositorio.criar_usuario(dados.nome, dados.email, telefone, gerar_hash_senha(dados.senha), dados.perfil)
     except RegistroDuplicado as erro:
         raise HTTPException(status_code=409, detail=str(erro))
+    descricao = f"Cadastrou {dados.nome} ({NOMES_DOS_PERFIS[dados.perfil]})"
+    registrar(repositorio, administrador, "criar", "usuario", usuario["id"], descricao)
+    return usuario
 
 
 @rotas.put("/{usuario_id}", response_model=Usuario)
@@ -80,6 +94,10 @@ def alterar(
     # Desativar ou trocar a senha encerra as sessões abertas desse usuário
     if campos.get("ativo") is False or "senha_hash" in campos:
         repositorio.excluir_sessoes_do_usuario(usuario_id)
+
+    mudancas = [nome for campo, nome in CAMPOS_LEGIVEIS.items() if campo in campos]
+    descricao = f"Alterou {atual['nome']}: {', '.join(mudancas)}"
+    registrar(repositorio, administrador, "alterar", "usuario", usuario_id, descricao)
     return usuario
 
 
@@ -93,4 +111,5 @@ def excluir(usuario_id: str, administrador=Depends(somente_administrador), repos
     if atual["perfil"] == "administrador" and atual["ativo"] and repositorio.contar_administradores_ativos() <= 1:
         raise HTTPException(status_code=422, detail="O sistema precisa de pelo menos um administrador ativo.")
     repositorio.excluir_usuario(usuario_id)
+    registrar(repositorio, administrador, "excluir", "usuario", usuario_id, f"Excluiu {atual['nome']}")
     return Response(status_code=204)
