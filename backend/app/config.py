@@ -19,6 +19,12 @@ class Configuracao:
     twilio_auth_token: str
     twilio_whatsapp_numero: str
     twilio_sandbox_codigo: str
+    # Serviço usado para enviar o WhatsApp: "twilio" (Sandbox) ou "meta" (WhatsApp Cloud API)
+    provedor_whatsapp: str = "twilio"
+    meta_token: str = ""
+    meta_phone_number_id: str = ""
+    meta_numero: str = ""
+    meta_versao_api: str = "v23.0"
 
 
 def _ler(nome):
@@ -36,4 +42,9 @@ def carregar_configuracao():
         twilio_auth_token=os.getenv("TWILIO_AUTH_TOKEN", "").strip(),
         twilio_whatsapp_numero=os.getenv("TWILIO_WHATSAPP_NUMERO", "").strip(),
         twilio_sandbox_codigo=os.getenv("TWILIO_SANDBOX_CODIGO", "").strip(),
+        provedor_whatsapp=os.getenv("PROVEDOR_WHATSAPP", "twilio").strip().lower() or "twilio",
+        meta_token=os.getenv("META_WHATSAPP_TOKEN", "").strip(),
+        meta_phone_number_id=os.getenv("META_WHATSAPP_PHONE_NUMBER_ID", "").strip(),
+        meta_numero=os.getenv("META_WHATSAPP_NUMERO", "").strip(),
+        meta_versao_api=os.getenv("META_WHATSAPP_VERSAO_API", "").strip() or "v23.0",
     )

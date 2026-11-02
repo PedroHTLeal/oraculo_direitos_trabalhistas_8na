@@ -29,7 +29,10 @@ def sugestoes():
 
 @rotas.get("/whatsapp")
 def instrucoes_whatsapp(config=Depends(obter_configuracao)):
-    # No Sandbox da Twilio, o celular precisa enviar um código antes de receber mensagens
+    # Nos ambientes de teste, o celular precisa mandar uma mensagem ao número do Oráculo antes de
+    # receber: o código "join ..." na Twilio ou um "Oi" na Meta (janela de 24 horas do WhatsApp)
+    if config.provedor_whatsapp == "meta":
+        return {"numero": config.meta_numero, "codigo": "Oi" if config.meta_numero else ""}
     return {"numero": config.twilio_whatsapp_numero, "codigo": config.twilio_sandbox_codigo}
 
 

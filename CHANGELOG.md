@@ -4,6 +4,41 @@ Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o
 
 ---
 
+## 0.7.0 — WhatsApp pela API oficial da Meta
+
+**Data:** 02/11/2026 · **Branch:** `main`
+
+**Objetivo:** enviar o WhatsApp pela **WhatsApp Cloud API**, a API oficial da Meta, mantendo a Twilio como alternativa.
+
+**O que foi feito:**
+- Novo serviço de envio pela WhatsApp Cloud API; o serviço é escolhido no `.env` (`PROVEDOR_WHATSAPP=meta` ou `twilio`).
+- Erros da Meta traduzidos (token vencido, número fora da lista de teste, janela de 24 horas).
+- Para celulares brasileiros, nova tentativa automática sem o 9 extra quando a Meta não reconhece o número.
+- A janela "Quer saber mais?" orienta a mandar um "Oi" ao número do Oráculo antes do primeiro envio.
+- Guia de configuração com o passo a passo da Meta, incluindo um token que não expira; 11 testes novos (108 no total).
+
+**Como agrega:** usa o canal oficial do WhatsApp, gratuito para testes, sem prender o projeto a um único fornecedor (RNF09).
+
+---
+
+## 0.6.0 — Sprints 03 a 09: login, módulos, relatórios e testes
+
+**Data:** 31/10/2026 a 02/11/2026 · **Branch:** `main` (os ajustes de cada Sprint estão em [`docs/sprints/`](docs/sprints/))
+
+**Objetivo:** cumprir as entregas práticas das Sprints 03 a 09.
+
+**O que foi feito:**
+- Login, cadastro e perfis (administrador, curador, usuário); cadastro público com nome, WhatsApp e senha.
+- Módulo 1: CRUD da base de conhecimento. Módulo 2: temas acompanhados e atualizações enviadas pelo WhatsApp. Módulo 3: consulta com IA integrada aos outros dois.
+- Dashboard, relatórios com filtros, exportação em CSV e histórico de operações.
+- Deploy local com `iniciar.bat`; branches consolidados em um único `main`.
+- 97 testes automatizados, 35 passos testados no banco real e 6 bugs corrigidos.
+- Convite "Quer saber mais sobre o assunto? Sim", com explicação antes do cadastro.
+
+**Como agrega:** o sistema passa a ter os três módulos funcionando e integrados, com evidências reais de cada Sprint.
+
+---
+
 ## 0.5.0 — IA gratuita com Google Gemini
 
 **Data:** 31/10/2026 · **Branch:** `base-conhecimento` · **Integração:** junto com as versões 0.4.x

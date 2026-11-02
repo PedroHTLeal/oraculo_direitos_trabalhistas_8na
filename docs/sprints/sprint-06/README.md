@@ -63,3 +63,4 @@ A resposta gerada pela IA (no painel azul, com o convite "Quer saber mais sobre 
 
 - **IA:** a primeira versão usava o Claude (Anthropic), que é pago; foi trocado pelo **Google Gemini** no plano gratuito, para atender ao RNF09 (custo operacional).
 - **Links e vídeos:** são pesquisados pelo próprio Gemini no Google; o sistema só envia endereços que vieram da pesquisa real.
+- **WhatsApp:** além do Twilio Sandbox, o sistema passou a enviar pela **WhatsApp Cloud API**, a API oficial da Meta, que agora é o serviço padrão. O serviço é escolhido no `.env` (`PROVEDOR_WHATSAPP`), sem mudar o restante do sistema. Motivo: usar o canal oficial do WhatsApp, gratuito para testes e mais próximo de um produto real.

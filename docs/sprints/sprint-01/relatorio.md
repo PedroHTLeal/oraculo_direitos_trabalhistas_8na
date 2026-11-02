@@ -252,7 +252,7 @@ A definição das automações de integração contínua e deploy será realizad
 | Controle de versão | Git + GitHub | Versionamento e colaboração (RNF10, RNF11). |
 | Banco de dados | Supabase (PostgreSQL) | Banco gerenciado e gratuito no início, com busca textual em português (ignorando acentos) e controle de acesso por tabela (RNF03). |
 | Inteligência Artificial | Google Gemini (plano gratuito) | Gera respostas em linguagem simples usando só os trechos da cartilha e pesquisa no Google os sites e vídeos complementares, sem custo e sem outras APIs de busca (RNF09). |
-| WhatsApp | Twilio (Sandbox) | Ambiente de teste gratuito para enviar mensagens de WhatsApp, adequado para a demonstração do projeto. |
+| WhatsApp | WhatsApp Cloud API (Meta) ou Twilio Sandbox | A API oficial da Meta é o padrão; a Twilio fica como alternativa. As duas são gratuitas para testes e são escolhidas no `.env`. |
 
 As ferramentas de integração contínua e deploy serão definidas nas próximas Sprints.
 

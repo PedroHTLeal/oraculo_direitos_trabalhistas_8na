@@ -144,7 +144,8 @@ function ModalSaibaMais({ perguntaId, aoFechar }) {
               {sandbox && (
                 <div className="modal-aviso">
                   <strong>Ambiente de teste:</strong> antes, envie a mensagem <code>{sandbox.codigo}</code> para o WhatsApp{' '}
-                  <strong>{sandbox.numero}</strong>.{' '}
+                  <strong>{sandbox.numero}</strong>. O WhatsApp só libera o envio até 24 horas depois da sua última
+                  mensagem para esse número.{' '}
                   <a href={linkWhatsApp(sandbox.numero, sandbox.codigo)} target="_blank" rel="noreferrer">
                     Abrir no WhatsApp ↗
                   </a>
