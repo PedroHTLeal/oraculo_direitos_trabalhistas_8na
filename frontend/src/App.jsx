@@ -1,88 +1,73 @@
-import { useEffect, useState } from 'react'
-import { buscarSugestoes, enviarPergunta } from './api'
-import CartaoResposta from './components/CartaoResposta'
-import FormularioPergunta from './components/FormularioPergunta'
-import Logo from './components/Logo'
-import ModalSaibaMais from './components/ModalSaibaMais'
-import Sugestoes from './components/Sugestoes'
-import Vitrine from './components/Vitrine'
+import { Link, Route, Routes } from 'react-router-dom'
+import ProvedorAutenticacao from './autenticacao/ProvedorAutenticacao'
+import Cadastro from './paginas/Cadastro'
+import Consulta from './paginas/Consulta'
+import Entrar from './paginas/Entrar'
+import BaseConhecimento from './paginas/painel/BaseConhecimento'
+import FormularioTrecho from './paginas/painel/FormularioTrecho'
+import MeusTemas from './paginas/painel/MeusTemas'
+import Painel, { InicioPainel, RotaProtegida } from './paginas/painel/Painel'
+import Perguntas from './paginas/painel/Perguntas'
+import Usuarios from './paginas/painel/Usuarios'
+
+const EQUIPE_DE_CONTEUDO = ['administrador', 'curador']
+
+function PaginaNaoEncontrada() {
+  return (
+    <div className="estado-vazio pagina-erro">
+      <h1>Página não encontrada</h1>
+      <p>O endereço acessado não existe.</p>
+      <Link to="/">Voltar para a página inicial</Link>
+    </div>
+  )
+}
 
 function App() {
-  const [texto, setTexto] = useState('')
-  const [temas, setTemas] = useState([])
-  const [resposta, setResposta] = useState(null)
-  const [carregando, setCarregando] = useState(false)
-  const [erro, setErro] = useState(null)
-  const [saibaMaisAberto, setSaibaMaisAberto] = useState(false)
-
-  useEffect(() => {
-    buscarSugestoes()
-      .then(setTemas)
-      .catch(() => setTemas([]))
-  }, [])
-
-  async function perguntar(pergunta) {
-    setTexto(pergunta)
-    setCarregando(true)
-    setErro(null)
-    try {
-      setResposta(await enviarPergunta(pergunta))
-    } catch (falha) {
-      setResposta(null)
-      setErro(falha.message)
-    } finally {
-      setCarregando(false)
-    }
-  }
-
-  const abrirSaibaMais = () => setSaibaMaisAberto(true)
-
   return (
-    <div className="pagina">
-      <div className="painel">
-        <header>
-          <Logo />
-        </header>
-
-        <main>
-          <div className="apresentacao">
-            <p className="chamada">Tire sua dúvida</p>
-            <h1>O que você quer saber sobre o seu trabalho?</h1>
-            <p className="subtitulo">
-              Pergunte do seu jeito. A resposta vem em linguagem simples e com a fonte consultada.
-            </p>
-          </div>
-
-          <FormularioPergunta
-            texto={texto}
-            aoMudarTexto={setTexto}
-            aoEnviar={perguntar}
-            carregando={carregando}
+    <ProvedorAutenticacao>
+      <Routes>
+        <Route path="/" element={<Consulta />} />
+        <Route path="/entrar" element={<Entrar />} />
+        <Route path="/cadastro" element={<Cadastro />} />
+        <Route path="/painel" element={<Painel />}>
+          <Route index element={<InicioPainel />} />
+          <Route
+            path="base"
+            element={
+              <RotaProtegida perfis={EQUIPE_DE_CONTEUDO}>
+                <BaseConhecimento />
+              </RotaProtegida>
+            }
           />
-
-          {erro && (
-            <p className="erro" role="alert">
-              {erro}
-            </p>
-          )}
-
-          {resposta && !erro && !carregando && <CartaoResposta dados={resposta} aoSaberMais={abrirSaibaMais} />}
-
-          <Sugestoes temas={temas} aoEscolher={perguntar} />
-        </main>
-
-        <footer className="rodape">
-          Oráculo · Respostas informativas, que não substituem a orientação de um advogado, sindicato ou
-          da Justiça do Trabalho.
-        </footer>
-      </div>
-
-      <Vitrine resposta={erro ? null : resposta} carregando={carregando} aoSaberMais={abrirSaibaMais} />
-
-      {saibaMaisAberto && resposta && (
-        <ModalSaibaMais perguntaId={resposta.id} aoFechar={() => setSaibaMaisAberto(false)} />
-      )}
-    </div>
+          <Route
+            path="base/:id"
+            element={
+              <RotaProtegida perfis={EQUIPE_DE_CONTEUDO}>
+                <FormularioTrecho />
+              </RotaProtegida>
+            }
+          />
+          <Route
+            path="perguntas"
+            element={
+              <RotaProtegida perfis={EQUIPE_DE_CONTEUDO}>
+                <Perguntas />
+              </RotaProtegida>
+            }
+          />
+          <Route
+            path="usuarios"
+            element={
+              <RotaProtegida perfis={['administrador']}>
+                <Usuarios />
+              </RotaProtegida>
+            }
+          />
+          <Route path="temas" element={<MeusTemas />} />
+        </Route>
+        <Route path="*" element={<PaginaNaoEncontrada />} />
+      </Routes>
+    </ProvedorAutenticacao>
   )
 }
 
