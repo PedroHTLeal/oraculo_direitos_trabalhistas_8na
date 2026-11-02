@@ -14,7 +14,7 @@ from app.config import ConfiguracaoAusente, carregar_configuracao
 from app.ia import AssistenteIA
 from app.repositorio import RepositorioSupabase
 from app.seguranca import hash_token
-from app.whatsapp import EnviadorMetaCloud, EnviadorTwilio
+from app.whatsapp import EnviadorN8n
 
 
 @lru_cache
@@ -37,16 +37,11 @@ def obter_ia():
 
 @lru_cache
 def obter_whatsapp():
-    # O serviço de envio é escolhido no backend/.env (PROVEDOR_WHATSAPP)
+    # O WhatsApp é enviado pelo fluxo do n8n (pasta automacao/)
     config = obter_configuracao()
-    if config.provedor_whatsapp == "meta":
-        if not (config.meta_token and config.meta_phone_number_id):
-            raise ConfiguracaoAusente("WhatsApp Cloud API (Meta) não configurado no arquivo backend/.env")
-        return EnviadorMetaCloud(config.meta_token, config.meta_phone_number_id, config.meta_versao_api)
-    if not (config.twilio_account_sid and config.twilio_auth_token and config.twilio_whatsapp_numero):
-        raise ConfiguracaoAusente("Twilio não configurado no arquivo backend/.env")
-    return EnviadorTwilio(config.twilio_account_sid, config.twilio_auth_token, config.twilio_whatsapp_numero)
-
+    if not (config.n8n_webhook_url and config.n8n_token):
+        raise ConfiguracaoAusente("Automação do WhatsApp (n8n) não configurada no arquivo backend/.env")
+    return EnviadorN8n(config.n8n_webhook_url, config.n8n_token)
 
 _bearer = HTTPBearer(auto_error=False)
 

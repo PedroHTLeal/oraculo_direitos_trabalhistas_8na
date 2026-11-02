@@ -1,0 +1,88 @@
+{
+  "name": "Oráculo - envio de WhatsApp",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "oraculo-whatsapp",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "id": "6b1f2c1e-1a0b-4c4e-9d7e-0a1b2c3d4e01",
+      "name": "Pedido do Oráculo",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 0],
+      "webhookId": "0f5c8e2a-7b3d-4e6f-9a1b-2c3d4e5f6a70"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Confere o token combinado com o Oráculo e os dados do pedido\nconst pedido = $input.first().json;\nconst token = pedido.headers['x-oraculo-token'];\nif (!token || token !== $env.ORACULO_TOKEN) {\n  throw new Error('Token do Oráculo inválido. Confira N8N_TOKEN (backend/.env) e ORACULO_TOKEN (automacao/.env).');\n}\nconst telefone = String(pedido.body.telefone || '').replace(/\\D/g, '');\nconst mensagem = String(pedido.body.mensagem || '').trim();\nif (telefone.length < 12 || !mensagem) {\n  throw new Error('Pedido sem telefone ou sem mensagem.');\n}\nreturn [{ json: { telefone, mensagem } }];"
+      },
+      "id": "6b1f2c1e-1a0b-4c4e-9d7e-0a1b2c3d4e02",
+      "name": "Validar pedido",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [240, 0]
+    },
+    {
+      "parameters": {
+        "url": "http://waha:3000/api/contacts/check-exists",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            { "name": "phone", "value": "={{ $json.telefone }}" },
+            { "name": "session", "value": "default" }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [{ "name": "X-Api-Key", "value": "={{ $env.WAHA_API_KEY }}" }]
+        },
+        "options": {}
+      },
+      "id": "6b1f2c1e-1a0b-4c4e-9d7e-0a1b2c3d4e03",
+      "name": "Conferir número no WhatsApp",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [480, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "// O WhatsApp devolve o número exato da conta (resolve o 9 extra dos celulares brasileiros)\nconst conferencia = $input.first().json;\nif (!conferencia.numberExists || !conferencia.chatId) {\n  throw new Error('Este número não tem WhatsApp.');\n}\nreturn [{ json: { chatId: conferencia.chatId, texto: $('Validar pedido').first().json.mensagem } }];"
+      },
+      "id": "6b1f2c1e-1a0b-4c4e-9d7e-0a1b2c3d4e04",
+      "name": "Número tem WhatsApp?",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [720, 0]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://waha:3000/api/sendText",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [{ "name": "X-Api-Key", "value": "={{ $env.WAHA_API_KEY }}" }]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ session: 'default', chatId: $json.chatId, text: $json.texto }) }}",
+        "options": {}
+      },
+      "id": "6b1f2c1e-1a0b-4c4e-9d7e-0a1b2c3d4e05",
+      "name": "Enviar mensagem",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [960, 0]
+    }
+  ],
+  "connections": {
+    "Pedido do Oráculo": { "main": [[{ "node": "Validar pedido", "type": "main", "index": 0 }]] },
+    "Validar pedido": { "main": [[{ "node": "Conferir número no WhatsApp", "type": "main", "index": 0 }]] },
+    "Conferir número no WhatsApp": { "main": [[{ "node": "Número tem WhatsApp?", "type": "main", "index": 0 }]] },
+    "Número tem WhatsApp?": { "main": [[{ "node": "Enviar mensagem", "type": "main", "index": 0 }]] }
+  },
+  "settings": { "executionOrder": "v1" },
+  "pinData": {}
+}

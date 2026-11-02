@@ -1,6 +1,6 @@
 # Sprint 09 — Verificação completa e documentação
 
-**Situação:** Em andamento: testes com o banco real concluídos; faltam os testes com a IA (Gemini) e o WhatsApp (Twilio) reais · [← Voltar ao índice](../../README.md)
+**Situação:** Em andamento: testes com o banco real concluídos; faltam os testes com a IA (Gemini) e o WhatsApp (n8n) reais · [← Voltar ao índice](../../README.md)
 
 ## O que a Sprint pediu
 
@@ -59,6 +59,6 @@ Testes funcionais, correção de bugs, testes de validação, testes de navegaç
 | Pendência | Ação prevista |
 | --- | --- |
 | Testar a resposta da IA com dados reais | Configurar a chave gratuita do Gemini e repetir a consulta com as perguntas de referência |
-| Testar o envio pelo WhatsApp | Configurar a Twilio (Sandbox), entrar no Sandbox com um celular e repetir os CT14 e o "Quer saber mais" |
+| Testar o envio pelo WhatsApp | Ligar a automação no n8n, conectar o WhatsApp do Oráculo no WAHA e repetir o CT14 e o "Quer saber mais" |
 | Relatório de perguntas com dados | Gerado automaticamente depois que a IA estiver respondendo |
 | Diagramas técnicos (arquitetura, classes, MER e relacional) | Incluir no documento técnico ([Sprint 02](../sprint-02/README.md)) |

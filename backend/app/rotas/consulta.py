@@ -6,7 +6,7 @@ import logging
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
 from google.genai import errors as erros_gemini
 
-from app.dependencias import obter_configuracao, obter_ia, obter_repositorio, obter_whatsapp, usuario_atual
+from app.dependencias import obter_ia, obter_repositorio, obter_whatsapp, usuario_atual
 from app.esquemas import Fonte, PedidoSaibaMais, Pergunta, Resposta, SituacaoPedido
 from app.historico import registrar
 from app.ia import RecusaDaIA
@@ -25,15 +25,6 @@ RESPOSTA_SEM_INFORMACAO = (
 @rotas.get("/sugestoes")
 def sugestoes():
     return SUGESTOES
-
-
-@rotas.get("/whatsapp")
-def instrucoes_whatsapp(config=Depends(obter_configuracao)):
-    # Nos ambientes de teste, o celular precisa mandar uma mensagem ao número do Oráculo antes de
-    # receber: o código "join ..." na Twilio ou um "Oi" na Meta (janela de 24 horas do WhatsApp)
-    if config.provedor_whatsapp == "meta":
-        return {"numero": config.meta_numero, "codigo": "Oi" if config.meta_numero else ""}
-    return {"numero": config.twilio_whatsapp_numero, "codigo": config.twilio_sandbox_codigo}
 
 
 @rotas.post("/perguntas", response_model=Resposta)

@@ -69,7 +69,6 @@ export const enviarPergunta = (texto) =>
     mensagemPadrao: 'Não foi possível enviar sua pergunta agora. Tente novamente em instantes.',
   })
 
-export const buscarInstrucoesWhatsApp = () => requisitar('/api/whatsapp')
 
 // O conteúdo vai para o WhatsApp da conta de quem está logado
 export const pedirSaibaMais = (perguntaId) =>

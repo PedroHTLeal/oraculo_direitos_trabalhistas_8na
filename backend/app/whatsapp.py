@@ -1,89 +1,45 @@
 import httpx
-from twilio.rest import Client
 
-LIMITE_MENSAGEM = 1500  # a Twilio aceita até 1600 caracteres e a Meta até 4096; vale o menor
-
-# Erros da WhatsApp Cloud API (Meta) traduzidos para quem acompanha o envio
-ERROS_META = {
-    190: "O token de acesso da Meta expirou ou é inválido. Gere um novo e atualize o backend/.env.",
-    131030: "Este número não está na lista de números de teste do WhatsApp Cloud API (painel da Meta).",
-    131047: "A pessoa precisa enviar uma mensagem para o número do Oráculo antes (o WhatsApp só permite "
-    "respostas livres até 24 horas depois da última mensagem dela).",
-}
+LIMITE_MENSAGEM = 1500  # mantém as mensagens curtas e fáceis de ler no celular
 
 
 class ErroEnvioWhatsApp(RuntimeError):
     pass
 
 
-class EnviadorTwilio:
-    """Envia mensagens de WhatsApp pelo Sandbox da Twilio."""
+class EnviadorN8n:
+    """Envia mensagens de WhatsApp por um fluxo do n8n (automacao/fluxo-oraculo-whatsapp.json).
 
-    def __init__(self, account_sid, auth_token, numero_remetente):
-        self.cliente = Client(account_sid, auth_token)
-        self.remetente = f"whatsapp:{numero_remetente}"
-
-    def enviar(self, telefone, texto):
-        self.cliente.messages.create(from_=self.remetente, to=f"whatsapp:{telefone}", body=texto)
-
-
-def sem_nono_digito(numero):
-    """55 + DDD + 9XXXXXXXX -> 55 + DDD + XXXXXXXX.
-
-    O WhatsApp identifica muitos celulares brasileiros antigos sem o 9 extra;
-    o número de teste da Meta só aceita destinatários exatamente como cadastrados.
+    O Oráculo só avisa o n8n "envie este texto para este telefone"; o n8n confere
+    como o número está registrado no WhatsApp (com ou sem o 9 extra) e envia pelo
+    conector WAHA, ligado a um WhatsApp por QR code.
     """
-    if numero.startswith("55") and len(numero) == 13 and numero[4] == "9":
-        return numero[:4] + numero[5:]
-    return None
 
-
-class EnviadorMetaCloud:
-    """Envia mensagens pela WhatsApp Cloud API, a API oficial da Meta."""
-
-    def __init__(self, token, phone_number_id, versao_api="v23.0", cliente=None):
-        self.url = f"https://graph.facebook.com/{versao_api}/{phone_number_id}/messages"
-        self.cliente = cliente or httpx.Client(timeout=20)
-        self.cabecalhos = {"Authorization": f"Bearer {token}"}
-
-    def _postar(self, numero, texto):
-        corpo = {
-            "messaging_product": "whatsapp",
-            "to": numero,
-            "type": "text",
-            "text": {"body": texto, "preview_url": True},
-        }
-        return self.cliente.post(self.url, json=corpo, headers=self.cabecalhos)
+    def __init__(self, url_webhook, token, cliente=None):
+        self.url = url_webhook
+        self.cabecalhos = {"X-Oraculo-Token": token}
+        self.cliente = cliente or httpx.Client(timeout=60)
 
     def enviar(self, telefone, texto):
-        numero = telefone.lstrip("+")
-        resposta = self._postar(numero, texto)
-        codigo = _codigo_erro(resposta)
-        alternativo = sem_nono_digito(numero)
-        if codigo == 131030 and alternativo:
-            resposta = self._postar(alternativo, texto)
-            codigo = _codigo_erro(resposta)
-        if resposta.is_success:
-            return
-        detalhe = ERROS_META.get(codigo) or _mensagem_erro(resposta)
-        raise ErroEnvioWhatsApp(f"WhatsApp Cloud API (erro {codigo or resposta.status_code}): {detalhe}")
+        corpo = {"telefone": telefone.lstrip("+"), "mensagem": texto}
+        try:
+            resposta = self.cliente.post(self.url, json=corpo, headers=self.cabecalhos)
+        except httpx.HTTPError as erro:
+            raise ErroEnvioWhatsApp(
+                "Não foi possível falar com o n8n. Confira se a automação está ligada (automacao/iniciar-automacao.bat)."
+            ) from erro
+        if resposta.status_code == 404:
+            raise ErroEnvioWhatsApp("O fluxo do n8n não está ativo. Ative o fluxo \"Oráculo - envio de WhatsApp\" no n8n.")
+        if not resposta.is_success:
+            raise ErroEnvioWhatsApp(f"O n8n não conseguiu enviar (erro {resposta.status_code}): {_detalhe(resposta)}")
 
 
-def _corpo(resposta):
+def _detalhe(resposta):
     try:
-        return resposta.json()
+        dados = resposta.json()
     except ValueError:
-        return {}
-
-
-def _codigo_erro(resposta):
-    if resposta.is_success:
-        return None
-    return (_corpo(resposta).get("error") or {}).get("code")
-
-
-def _mensagem_erro(resposta):
-    return (_corpo(resposta).get("error") or {}).get("message") or resposta.text[:200]
+        return resposta.text[:200]
+    return dados.get("message") or dados.get("erro") or str(dados)[:200]
 
 
 def _juntar(pergunta, resposta, materiais):

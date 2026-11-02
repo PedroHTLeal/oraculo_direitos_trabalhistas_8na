@@ -15,16 +15,9 @@ class ConfiguracaoAusente(RuntimeError):
 class Configuracao:
     supabase_url: str
     supabase_chave_servico: str
-    twilio_account_sid: str
-    twilio_auth_token: str
-    twilio_whatsapp_numero: str
-    twilio_sandbox_codigo: str
-    # Serviço usado para enviar o WhatsApp: "twilio" (Sandbox) ou "meta" (WhatsApp Cloud API)
-    provedor_whatsapp: str = "twilio"
-    meta_token: str = ""
-    meta_phone_number_id: str = ""
-    meta_numero: str = ""
-    meta_versao_api: str = "v23.0"
+    # Webhook do fluxo do n8n que envia o WhatsApp e o token combinado com ele
+    n8n_webhook_url: str = ""
+    n8n_token: str = ""
 
 
 def _ler(nome):
@@ -38,13 +31,6 @@ def carregar_configuracao():
     return Configuracao(
         supabase_url=_ler("SUPABASE_URL"),
         supabase_chave_servico=_ler("SUPABASE_SERVICE_ROLE_KEY"),
-        twilio_account_sid=os.getenv("TWILIO_ACCOUNT_SID", "").strip(),
-        twilio_auth_token=os.getenv("TWILIO_AUTH_TOKEN", "").strip(),
-        twilio_whatsapp_numero=os.getenv("TWILIO_WHATSAPP_NUMERO", "").strip(),
-        twilio_sandbox_codigo=os.getenv("TWILIO_SANDBOX_CODIGO", "").strip(),
-        provedor_whatsapp=os.getenv("PROVEDOR_WHATSAPP", "twilio").strip().lower() or "twilio",
-        meta_token=os.getenv("META_WHATSAPP_TOKEN", "").strip(),
-        meta_phone_number_id=os.getenv("META_WHATSAPP_PHONE_NUMBER_ID", "").strip(),
-        meta_numero=os.getenv("META_WHATSAPP_NUMERO", "").strip(),
-        meta_versao_api=os.getenv("META_WHATSAPP_VERSAO_API", "").strip() or "v23.0",
+        n8n_webhook_url=os.getenv("N8N_WEBHOOK_URL", "").strip(),
+        n8n_token=os.getenv("N8N_TOKEN", "").strip(),
     )

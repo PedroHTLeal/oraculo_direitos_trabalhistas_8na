@@ -4,6 +4,23 @@ Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o
 
 ---
 
+## 0.8.0 — WhatsApp por automação no n8n
+
+**Data:** 02/11/2026 · **Branch:** `main`
+
+**Objetivo:** enviar o WhatsApp por uma automação gratuita e local no **n8n**, no lugar da Twilio e da API da Meta (decisão da equipe).
+
+**O que foi feito:**
+- O Oráculo envia o pedido (telefone e mensagem) a um fluxo do n8n, protegido por um token combinado.
+- Pasta `automacao/` com o n8n e o conector WAHA (WhatsApp por QR code) no Docker, o fluxo pronto para importar e o script `iniciar-automacao.bat`.
+- O fluxo confere como o número está registrado no WhatsApp antes de enviar, o que resolve o 9 extra dos celulares brasileiros.
+- Twilio e Meta removidas do código, das dependências, das configurações e da documentação; a janela "Quer saber mais?" não pede mais código de entrada.
+- Guia passo a passo (Docker, QR code e importação do fluxo); testes do envio pelo n8n e do arquivo do fluxo (104 no total).
+
+**Como agrega:** cumpre o item PB09 do backlog (automação com n8n) sem custo e sem depender de contas externas para o WhatsApp. Risco registrado: o WAHA usa o WhatsApp Web, que não é oficial; por isso o Oráculo usa um número secundário.
+
+---
+
 ## 0.7.0 — WhatsApp pela API oficial da Meta
 
 **Data:** 02/11/2026 · **Branch:** `main`

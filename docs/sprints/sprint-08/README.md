@@ -42,7 +42,7 @@ As permissões são verificadas **no servidor**, em cada rota: o menu só escond
 | --- | --- |
 | RF01 a RF03 (consulta sem conta, sugestões, pergunta livre) | Implementados |
 | RF04 a RF09 (RAG, resposta simples, fontes, conteúdo original, sem informação) | Implementados; a geração depende da chave do Gemini |
-| RF10 e RF11 (conteúdo complementar e WhatsApp) | Implementados; o envio depende da Twilio |
+| RF10 e RF11 (conteúdo complementar e WhatsApp) | Implementados; o envio é feito pela automação no n8n |
 | RF12 e RF13 (acompanhar temas e receber atualizações) | Implementados (Módulo 2) |
 | RF14 (área administrativa) | Implementado (painel com perfis) |
 

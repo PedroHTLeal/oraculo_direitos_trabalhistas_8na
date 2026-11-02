@@ -1,6 +1,6 @@
 # Configuração dos serviços externos
 
-O Oráculo usa três serviços (banco, IA e WhatsApp), todos com plano gratuito. Cada um precisa de uma conta e de chaves, que ficam no arquivo `backend/.env` (esse arquivo **nunca** vai para o GitHub).
+O Oráculo usa três serviços gratuitos: o **Supabase** (banco de dados), o **Google Gemini** (IA) e uma **automação no n8n** para o WhatsApp. As chaves ficam nos arquivos `backend/.env` e `automacao/.env`, que **nunca** vão para o GitHub.
 
 Antes de começar, copie o modelo:
 
@@ -45,45 +45,65 @@ Gera as respostas a partir dos trechos da cartilha e pesquisa no Google os sites
 
 > O plano gratuito tem limites diários de uso, suficientes para testes e para a apresentação. Nesse plano, o Google pode usar o conteúdo das requisições para melhorar seus produtos; por isso, o Oráculo envia à IA apenas a pergunta e os trechos da cartilha, nunca o telefone do usuário.
 
-## 3. WhatsApp
+## 3. WhatsApp com n8n (gratuito, no seu computador)
 
-O Oráculo envia o WhatsApp por um destes serviços, escolhido na linha `PROVEDOR_WHATSAPP` do `backend/.env`:
+O Oráculo envia o WhatsApp por uma **automação no n8n**, que roda no seu computador junto com o **WAHA**, um conector que liga um WhatsApp por **QR code** (como o WhatsApp Web). Tudo é gratuito e já vem configurado na pasta [`automacao/`](../automacao/).
 
-| Valor | Serviço | Quando usar |
-| --- | --- | --- |
-| `meta` | **WhatsApp Cloud API**, a API oficial da Meta (seção 3A) | Opção padrão do projeto |
-| `twilio` | **Twilio Sandbox** (seção 3B) | Alternativa de configuração mais rápida |
+```
+Oráculo  ──(pedido: telefone + mensagem)──▶  n8n  ──▶  WAHA  ──▶  WhatsApp da pessoa
+```
 
-### 3A. WhatsApp Cloud API (Meta) — oficial e gratuita para testes
+O fluxo do n8n confere como o número está registrado no WhatsApp antes de enviar, o que resolve sozinho o "9" extra dos celulares brasileiros.
 
-1. Acesse https://developers.facebook.com e entre com sua conta do Facebook. Se for o primeiro acesso, aceite os termos e confirme que é desenvolvedor.
-2. Clique em **Meus apps › Criar app**. Escolha o caso de uso **Outro** e o tipo **Empresa** (Business), e dê um nome, por exemplo "Oráculo".
-3. No painel do app, encontre o produto **WhatsApp** e clique em **Configurar**. Se pedir um portfólio empresarial (conta do Meta Business), crie um com o nome do projeto.
-4. Abra **WhatsApp › Configuração da API** (API Setup). A página mostra:
-   - o **número de teste** no campo **De** (From) → `META_WHATSAPP_NUMERO` (do jeito que aparece, ex.: `+1 555 123 4567`);
-   - o **Phone number ID** (identificação do número de telefone) → `META_WHATSAPP_PHONE_NUMBER_ID`;
-   - um **token de acesso temporário** → `META_WHATSAPP_TOKEN` (vale **24 horas**; veja o passo 7 para um token que não expira).
-5. No campo **Para** (To), clique em **Gerenciar lista de números** e adicione o seu celular. A Meta envia um código pelo WhatsApp para confirmar. Repita para cada celular que for receber mensagens (até 5 no número de teste).
-6. **Pelo seu celular**, mande um **Oi** para o número de teste. O WhatsApp só deixa o Oráculo enviar mensagens livres (com os links e vídeos) até 24 horas depois da última mensagem da pessoa; depois disso, mande outro "Oi".
-7. **Token que não expira** (recomendado para a apresentação): acesse https://business.facebook.com › **Configurações** › **Usuários do sistema** › **Adicionar** (função Administrador). Em **Atribuir ativos**, dê controle total do app e da conta do WhatsApp. Depois clique em **Gerar token**, escolha o app, a validade **Nunca** e as permissões `whatsapp_business_messaging` e `whatsapp_business_management`. Use esse token em `META_WHATSAPP_TOKEN`.
-8. Confira se o `backend/.env` está com `PROVEDOR_WHATSAPP=meta` e salve.
+> **Importante:** a conexão pelo WhatsApp Web **não é um serviço oficial do WhatsApp** e vai contra os termos de uso dele. Para um projeto acadêmico, com poucas mensagens, costuma funcionar bem, mas existe o risco de o número ser bloqueado. **Use um número secundário (um chip só para o Oráculo)**, não o seu WhatsApp principal.
 
-> **Números brasileiros:** o WhatsApp identifica muitos celulares sem o 9 extra. Se a Meta disser que o número não está na lista de teste, o Oráculo tenta de novo automaticamente sem o 9. Se ainda assim falhar, cadastre o número na lista do passo 5 sem o 9 (ex.: `+55 51 9999-8888`).
+### 3.1. Instalar o Docker Desktop (uma vez só, ~15 minutos)
 
-### 3B. Twilio Sandbox (alternativa)
+O Docker roda o n8n e o WAHA sem instalar cada um separadamente. É gratuito para uso pessoal e educacional.
 
-Envia a mensagem com a resposta, os sites e os vídeos. No ambiente de teste (Sandbox), é gratuito. Para usar a Twilio, coloque `PROVEDOR_WHATSAPP=twilio` no `backend/.env`.
+1. Baixe em https://www.docker.com/products/docker-desktop/ (**Download for Windows**).
+2. Execute o instalador e deixe marcada a opção **Use WSL 2**. Aceite os pedidos de permissão do Windows.
+3. **Reinicie o computador** quando pedir.
+4. Abra o **Docker Desktop**, aceite os termos e pule o login (**Skip**; não precisa de conta).
+5. Se aparecer um aviso sobre o **WSL**, clique no botão de atualizar que o próprio Docker mostra e reinicie de novo.
+6. Espere aparecer **"Engine running"** (motor em execução) no canto inferior do Docker Desktop.
 
-1. Crie uma conta em https://www.twilio.com/try-twilio.
-2. No painel inicial (**Account Info**), copie:
-   - **Account SID** → `TWILIO_ACCOUNT_SID`
-   - **Auth Token** → `TWILIO_AUTH_TOKEN`
-3. Abra **Messaging > Try it out > Send a WhatsApp message**. A página mostra:
-   - o número do Sandbox (ex.: `+1 415 523 8886`) → `TWILIO_WHATSAPP_NUMERO` (sem espaços: `+14155238886`)
-   - o código de entrada (ex.: `join palavra-palavra`) → `TWILIO_SANDBOX_CODIGO`
-4. **Pelo seu celular**, envie esse código para o número do Sandbox no WhatsApp. Só depois disso o número passa a receber as mensagens do Oráculo.
+### 3.2. Ligar a automação
 
-> No Sandbox, **cada celular que for receber mensagens** precisa enviar o código antes (a tela do Oráculo mostra essa instrução). O WhatsApp só permite esse tipo de mensagem até 24 horas depois da última mensagem enviada pelo usuário ao número; se passar disso, envie o código de novo. Em produção, o envio usa um número de WhatsApp aprovado e modelos de mensagem, e esse passo deixa de existir.
+1. Abra a pasta do projeto, entre em `automacao` e dê dois cliques em **`iniciar-automacao.bat`**.
+2. Na primeira vez, o download leva alguns minutos. No fim, o navegador abre duas páginas:
+   - **n8n**: http://localhost:5678
+   - **WAHA**: http://localhost:3000/dashboard
+3. As senhas da automação já estão no arquivo `automacao/.env`, e o Oráculo (`backend/.env`) já está ligado a ela.
+
+### 3.3. Conectar o WhatsApp no WAHA (QR code)
+
+1. Na página do WAHA, entre com o usuário **`admin`** e a senha que está em `automacao/.env`, na linha `WAHA_SENHA_PAINEL`.
+2. Se pedir a **API key**, use o valor da linha `WAHA_API_KEY` do mesmo arquivo.
+3. Na sessão **`default`**, clique em **Start** (iniciar) e depois no ícone de **câmera/QR code**.
+4. No celular com o **número do Oráculo**: WhatsApp › **Configurações › Aparelhos conectados › Conectar um aparelho** e leia o QR code.
+5. Espere a sessão ficar **WORKING** (funcionando). A conexão fica salva: não é preciso ler o QR code de novo a cada vez.
+
+### 3.4. Importar o fluxo no n8n
+
+1. Na página do n8n, crie a sua conta local (nome, e-mail e senha; fica só no seu computador). Se oferecer um questionário ou plano pago, pule.
+2. Clique em **Create workflow** (ou **+** › Workflow).
+3. No menu **⋯** (três pontinhos, no canto superior direito), escolha **Import from File** e selecione `automacao/fluxo-oraculo-whatsapp.json`.
+4. Clique em **Save** e ligue a chave **Active** (ou **Publish**) no topo. Sem isso, o Oráculo recebe o erro "O fluxo do n8n não está ativo".
+
+### 3.5. Testar
+
+1. Abra o Oráculo (`iniciar.bat`), faça uma pergunta e clique em **"Quer saber mais sobre o assunto?" › Sim**.
+2. Entre ou crie a conta com o seu WhatsApp e clique em **Receber no WhatsApp**.
+3. A mensagem chega vinda do número conectado no WAHA.
+4. Se algo falhar, abra o n8n › **Executions**: cada pedido do Oráculo aparece ali, com o passo que deu erro e a explicação.
+
+| Mensagem no Oráculo | O que fazer |
+| --- | --- |
+| "Não foi possível falar com o n8n" | Abra o Docker Desktop e rode `iniciar-automacao.bat` de novo |
+| "O fluxo do n8n não está ativo" | No n8n, abra o fluxo e ligue a chave **Active** |
+| "Este número não tem WhatsApp" | Confira o número cadastrado na conta |
+| Erro na etapa "Conferir número" no n8n | No WAHA, confira se a sessão `default` está **WORKING**; se não, leia o QR code de novo |
 
 ## 4. Conferir
 

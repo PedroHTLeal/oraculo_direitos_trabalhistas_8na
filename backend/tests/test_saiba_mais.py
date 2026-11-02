@@ -51,8 +51,3 @@ def test_falha_na_pesquisa_marca_pedido_com_erro(client, falsos, entrar):
 
     assert whatsapp.enviadas == []
     assert client.get(f"/api/saiba-mais/{solicitacao_id}").json()["status"] == "erro"
-
-
-def test_instrucoes_do_sandbox(client, falsos):
-    dados = client.get("/api/whatsapp").json()
-    assert dados == {"numero": "+14155238886", "codigo": "join teste-oraculo"}

@@ -16,7 +16,7 @@ Esta pasta reúne tudo o que foi pedido e entregue em cada Sprint das disciplina
 | [02](sprints/sprint-02/README.md) | Arquitetura, modelagem e protótipos | Em andamento | Banco no Supabase com a cartilha do TRT4, modelo relacional, telas e identidade visual |
 | [03](sprints/sprint-03/README.md) | Base funcional | Concluída | Login, cadastro, perfis, CRUD da base de conhecimento e deploy local |
 | [04](sprints/sprint-04/README.md) | Módulo 1: gestão da base de conhecimento | Concluída | Persistência (testada reiniciando o sistema), validações, mensagens de erro e navegação |
-| [05](sprints/sprint-05/README.md) | Módulo 2: acompanhamento pelo WhatsApp | Concluída (envio real aguarda a Twilio) | Conta com WhatsApp, temas acompanhados, atualizações, regras de negócio e bugs corrigidos |
+| [05](sprints/sprint-05/README.md) | Módulo 2: acompanhamento pelo WhatsApp | Concluída (envio real aguarda a automação no n8n) | Conta com WhatsApp, temas acompanhados, atualizações, regras de negócio e bugs corrigidos |
 | [06](sprints/sprint-06/README.md) | Módulo 3 e integração | Em andamento | Consulta com IA (RAG), integração entre os módulos e ajustes de interface |
 | [07](sprints/sprint-07/README.md) | Dashboard e relatórios | Concluída | Dashboard, relatórios, pesquisas, filtros, CSV e histórico de operações |
 | [08](sprints/sprint-08/README.md) | Consolidação | Em andamento | Matriz de permissões por perfil e situação dos requisitos |
@@ -34,9 +34,10 @@ Esta pasta reúne tudo o que foi pedido e entregue em cada Sprint das disciplina
 
 | Documento | Conteúdo |
 | --- | --- |
-| [Guia de configuração](configuracao.md) | Como criar as contas gratuitas (Supabase, Google Gemini e Twilio) e preencher o `backend/.env` |
+| [Guia de configuração](configuracao.md) | Como configurar o Supabase, o Google Gemini e a automação do WhatsApp no n8n (passo a passo) |
 | [Histórico de versões](../CHANGELOG.md) | Cada versão enviada ao GitHub: data, objetivo, o que mudou e como agrega |
 | [Scripts do banco](../supabase/) | Estrutura do banco, na ordem em que deve ser executada (001 a 005) |
 | [Evidências](evidencias/) | Prints e arquivos exportados nos testes com o sistema real |
+| [Automação do WhatsApp](../automacao/) | Fluxo do n8n e configuração do n8n + WAHA no Docker |
 | [Ferramentas](ferramentas/) | Roteiro automatizado que testa as telas e gera as evidências |
 | [README do projeto](../README.md) | Visão geral, tecnologias e como executar |

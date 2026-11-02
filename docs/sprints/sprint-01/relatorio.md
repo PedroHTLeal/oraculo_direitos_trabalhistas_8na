@@ -252,7 +252,7 @@ A definição das automações de integração contínua e deploy será realizad
 | Controle de versão | Git + GitHub | Versionamento e colaboração (RNF10, RNF11). |
 | Banco de dados | Supabase (PostgreSQL) | Banco gerenciado e gratuito no início, com busca textual em português (ignorando acentos) e controle de acesso por tabela (RNF03). |
 | Inteligência Artificial | Google Gemini (plano gratuito) | Gera respostas em linguagem simples usando só os trechos da cartilha e pesquisa no Google os sites e vídeos complementares, sem custo e sem outras APIs de busca (RNF09). |
-| WhatsApp | WhatsApp Cloud API (Meta) ou Twilio Sandbox | A API oficial da Meta é o padrão; a Twilio fica como alternativa. As duas são gratuitas para testes e são escolhidas no `.env`. |
+| WhatsApp | Automação no n8n + WAHA (Docker) | Gratuita e local; o n8n cumpre o item PB09 do backlog (automação com n8n) e o WAHA conecta um WhatsApp por QR code. |
 
 As ferramentas de integração contínua e deploy serão definidas nas próximas Sprints.
 
@@ -300,11 +300,11 @@ Em computadores, a resposta aparece no painel azul, no lugar da órbita de temas
 
 1. Abaixo da resposta, o botão "Saiba mais pelo WhatsApp" abre uma janela que pede o telefone com DDD e o consentimento para o uso do número, conforme a LGPD (RNF03).
 2. O backend registra o pedido e, em segundo plano, a IA pesquisa na web 2 sites confiáveis e 2 vídeos do YouTube sobre o assunto. Só são aceitos links que apareceram de fato na pesquisa.
-3. A Twilio envia ao WhatsApp do usuário a resposta, os 2 sites e os 2 vídeos. A tela acompanha o envio e confirma quando ele termina.
+3. A automação no n8n envia ao WhatsApp do usuário a resposta, os 2 sites e os 2 vídeos. A tela acompanha o envio e confirma quando ele termina.
 
 **Registro de erros (RNF06, PB21):** falhas na IA, no banco ou no envio do WhatsApp são registradas no log do servidor, e um pedido que falha fica marcado como "erro" no banco, sem ficar pendente para sempre.
 
-**Situação:** a cartilha já está carregada no Supabase e a busca foi validada com o banco real, com perguntas como "Quantos dias de ferias eu tenho?" (sem acento), "O que recebo se for demitido sem justa causa?", "Empregada doméstica tem FGTS?" e "Fui humilhado pelo meu chefe". Nesse teste foi encontrado e corrigido um erro na função de busca, que impedia palavras como "estágio" de serem encontradas. A geração da resposta pela IA e o envio pelo WhatsApp foram testados com versões simuladas e aguardam as chaves do Gemini e da Twilio (ver `docs/configuracao.md`).
+**Situação:** a cartilha já está carregada no Supabase e a busca foi validada com o banco real, com perguntas como "Quantos dias de ferias eu tenho?" (sem acento), "O que recebo se for demitido sem justa causa?", "Empregada doméstica tem FGTS?" e "Fui humilhado pelo meu chefe". Nesse teste foi encontrado e corrigido um erro na função de busca, que impedia palavras como "estágio" de serem encontradas. A geração da resposta pela IA e o envio pelo WhatsApp foram testados com versões simuladas e aguardam a chave do Gemini e a automação do WhatsApp no n8n (ver `docs/configuracao.md`).
 
 **Testes automatizados do backend:** 42 testes, cobrindo a busca e a geração da resposta, as fontes exibidas, o caso sem informação, o pedido pelo WhatsApp (consentimento, telefone inválido, falha na pesquisa), a validação de telefones, a filtragem dos links e vídeos, o tamanho da mensagem, a variedade de temas nos trechos buscados e a leitura das respostas e pesquisas do Gemini.
 

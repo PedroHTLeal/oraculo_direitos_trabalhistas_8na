@@ -1,6 +1,6 @@
 # Sprint 05 — Módulo 2: acompanhamento pelo WhatsApp
 
-**Situação:** Concluída e testada com o banco real; o envio real pelo WhatsApp aguarda a configuração da Twilio · [← Voltar ao índice](../../README.md)
+**Situação:** Concluída e testada com o banco real; o envio real pelo WhatsApp aguarda a automação no n8n · [← Voltar ao índice](../../README.md)
 
 ## O que a Sprint pediu
 

@@ -377,10 +377,8 @@ def falsos():
     app.dependency_overrides[obter_configuracao] = lambda: Configuracao(
         supabase_url="https://exemplo.supabase.co",
         supabase_chave_servico="chave",
-        twilio_account_sid="sid",
-        twilio_auth_token="token",
-        twilio_whatsapp_numero="+14155238886",
-        twilio_sandbox_codigo="join teste-oraculo",
+        n8n_webhook_url="http://localhost:5678/webhook/oraculo-whatsapp",
+        n8n_token="token-teste",
     )
     yield repositorio, ia, whatsapp
     app.dependency_overrides.clear()

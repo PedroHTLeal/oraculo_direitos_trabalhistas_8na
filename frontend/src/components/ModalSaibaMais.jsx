@@ -1,15 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
-import { buscarInstrucoesWhatsApp, consultarPedido, pedirSaibaMais } from '../api'
+import { consultarPedido, pedirSaibaMais } from '../api'
 import { telefoneLegivel, useAutenticacao } from '../autenticacao/contexto'
 import FormularioCadastro from './FormularioCadastro'
 import FormularioEntrar from './FormularioEntrar'
 
 const INTERVALO_CONSULTA = 2500
 const TEMPO_MAXIMO = 90000
-
-function linkWhatsApp(numero, codigo) {
-  return `https://wa.me/${numero.replace(/\D/g, '')}?text=${encodeURIComponent(codigo)}`
-}
 
 // "Quer saber mais?": envia resposta, 2 sites e 2 vídeos para o WhatsApp da conta.
 // Sem login, explica o que acontece e oferece criar a conta ou entrar, sem perder a resposta.
@@ -21,13 +17,9 @@ function ModalSaibaMais({ perguntaId, aoFechar }) {
   const [explicado, setExplicado] = useState(false)
   const [etapa, setEtapa] = useState('confirmar') // confirmar | enviando | enviado
   const [erro, setErro] = useState(null)
-  const [sandbox, setSandbox] = useState(null)
 
   useEffect(() => {
     dialogo.current?.showModal()
-    buscarInstrucoesWhatsApp()
-      .then((dados) => dados.codigo && setSandbox(dados))
-      .catch(() => setSandbox(null))
   }, [])
 
   // Acompanha o envio, que roda em segundo plano no servidor
@@ -39,7 +31,7 @@ function ModalSaibaMais({ perguntaId, aoFechar }) {
       if (status === 'enviado') return setEtapa('enviado')
       if (status === 'erro') break
     }
-    setErro('Não conseguimos enviar a mensagem agora. Confira as instruções acima e tente novamente mais tarde.')
+    setErro('Não conseguimos enviar a mensagem agora. Tente novamente em alguns minutos.')
     setEtapa('confirmar')
   }
 
@@ -141,16 +133,6 @@ function ModalSaibaMais({ perguntaId, aoFechar }) {
 
           {podeReceber && (
             <>
-              {sandbox && (
-                <div className="modal-aviso">
-                  <strong>Ambiente de teste:</strong> antes, envie a mensagem <code>{sandbox.codigo}</code> para o WhatsApp{' '}
-                  <strong>{sandbox.numero}</strong>. O WhatsApp só libera o envio até 24 horas depois da sua última
-                  mensagem para esse número.{' '}
-                  <a href={linkWhatsApp(sandbox.numero, sandbox.codigo)} target="_blank" rel="noreferrer">
-                    Abrir no WhatsApp ↗
-                  </a>
-                </div>
-              )}
               <p className="destino-envio">
                 Enviar para <strong>{telefoneLegivel(usuario.telefone)}</strong> ({usuario.nome})
               </p>

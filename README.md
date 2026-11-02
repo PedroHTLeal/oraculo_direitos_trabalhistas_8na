@@ -57,7 +57,7 @@ A interface deve priorizar simplicidade e clareza, permitindo uma consulta sem c
 - **Frontend:** React com [Vite](https://vite.dev/)
 - **Banco de dados:** [Supabase](https://supabase.com/) (PostgreSQL), com busca textual em português
 - **Inteligência Artificial:** [Google Gemini](https://ai.google.dev/) (plano gratuito), para gerar respostas e pesquisar materiais complementares no Google
-- **WhatsApp:** [WhatsApp Cloud API](https://developers.facebook.com/docs/whatsapp/cloud-api) (API oficial da Meta) ou [Twilio](https://www.twilio.com/) Sandbox, escolhido no `.env`
+- **WhatsApp:** automação no [n8n](https://n8n.io/) com o conector [WAHA](https://waha.devlike.pro/), rodando no Docker (gratuito) — ver [`automacao/`](automacao/)
 
 ## Como funciona
 
@@ -74,7 +74,7 @@ Fluxo da consulta:
 1. A pessoa faz uma pergunta.
 2. O backend busca no Supabase os trechos mais relevantes da cartilha do TRT4.
 3. A IA escreve uma resposta simples usando **somente** esses trechos e indica quais usou como fonte.
-4. Em "Saiba mais", a pessoa entra ou cria a conta com o WhatsApp; a IA pesquisa 2 sites e 2 vídeos do YouTube sobre o assunto e a Twilio envia tudo para o celular dela.
+4. Em "Saiba mais", a pessoa entra ou cria a conta com o WhatsApp; a IA pesquisa 2 sites e 2 vídeos do YouTube sobre o assunto e a automação no n8n envia tudo para o celular dela.
 
 ## Estrutura do repositório
 
@@ -82,6 +82,7 @@ Fluxo da consulta:
 backend/     API em Python (FastAPI): rotas, regras de negócio, testes e scripts
 frontend/    Interface web em React (consulta pública e painel)
 supabase/    Estrutura do banco de dados, em scripts numerados (001 a 005)
+automacao/   Automação do WhatsApp: n8n + WAHA no Docker e o fluxo para importar no n8n
 docs/        Documentação: uma página por Sprint, guia de configuração e ferramentas
 iniciar.bat  Executa o sistema completo no Windows (iniciar.sh no Linux/macOS)
 ```
@@ -90,7 +91,7 @@ O histórico de cada versão enviada ao GitHub está em [CHANGELOG.md](CHANGELOG
 
 ## Como executar
 
-Pré-requisitos: Python 3.12+ e Node.js 20+, além das contas gratuitas no Supabase, no Google AI Studio (Gemini) e na Meta for Developers (WhatsApp Cloud API) ou na Twilio. O passo a passo para criá-las, criar o banco e preencher o `backend/.env` está no [guia de configuração](docs/configuracao.md).
+Pré-requisitos: Python 3.12+ e Node.js 20+, além das contas gratuitas no Supabase e no Google AI Studio (Gemini) e do Docker Desktop (para a automação do WhatsApp). O passo a passo para criá-las, criar o banco e preencher o `backend/.env` está no [guia de configuração](docs/configuracao.md).
 
 **Execução completa (deploy local)**, na pasta do projeto:
 
