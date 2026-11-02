@@ -3,11 +3,14 @@ import ProvedorAutenticacao from './autenticacao/ProvedorAutenticacao'
 import Cadastro from './paginas/Cadastro'
 import Consulta from './paginas/Consulta'
 import Entrar from './paginas/Entrar'
+import Atualizacoes from './paginas/painel/Atualizacoes'
 import BaseConhecimento from './paginas/painel/BaseConhecimento'
+import Dashboard from './paginas/painel/Dashboard'
 import FormularioTrecho from './paginas/painel/FormularioTrecho'
 import MeusTemas from './paginas/painel/MeusTemas'
+import Historico from './paginas/painel/Historico'
 import Painel, { InicioPainel, RotaProtegida } from './paginas/painel/Painel'
-import Perguntas from './paginas/painel/Perguntas'
+import RelatorioPerguntas from './paginas/painel/RelatorioPerguntas'
 import Usuarios from './paginas/painel/Usuarios'
 
 const EQUIPE_DE_CONTEUDO = ['administrador', 'curador']
@@ -48,10 +51,34 @@ function App() {
             }
           />
           <Route
-            path="perguntas"
+            path="dashboard"
             element={
               <RotaProtegida perfis={EQUIPE_DE_CONTEUDO}>
-                <Perguntas />
+                <Dashboard />
+              </RotaProtegida>
+            }
+          />
+          <Route
+            path="atualizacoes"
+            element={
+              <RotaProtegida perfis={EQUIPE_DE_CONTEUDO}>
+                <Atualizacoes />
+              </RotaProtegida>
+            }
+          />
+          <Route
+            path="relatorios"
+            element={
+              <RotaProtegida perfis={EQUIPE_DE_CONTEUDO}>
+                <RelatorioPerguntas />
+              </RotaProtegida>
+            }
+          />
+          <Route
+            path="historico"
+            element={
+              <RotaProtegida perfis={['administrador']}>
+                <Historico />
               </RotaProtegida>
             }
           />

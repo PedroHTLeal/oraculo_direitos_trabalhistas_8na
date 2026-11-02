@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { listarTemas, obterTrecho, salvarTrecho } from '../../api'
 import Campo from '../../components/Campo'
 import { regras, validar } from '../../validacao'
@@ -14,6 +14,7 @@ const ESQUEMA = {
 function FormularioTrecho() {
   const { id } = useParams()
   const editando = id !== 'novo'
+  const perguntaDeOrigem = useSearchParams()[0].get('pergunta')
   const navegar = useNavigate()
   const [temas, setTemas] = useState([])
   const [dados, setDados] = useState({ tema_id: '', secao: '', texto: '' })
@@ -62,6 +63,14 @@ function FormularioTrecho() {
         <Link to="/painel/base">Base de conhecimento</Link> / {editando ? 'Editar trecho' : 'Novo trecho'}
       </p>
       <h1>{editando ? 'Editar trecho' : 'Novo trecho'}</h1>
+
+      {perguntaDeOrigem && !editando && (
+        <p className="alerta alerta-info">
+          Pergunta sem resposta: <strong>{perguntaDeOrigem}</strong>
+          <br />
+          Cadastre o conteúdo da cartilha que responde a ela; a IA passa a usá-lo nas próximas perguntas.
+        </p>
+      )}
 
       {erroGeral && (
         <p className="alerta alerta-erro" role="alert">

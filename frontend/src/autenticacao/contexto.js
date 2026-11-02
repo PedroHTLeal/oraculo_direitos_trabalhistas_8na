@@ -14,7 +14,7 @@ export const NOMES_DOS_PERFIS = {
 
 export const podeGerenciarConteudo = (usuario) => ['administrador', 'curador'].includes(usuario?.perfil)
 
-export const paginaInicial = (usuario) => (podeGerenciarConteudo(usuario) ? '/painel/base' : '/painel/temas')
+export const paginaInicial = (usuario) => (podeGerenciarConteudo(usuario) ? '/painel/dashboard' : '/painel/temas')
 
 // (51) 99999-8888 a partir de +5551999998888
 export function telefoneLegivel(telefone) {

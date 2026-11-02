@@ -3,9 +3,13 @@ import { NOMES_DOS_PERFIS, paginaInicial, useAutenticacao } from '../../autentic
 import Logo from '../../components/Logo'
 
 // Itens do menu e perfis que podem ver cada um
+const EQUIPE = ['administrador', 'curador']
 const MENU = [
-  { para: '/painel/base', rotulo: 'Base de conhecimento', perfis: ['administrador', 'curador'] },
-  { para: '/painel/perguntas', rotulo: 'Perguntas recebidas', perfis: ['administrador', 'curador'] },
+  { para: '/painel/dashboard', rotulo: 'Dashboard', perfis: EQUIPE },
+  { para: '/painel/base', rotulo: 'Base de conhecimento', perfis: EQUIPE },
+  { para: '/painel/atualizacoes', rotulo: 'Atualizações', perfis: EQUIPE },
+  { para: '/painel/relatorios', rotulo: 'Relatório de perguntas', perfis: EQUIPE },
+  { para: '/painel/historico', rotulo: 'Histórico de operações', perfis: ['administrador'] },
   { para: '/painel/usuarios', rotulo: 'Usuários', perfis: ['administrador'] },
   { para: '/painel/temas', rotulo: 'Meus temas', perfis: ['usuario'] },
 ]

@@ -112,7 +112,6 @@ export const salvarTrecho = (id, dados) =>
 
 export const excluirTrecho = (id) => requisitar(`/api/base/trechos/${id}`, { metodo: 'DELETE' })
 
-export const listarPerguntas = () => requisitar('/api/base/perguntas')
 
 // Usuários
 
@@ -130,3 +129,47 @@ export const listarInscricoes = () => requisitar('/api/inscricoes')
 export const criarInscricao = (temaId) => requisitar('/api/inscricoes', { metodo: 'POST', corpo: { tema_id: temaId } })
 
 export const excluirInscricao = (id) => requisitar(`/api/inscricoes/${id}`, { metodo: 'DELETE' })
+
+// Atualizações de temas (Módulo 2)
+
+export function listarAtualizacoes(temaId) {
+  return requisitar(temaId ? `/api/atualizacoes?tema_id=${temaId}` : '/api/atualizacoes')
+}
+
+export const publicarAtualizacao = (dados) => requisitar('/api/atualizacoes', { metodo: 'POST', corpo: dados })
+
+export const reenviarAtualizacao = (id) => requisitar(`/api/atualizacoes/${id}/reenviar`, { metodo: 'POST' })
+
+export const excluirAtualizacao = (id) => requisitar(`/api/atualizacoes/${id}`, { metodo: 'DELETE' })
+
+export const listarMinhasAtualizacoes = () => requisitar('/api/minhas-atualizacoes')
+
+// Dashboard e relatórios
+
+export const buscarIndicadores = (dias) => requisitar(`/api/painel/indicadores?dias=${dias}`)
+
+function parametros(filtros) {
+  const busca = new URLSearchParams()
+  for (const [chave, valor] of Object.entries(filtros)) if (valor) busca.set(chave, valor)
+  return busca.toString()
+}
+
+export const relatorioPerguntas = (filtros) => requisitar(`/api/relatorios/perguntas?${parametros(filtros)}`)
+
+export const relatorioHistorico = (filtros) => requisitar(`/api/relatorios/historico?${parametros(filtros)}`)
+
+// Baixa o relatório em CSV (a rota exige o token, por isso não basta um link)
+export async function baixarCsv(caminho, filtros) {
+  const resposta = await fetch(`${caminho}?${parametros({ ...filtros, formato: 'csv' })}`, {
+    headers: { Authorization: `Bearer ${lerToken()}` },
+  })
+  if (!resposta.ok) {
+    const dados = await resposta.json().catch(() => ({}))
+    throw new ErroApi(dados.detail || 'Não foi possível exportar o relatório.', resposta.status)
+  }
+  const nome = /filename="([^"]+)"/.exec(resposta.headers.get('Content-Disposition') || '')?.[1] || 'relatorio.csv'
+  const endereco = URL.createObjectURL(await resposta.blob())
+  const link = Object.assign(document.createElement('a'), { href: endereco, download: nome })
+  link.click()
+  URL.revokeObjectURL(endereco)
+}
