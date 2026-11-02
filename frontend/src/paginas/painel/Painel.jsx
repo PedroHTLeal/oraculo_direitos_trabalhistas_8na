@@ -16,11 +16,12 @@ const MENU = [
 
 // Só exibe o conteúdo para quem está logado e tem um dos perfis exigidos
 export function RotaProtegida({ perfis, children }) {
-  const { usuario, carregando } = useAutenticacao()
+  const { usuario, carregando, saiuAgora } = useAutenticacao()
   const local = useLocation()
 
   if (carregando) return <p className="carregando-pagina">Carregando...</p>
-  if (!usuario) return <Navigate to="/entrar" replace state={{ de: local.pathname }} />
+  // Guarda a página pedida para voltar a ela depois do login, exceto quando a pessoa clicou em Sair
+  if (!usuario) return <Navigate to="/entrar" replace state={saiuAgora ? null : { de: local.pathname }} />
   if (perfis && !perfis.includes(usuario.perfil)) {
     return (
       <div className="estado-vazio" role="alert">
