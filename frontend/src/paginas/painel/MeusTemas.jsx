@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { criarInscricao, excluirInscricao, listarInscricoes, listarTemas } from '../../api'
+import { criarInscricao, excluirInscricao, listarInscricoes, listarMinhasAtualizacoes, listarTemas } from '../../api'
 import { telefoneLegivel, useAutenticacao } from '../../autenticacao/contexto'
 import Campo from '../../components/Campo'
 import { regras, validar } from '../../validacao'
@@ -20,6 +20,7 @@ function MeusTemas() {
   const [erroGeral, setErroGeral] = useState(null)
   const [mensagem, setMensagem] = useState(boasVindas ? 'Conta criada! Escolha abaixo os temas que quer acompanhar.' : null)
   const [salvando, setSalvando] = useState(false)
+  const [novidades, setNovidades] = useState([])
 
   useEffect(() => {
     listarTemas()
@@ -28,6 +29,9 @@ function MeusTemas() {
     listarInscricoes()
       .then(setInscricoes)
       .catch((falha) => setErroGeral(falha.message))
+    listarMinhasAtualizacoes()
+      .then(setNovidades)
+      .catch(() => setNovidades([]))
   }, [])
 
   async function enviar(evento) {
@@ -118,6 +122,32 @@ function MeusTemas() {
               <button type="button" className="botao-texto-perigo" onClick={() => cancelar(inscricao)}>
                 Deixar de acompanhar
               </button>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <h2>Novidades dos seus temas</h2>
+      {novidades.length === 0 ? (
+        <div className="estado-vazio">
+          <p>Nenhuma novidade publicada nos temas que você acompanha.</p>
+        </div>
+      ) : (
+        <ul className="lista-trechos">
+          {novidades.map((n) => (
+            <li key={n.id} className="item-trecho">
+              <div>
+                <p className="item-tema">
+                  {n.tema} · {new Date(n.publicado_em).toLocaleDateString('pt-BR')}
+                </p>
+                <h2>{n.titulo}</h2>
+                <p className="novidade-texto">{n.conteudo}</p>
+                {n.url && (
+                  <a href={n.url} target="_blank" rel="noreferrer" className="link-acao">
+                    Saiba mais ↗
+                  </a>
+                )}
+              </div>
             </li>
           ))}
         </ul>
