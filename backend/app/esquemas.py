@@ -36,9 +36,8 @@ class Resposta(BaseModel):
 
 
 class PedidoSaibaMais(Entrada):
+    # O telefone vem da conta de quem está logado
     pergunta_id: str
-    telefone: str = Field(max_length=30)
-    consentimento: bool
 
 
 class SituacaoPedido(BaseModel):
@@ -50,20 +49,25 @@ class SituacaoPedido(BaseModel):
 
 
 class Cadastro(Entrada):
+    """Cadastro público: a conta serve para receber conteúdos pelo WhatsApp."""
+
     nome: str = Field(min_length=2, max_length=100)
-    email: EmailStr
+    telefone: str = Field(min_length=8, max_length=30)
     senha: str = Field(min_length=TAMANHO_MINIMO_SENHA, max_length=128)
+    consentimento: bool
 
 
 class Login(Entrada):
-    email: EmailStr
+    # Telefone (usuários) ou e-mail (equipe)
+    identificador: str = Field(min_length=3, max_length=120)
     senha: str = Field(min_length=1, max_length=128)
 
 
 class Usuario(BaseModel):
     id: str
     nome: str
-    email: str
+    email: str | None = None
+    telefone: str | None = None
     perfil: Perfil
     ativo: bool
     criado_em: str | None = None
@@ -74,13 +78,20 @@ class Sessao(BaseModel):
     usuario: Usuario
 
 
-class NovoUsuario(Cadastro):
+class NovoUsuario(Entrada):
+    """Cadastro feito pelo administrador: equipe com e-mail, usuários com telefone."""
+
+    nome: str = Field(min_length=2, max_length=100)
+    email: EmailStr | None = None
+    telefone: str | None = Field(default=None, max_length=30)
+    senha: str = Field(min_length=TAMANHO_MINIMO_SENHA, max_length=128)
     perfil: Perfil = "usuario"
 
 
 class AlteracaoUsuario(Entrada):
     nome: str | None = Field(default=None, min_length=2, max_length=100)
     email: EmailStr | None = None
+    telefone: str | None = Field(default=None, max_length=30)
     perfil: Perfil | None = None
     ativo: bool | None = None
     senha: str | None = Field(default=None, min_length=TAMANHO_MINIMO_SENHA, max_length=128)
@@ -130,9 +141,8 @@ class PerguntaRegistrada(BaseModel):
 
 
 class NovaInscricao(Entrada):
+    # O telefone vem da conta de quem está logado
     tema_id: int
-    telefone: str = Field(max_length=30)
-    consentimento: bool
 
 
 class Inscricao(BaseModel):

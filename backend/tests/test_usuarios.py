@@ -35,7 +35,7 @@ def test_perfil_invalido_e_rejeitado(client, falsos, entrar):
 
 
 def test_nao_permite_ficar_sem_administrador(client, falsos, entrar):
-    cabecalho = entrar("administrador", email="admin@oraculo.com.br")
+    cabecalho = entrar("administrador", login="admin@oraculo.com.br")
     eu = client.get("/api/auth/eu", headers=cabecalho).json()
 
     rebaixar = client.put(f"/api/usuarios/{eu['id']}", json={"perfil": "curador"}, headers=cabecalho)
@@ -47,7 +47,7 @@ def test_nao_permite_ficar_sem_administrador(client, falsos, entrar):
 
 def test_desativar_usuario_encerra_as_sessoes_dele(client, falsos, entrar):
     admin = entrar("administrador")
-    curador = entrar("curador", email="curador@oraculo.com.br")
+    curador = entrar("curador", login="curador@oraculo.com.br")
     curador_id = falsos[0].obter_usuario_por_email("curador@oraculo.com.br")["id"]
 
     client.put(f"/api/usuarios/{curador_id}", json={"ativo": False}, headers=admin)
@@ -63,3 +63,20 @@ def test_email_repetido_ao_alterar(client, falsos, entrar):
     resposta = client.put(f"/api/usuarios/{outro['id']}", json={"email": "carlos@oraculo.com.br"}, headers=cabecalho)
 
     assert resposta.status_code == 409
+
+
+def test_meio_de_login_conforme_o_perfil(client, falsos, entrar):
+    cabecalho = entrar("administrador")
+
+    curador_sem_email = client.post("/api/usuarios", json={**NOVO, "email": None}, headers=cabecalho)
+    usuario_sem_telefone = client.post("/api/usuarios", json={**NOVO, "perfil": "usuario"}, headers=cabecalho)
+    usuario_com_telefone = client.post(
+        "/api/usuarios",
+        json={**NOVO, "email": None, "perfil": "usuario", "telefone": "(51) 98888-7777"},
+        headers=cabecalho,
+    )
+
+    assert curador_sem_email.json()["detail"] == "Administradores e curadores precisam de um e-mail."
+    assert usuario_sem_telefone.json()["detail"] == "Usuários comuns precisam de um telefone (WhatsApp)."
+    assert usuario_com_telefone.status_code == 201
+    assert usuario_com_telefone.json()["telefone"] == "+5551988887777"

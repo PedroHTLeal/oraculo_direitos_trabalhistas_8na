@@ -49,6 +49,8 @@ NOMES_DOS_CAMPOS = {
     "secao": "subtítulo",
     "tema_id": "tema",
     "perfil": "perfil",
+    "identificador": "telefone ou e-mail",
+    "consentimento": "autorização",
 }
 
 

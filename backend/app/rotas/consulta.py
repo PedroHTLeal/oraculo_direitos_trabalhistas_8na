@@ -6,11 +6,10 @@ import logging
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
 from google.genai import errors as erros_gemini
 
-from app.dependencias import obter_configuracao, obter_ia, obter_repositorio, obter_whatsapp
+from app.dependencias import obter_configuracao, obter_ia, obter_repositorio, obter_whatsapp, usuario_atual
 from app.esquemas import Fonte, PedidoSaibaMais, Pergunta, Resposta, SituacaoPedido
 from app.ia import RecusaDaIA
 from app.sugestoes import SUGESTOES
-from app.telefone import TelefoneInvalido, normalizar_telefone
 from app.whatsapp import montar_mensagem
 
 logger = logging.getLogger("oraculo")
@@ -71,22 +70,21 @@ def perguntar(pergunta: Pergunta, repositorio=Depends(obter_repositorio), ia=Dep
 def saiba_mais(
     pedido: PedidoSaibaMais,
     tarefas: BackgroundTasks,
+    usuario=Depends(usuario_atual),
     repositorio=Depends(obter_repositorio),
     ia=Depends(obter_ia),
     whatsapp=Depends(obter_whatsapp),
 ):
-    if not pedido.consentimento:
-        raise HTTPException(status_code=422, detail="É preciso autorizar o envio pelo WhatsApp.")
-    try:
-        telefone = normalizar_telefone(pedido.telefone)
-    except TelefoneInvalido as erro:
-        raise HTTPException(status_code=422, detail=str(erro))
+    # O conteúdo vai para o WhatsApp da conta, autorizado no cadastro (LGPD)
+    telefone = usuario.get("telefone")
+    if not telefone:
+        raise HTTPException(status_code=422, detail="Sua conta não tem um telefone cadastrado para receber pelo WhatsApp.")
 
     pergunta = repositorio.obter_pergunta(pedido.pergunta_id)
     if not pergunta:
         raise HTTPException(status_code=404, detail="Pergunta não encontrada.")
 
-    solicitacao_id = repositorio.criar_solicitacao(pedido.pergunta_id, telefone)
+    solicitacao_id = repositorio.criar_solicitacao(pedido.pergunta_id, telefone, usuario["id"])
     # A pesquisa de links e vídeos leva alguns segundos: roda depois de responder
     tarefas.add_task(enviar_conteudo_complementar, solicitacao_id, pergunta, telefone, repositorio, ia, whatsapp)
     return SituacaoPedido(id=solicitacao_id, status="pendente")

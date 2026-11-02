@@ -1,10 +1,7 @@
-INSCRICAO = {"tema_id": 1, "telefone": "(51) 99999-8888", "consentimento": True}
+def test_usuario_acompanha_tema_no_telefone_da_conta(client, falsos, entrar):
+    cabecalho = entrar("usuario", login="+5551999998888")
 
-
-def test_usuario_acompanha_e_deixa_de_acompanhar_um_tema(client, falsos, entrar):
-    cabecalho = entrar("usuario")
-
-    criada = client.post("/api/inscricoes", json=INSCRICAO, headers=cabecalho)
+    criada = client.post("/api/inscricoes", json={"tema_id": 1}, headers=cabecalho)
     assert criada.status_code == 201
     assert criada.json()["tema"] == "Férias"
     assert criada.json()["telefone"] == "+5551999998888"
@@ -16,25 +13,23 @@ def test_usuario_acompanha_e_deixa_de_acompanhar_um_tema(client, falsos, entrar)
 
 def test_inscricao_repetida(client, falsos, entrar):
     cabecalho = entrar("usuario")
-    client.post("/api/inscricoes", json=INSCRICAO, headers=cabecalho)
+    client.post("/api/inscricoes", json={"tema_id": 1}, headers=cabecalho)
 
-    resposta = client.post("/api/inscricoes", json=INSCRICAO, headers=cabecalho)
+    resposta = client.post("/api/inscricoes", json={"tema_id": 1}, headers=cabecalho)
 
     assert resposta.status_code == 409
 
 
 def test_validacoes_da_inscricao(client, falsos, entrar):
-    cabecalho = entrar("usuario")
+    tema_invalido = client.post("/api/inscricoes", json={"tema_id": 99}, headers=entrar("usuario"))
+    sem_telefone = client.post("/api/inscricoes", json={"tema_id": 1}, headers=entrar("curador"))
 
-    sem_consentimento = client.post("/api/inscricoes", json={**INSCRICAO, "consentimento": False}, headers=cabecalho)
-    telefone_invalido = client.post("/api/inscricoes", json={**INSCRICAO, "telefone": "123"}, headers=cabecalho)
-
-    assert sem_consentimento.status_code == telefone_invalido.status_code == 422
-    assert "DDD" in telefone_invalido.json()["detail"]
+    assert tema_invalido.status_code == sem_telefone.status_code == 422
+    assert tema_invalido.json()["detail"] == "Escolha um tema válido."
 
 
 def test_usuario_nao_exclui_inscricao_de_outro(client, falsos, entrar):
-    criada = client.post("/api/inscricoes", json=INSCRICAO, headers=entrar("usuario")).json()
+    criada = client.post("/api/inscricoes", json={"tema_id": 1}, headers=entrar("usuario")).json()
 
     resposta = client.delete(f"/api/inscricoes/{criada['id']}", headers=entrar("usuario"))
 

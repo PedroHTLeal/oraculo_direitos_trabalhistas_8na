@@ -91,8 +91,8 @@ class RepositorioSupabase:
             {"id": t["id"], "secao": t["secao"], "tema": t["temas"]["nome"], "url": t["temas"]["url"]} for t in dados
         ]
 
-    def criar_solicitacao(self, pergunta_id, telefone):
-        registro = {"pergunta_id": pergunta_id, "telefone": telefone, "consentimento": True}
+    def criar_solicitacao(self, pergunta_id, telefone, usuario_id=None):
+        registro = {"pergunta_id": pergunta_id, "telefone": telefone, "consentimento": True, "usuario_id": usuario_id}
         return self.cliente.table("solicitacoes_whatsapp").insert(registro).execute().data[0]["id"]
 
     def obter_solicitacao(self, solicitacao_id):
@@ -124,17 +124,27 @@ class RepositorioSupabase:
 
     # Usuários e sessões
 
-    def criar_usuario(self, nome, email, senha_hash, perfil):
-        registro = {"nome": nome, "email": email.lower(), "senha_hash": senha_hash, "perfil": perfil}
+    def criar_usuario(self, nome, email, telefone, senha_hash, perfil, consentimento_whatsapp=False):
+        registro = {
+            "nome": nome,
+            "email": email.lower() if email else None,
+            "telefone": telefone,
+            "senha_hash": senha_hash,
+            "perfil": perfil,
+            "consentimento_whatsapp": consentimento_whatsapp,
+        }
         try:
-            return self.cliente.table("usuarios").insert(registro).execute().data[0]
+            dados = self.cliente.table("usuarios").insert(registro).execute().data[0]
         except APIError as erro:
-            if erro.code == "23505":  # e-mail repetido
-                raise RegistroDuplicado("Já existe um usuário com este e-mail.") from erro
-            raise
+            raise _traduzir_duplicidade(erro) from erro
+        return {k: v for k, v in dados.items() if k in CAMPOS_USUARIO.split(",")}
 
     def obter_usuario_por_email(self, email):
         dados = self.cliente.table("usuarios").select("*").eq("email", email.lower()).execute().data
+        return dados[0] if dados else None
+
+    def obter_usuario_por_telefone(self, telefone):
+        dados = self.cliente.table("usuarios").select("*").eq("telefone", telefone).execute().data
         return dados[0] if dados else None
 
     def obter_usuario(self, usuario_id):
@@ -161,10 +171,8 @@ class RepositorioSupabase:
         try:
             dados = self.cliente.table("usuarios").update(campos).eq("id", usuario_id).execute().data
         except APIError as erro:
-            if erro.code == "23505":
-                raise RegistroDuplicado("Já existe um usuário com este e-mail.") from erro
-            raise
-        return {k: v for k, v in dados[0].items() if k != "senha_hash"} if dados else None
+            raise _traduzir_duplicidade(erro) from erro
+        return {k: v for k, v in dados[0].items() if k in CAMPOS_USUARIO.split(",")} if dados else None
 
     def excluir_usuario(self, usuario_id):
         return bool(self.cliente.table("usuarios").delete().eq("id", usuario_id).execute().data)
@@ -284,12 +292,21 @@ class RepositorioSupabase:
         return bool(resultado.data)
 
 
-CAMPOS_USUARIO = "id,nome,email,perfil,ativo,criado_em"
+CAMPOS_USUARIO = "id,nome,email,telefone,perfil,ativo,criado_em"
 CAMPOS_TRECHO = "id,tema_id,secao,ordem,texto,atualizado_em,temas(nome,url)"
 
 
 class RegistroDuplicado(ValueError):
     pass
+
+
+def _traduzir_duplicidade(erro):
+    """Converte a violação de unicidade do banco em uma mensagem para o usuário."""
+    if erro.code != "23505":
+        return erro
+    if "telefone" in (erro.message or ""):
+        return RegistroDuplicado("Já existe uma conta com este telefone.")
+    return RegistroDuplicado("Já existe um usuário com este e-mail.")
 
 
 def _achatar_trecho(trecho):

@@ -75,7 +75,7 @@ class RepositorioFalso:
     def obter_trechos(self, ids):
         return [t for t in TRECHOS if t["id"] in ids]
 
-    def criar_solicitacao(self, pergunta_id, telefone):
+    def criar_solicitacao(self, pergunta_id, telefone, usuario_id=None):
         solicitacao_id = f"s{len(self.solicitacoes) + 1}"
         self.solicitacoes[solicitacao_id] = {"id": solicitacao_id, "telefone": telefone, "status": "pendente"}
         return solicitacao_id
@@ -91,13 +91,16 @@ class RepositorioFalso:
 
     # Usuários e sessões
 
-    def criar_usuario(self, nome, email, senha_hash, perfil):
-        if self.obter_usuario_por_email(email):
+    def criar_usuario(self, nome, email, telefone, senha_hash, perfil, consentimento_whatsapp=False):
+        if email and self.obter_usuario_por_email(email):
             raise RegistroDuplicado("Já existe um usuário com este e-mail.")
+        if telefone and self.obter_usuario_por_telefone(telefone):
+            raise RegistroDuplicado("Já existe uma conta com este telefone.")
         usuario = {
             "id": str(uuid.uuid4()),
             "nome": nome,
-            "email": email.lower(),
+            "email": email.lower() if email else None,
+            "telefone": telefone,
             "senha_hash": senha_hash,
             "perfil": perfil,
             "ativo": True,
@@ -108,6 +111,9 @@ class RepositorioFalso:
 
     def obter_usuario_por_email(self, email):
         return next((u for u in self.usuarios.values() if u["email"] == email.lower()), None)
+
+    def obter_usuario_por_telefone(self, telefone):
+        return next((u for u in self.usuarios.values() if u["telefone"] == telefone), None)
 
     def obter_usuario(self, usuario_id):
         usuario = self.usuarios.get(usuario_id)
@@ -120,10 +126,13 @@ class RepositorioFalso:
         return sum(1 for u in self.usuarios.values() if u["perfil"] == "administrador" and u["ativo"])
 
     def atualizar_usuario(self, usuario_id, campos):
-        email = campos.get("email")
+        email, telefone = campos.get("email"), campos.get("telefone")
         dono = self.obter_usuario_por_email(email) if email else None
         if dono and dono["id"] != usuario_id:
             raise RegistroDuplicado("Já existe um usuário com este e-mail.")
+        dono = self.obter_usuario_por_telefone(telefone) if telefone else None
+        if dono and dono["id"] != usuario_id:
+            raise RegistroDuplicado("Já existe uma conta com este telefone.")
         self.usuarios[usuario_id].update(campos)
         return publico(self.usuarios[usuario_id])
 
@@ -274,10 +283,15 @@ def entrar(client, falsos):
     """Cria um usuário com o perfil informado e devolve o cabeçalho de autenticação."""
     repositorio = falsos[0]
 
-    def _entrar(perfil="administrador", email=None, senha="senha-segura-123"):
-        email = email or f"{perfil}-{uuid.uuid4().hex[:6]}@oraculo.com.br"
-        repositorio.criar_usuario(perfil.title(), email, gerar_hash_senha(senha), perfil)
-        token = client.post("/api/auth/login", json={"email": email, "senha": senha}).json()["token"]
+    def _entrar(perfil="administrador", login=None, senha="senha-segura-123"):
+        # A equipe entra com e-mail; o usuário comum, com o telefone
+        if perfil == "usuario":
+            login = login or f"+55119{uuid.uuid4().int % 10**8:08d}"
+            repositorio.criar_usuario("Usuário", None, login, gerar_hash_senha(senha), perfil, True)
+        else:
+            login = login or f"{perfil}-{uuid.uuid4().hex[:6]}@oraculo.com.br"
+            repositorio.criar_usuario(perfil.title(), login, None, gerar_hash_senha(senha), perfil)
+        token = client.post("/api/auth/login", json={"identificador": login, "senha": senha}).json()["token"]
         return {"Authorization": f"Bearer {token}"}
 
     return _entrar

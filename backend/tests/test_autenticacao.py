@@ -1,6 +1,8 @@
 from app.seguranca import gerar_hash_senha, verificar_senha
 from tests.conftest import expirar_sessoes
 
+CADASTRO = {"nome": "Maria Silva", "telefone": "(51) 99999-8888", "senha": "senha-forte-1", "consentimento": True}
+
 
 def test_hash_de_senha_confere_so_com_a_senha_certa():
     hash_salvo = gerar_hash_senha("minha-senha-123")
@@ -16,65 +18,88 @@ def test_mesma_senha_gera_hashes_diferentes():
     assert gerar_hash_senha("igual-123456") != gerar_hash_senha("igual-123456")
 
 
-def test_cadastro_cria_usuario_comum_e_ja_entra(client, falsos):
-    resposta = client.post(
-        "/api/auth/cadastro",
-        json={"nome": "Maria Silva", "email": "Maria@Exemplo.com", "senha": "senha-forte-1", "perfil": "administrador"},
-    )
+def test_cadastro_com_telefone_cria_usuario_comum_e_ja_entra(client, falsos):
+    resposta = client.post("/api/auth/cadastro", json={**CADASTRO, "perfil": "administrador"})
 
     assert resposta.status_code == 201
     dados = resposta.json()
     # O perfil enviado é ignorado: o cadastro público sempre cria "usuario"
     assert dados["usuario"]["perfil"] == "usuario"
-    assert dados["usuario"]["email"] == "maria@exemplo.com"
+    assert dados["usuario"]["telefone"] == "+5551999998888"
     assert "senha_hash" not in dados["usuario"]
     eu = client.get("/api/auth/eu", headers={"Authorization": f"Bearer {dados['token']}"})
     assert eu.json()["nome"] == "Maria Silva"
 
 
-def test_cadastro_com_email_repetido(client, falsos):
-    corpo = {"nome": "Maria", "email": "maria@exemplo.com", "senha": "senha-forte-1"}
-    client.post("/api/auth/cadastro", json=corpo)
+def test_cadastro_exige_autorizacao_do_whatsapp(client, falsos):
+    resposta = client.post("/api/auth/cadastro", json={**CADASTRO, "consentimento": False})
+    assert resposta.status_code == 422
+    assert resposta.json()["detail"] == "É preciso autorizar o envio de mensagens pelo WhatsApp."
 
-    resposta = client.post("/api/auth/cadastro", json=corpo)
+
+def test_cadastro_com_telefone_repetido(client, falsos):
+    client.post("/api/auth/cadastro", json=CADASTRO)
+
+    resposta = client.post("/api/auth/cadastro", json={**CADASTRO, "telefone": "51999998888"})
 
     assert resposta.status_code == 409
-    assert resposta.json()["detail"] == "Já existe um usuário com este e-mail."
+    assert resposta.json()["detail"] == "Já existe uma conta com este telefone. Se a conta é sua, use a opção Entrar."
 
 
 def test_cadastro_valida_campos_com_mensagens_claras(client, falsos):
-    resposta = client.post("/api/auth/cadastro", json={"nome": "M", "email": "nao-e-email", "senha": "123"})
+    resposta = client.post("/api/auth/cadastro", json={"nome": "M", "telefone": "123", "senha": "123", "consentimento": True})
 
     assert resposta.status_code == 422
     erros = resposta.json()["erros"]
     assert "O campo nome precisa ter pelo menos 2 caracteres." in erros
-    assert "Informe um e-mail válido, por exemplo nome@exemplo.com." in erros
+    assert "O campo telefone precisa ter pelo menos 8 caracteres." in erros
     assert "O campo senha precisa ter pelo menos 8 caracteres." in erros
 
 
+def test_cadastro_com_telefone_invalido(client, falsos):
+    resposta = client.post("/api/auth/cadastro", json={**CADASTRO, "telefone": "(05) 1234-5678"})
+    assert resposta.status_code == 422
+    assert "DDD" in resposta.json()["detail"]
+
+
+def test_login_pelo_telefone_em_qualquer_formato(client, falsos):
+    client.post("/api/auth/cadastro", json=CADASTRO)
+
+    for formato in ("(51) 99999-8888", "51999998888", "+55 51 99999-8888"):
+        resposta = client.post("/api/auth/login", json={"identificador": formato, "senha": CADASTRO["senha"]})
+        assert resposta.status_code == 200
+        assert resposta.json()["usuario"]["nome"] == "Maria Silva"
+
+
+def test_equipe_entra_pelo_email(client, falsos, entrar):
+    cabecalho = entrar("curador", login="curador@oraculo.com.br")
+    assert client.get("/api/auth/eu", headers=cabecalho).json()["perfil"] == "curador"
+
+
 def test_campo_obrigatorio_ausente(client, falsos):
-    resposta = client.post("/api/auth/login", json={"email": "maria@exemplo.com"})
+    resposta = client.post("/api/auth/login", json={"identificador": "51999998888"})
     assert resposta.json()["detail"] == "Preencha o campo senha."
 
 
-def test_login_com_senha_errada_ou_email_inexistente(client, falsos, entrar):
-    entrar("curador", email="curador@oraculo.com.br")
+def test_login_com_senha_errada_ou_conta_inexistente(client, falsos, entrar):
+    entrar("curador", login="curador@oraculo.com.br")
 
-    errada = client.post("/api/auth/login", json={"email": "curador@oraculo.com.br", "senha": "senha-errada"})
-    inexistente = client.post("/api/auth/login", json={"email": "ninguem@oraculo.com.br", "senha": "qualquer-1"})
+    errada = client.post("/api/auth/login", json={"identificador": "curador@oraculo.com.br", "senha": "senha-errada"})
+    inexistente = client.post("/api/auth/login", json={"identificador": "(11) 98888-7777", "senha": "qualquer-1"})
+    invalido = client.post("/api/auth/login", json={"identificador": "abc", "senha": "qualquer-1"})
 
-    # A mesma mensagem nos dois casos, para não revelar quais e-mails existem
-    assert errada.status_code == inexistente.status_code == 401
-    assert errada.json()["detail"] == inexistente.json()["detail"] == "E-mail ou senha incorretos."
+    # A mesma mensagem em todos os casos, para não revelar quais contas existem
+    assert errada.status_code == inexistente.status_code == invalido.status_code == 401
+    assert errada.json()["detail"] == "Telefone, e-mail ou senha incorretos."
 
 
 def test_usuario_desativado_nao_entra(client, falsos, entrar):
     repositorio = falsos[0]
-    entrar("curador", email="curador@oraculo.com.br")
+    entrar("curador", login="curador@oraculo.com.br")
     usuario = repositorio.obter_usuario_por_email("curador@oraculo.com.br")
     repositorio.atualizar_usuario(usuario["id"], {"ativo": False})
 
-    resposta = client.post("/api/auth/login", json={"email": "curador@oraculo.com.br", "senha": "senha-segura-123"})
+    resposta = client.post("/api/auth/login", json={"identificador": "curador@oraculo.com.br", "senha": "senha-segura-123"})
 
     assert resposta.status_code == 403
 

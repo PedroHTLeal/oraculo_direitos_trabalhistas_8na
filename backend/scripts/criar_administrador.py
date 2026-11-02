@@ -16,7 +16,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from pydantic import ValidationError  # noqa: E402
 
 from app.config import carregar_configuracao  # noqa: E402
-from app.esquemas import Cadastro  # noqa: E402
+from app.esquemas import NovoUsuario  # noqa: E402
 from app.repositorio import RepositorioSupabase  # noqa: E402
 from app.seguranca import gerar_hash_senha  # noqa: E402
 
@@ -32,10 +32,12 @@ def main():
         sys.exit("As senhas não conferem.")
 
     try:
-        dados = Cadastro(nome=nome, email=email, senha=senha)
+        dados = NovoUsuario(nome=nome, email=email, senha=senha, perfil="administrador")
     except ValidationError as erro:
         sys.exit("Dados inválidos: " + "; ".join(e["msg"] for e in erro.errors()))
 
+    if not dados.email:
+        sys.exit("Informe o e-mail.")
     existente = repositorio.obter_usuario_por_email(dados.email)
     if existente:
         repositorio.atualizar_usuario(
@@ -43,7 +45,7 @@ def main():
         )
         print(f"{dados.email} agora é administrador.")
     else:
-        repositorio.criar_usuario(dados.nome, dados.email, gerar_hash_senha(dados.senha), "administrador")
+        repositorio.criar_usuario(dados.nome, dados.email, None, gerar_hash_senha(dados.senha), "administrador")
         print(f"Administrador {dados.email} criado.")
 
 
