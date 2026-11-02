@@ -1,6 +1,6 @@
 # Histórico de versões
 
-Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o que mudou e como isso agrega ao projeto. As referências (RF, RNF, PB, UC) seguem o [relatório da Sprint 01](docs/sprint-01/relatorio.md).
+Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o que mudou e como isso agrega ao projeto. As referências (RF, RNF, PB, UC) seguem o [relatório da Sprint 01](docs/sprints/sprint-01/relatorio.md).
 
 ---
 
@@ -126,7 +126,7 @@ Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o
 - Backend: rota de temas e perguntas sugeridos e rota de envio de perguntas, que por enquanto devolve uma resposta provisória já no formato final (resposta, fontes e indicação se encontrou informação).
 - Backend: validação das perguntas (vazias, com menos de 3 ou mais de 500 caracteres são rejeitadas) e 6 novos testes automatizados, totalizando 7.
 - Frontend: campo de pergunta livre, temas sugeridos, cartão de resposta preparado para exibir fontes e link para o conteúdo original, aviso quando não há informação suficiente e layout adaptado para celular.
-- Documentação: versão editável e atualizada do relatório da Sprint 01 (`docs/sprint-01/relatorio.md`), com correção da seção 4, situação dos requisitos e do backlog, tecnologias definidas e fluxo de branches com Pull Requests.
+- Documentação: versão editável e atualizada do relatório da Sprint 01 (`docs/sprints/sprint-01/relatorio.md`), com correção da seção 4, situação dos requisitos e do backlog, tecnologias definidas e fluxo de branches com Pull Requests.
 - Este arquivo de histórico de versões.
 
 **Como agrega ao projeto:**

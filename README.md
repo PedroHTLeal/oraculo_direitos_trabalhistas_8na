@@ -4,6 +4,8 @@ Plataforma que recebe dúvidas dos usuários em linguagem natural e apresenta re
 
 Projeto da turma **8NA** de Ciência da Computação, desenvolvido para as disciplinas de Fábrica de Software, Tópicos Avançados e DevOps Tools.
 
+> **Documentação por Sprint:** o que foi pedido e entregue em cada Sprint, com os ajustes (commits) de cada uma, está em **[docs/](docs/README.md)**.
+
 ## Proposta
 
 O sistema utiliza uma abordagem de **RAG (Retrieval-Augmented Generation)**: antes de gerar uma resposta, busca as informações relevantes em uma base de conhecimento formada por fontes confiáveis. A referência inicial é a *Cartilha de Direitos e Obrigações no Trabalho* do Tribunal Regional do Trabalho da 4ª Região (TRT4).
@@ -59,45 +61,54 @@ A interface deve priorizar simplicidade e clareza, permitindo uma consulta sem c
 
 ## Como funciona
 
-1. O usuário faz uma pergunta.
+O sistema tem três módulos integrados:
+
+| Módulo | Para quem | O que faz |
+| --- | --- | --- |
+| **1. Gestão da base de conhecimento** | Equipe (administrador e curador) | Mantém os trechos da cartilha que a IA usa; dashboard, relatórios e histórico |
+| **2. Acompanhamento pelo WhatsApp** | Pessoas com conta | Conta com WhatsApp, temas acompanhados e atualizações enviadas pela equipe |
+| **3. Consulta inteligente** | Qualquer pessoa, sem login | Pergunta → busca na cartilha → resposta da IA com fontes → "Saiba mais" pelo WhatsApp |
+
+Fluxo da consulta:
+
+1. A pessoa faz uma pergunta.
 2. O backend busca no Supabase os trechos mais relevantes da cartilha do TRT4.
 3. A IA escreve uma resposta simples usando **somente** esses trechos e indica quais usou como fonte.
-4. Se o usuário pedir para saber mais, informa o WhatsApp; a IA pesquisa 2 sites e 2 vídeos do YouTube sobre o assunto e a Twilio envia tudo para o celular dele.
+4. Em "Saiba mais", a pessoa entra ou cria a conta com o WhatsApp; a IA pesquisa 2 sites e 2 vídeos do YouTube sobre o assunto e a Twilio envia tudo para o celular dela.
 
 ## Estrutura do repositório
 
 ```
-backend/    API em Python (FastAPI), scripts e dados da cartilha
-frontend/   Interface web em React
-supabase/   Estrutura do banco de dados (SQL)
-docs/       Documentação do projeto e relatórios das Sprints
+backend/     API em Python (FastAPI): rotas, regras de negócio, testes e scripts
+frontend/    Interface web em React (consulta pública e painel)
+supabase/    Estrutura do banco de dados, em scripts numerados (001 a 005)
+docs/        Documentação: uma página por Sprint, guia de configuração e ferramentas
+iniciar.bat  Executa o sistema completo no Windows (iniciar.sh no Linux/macOS)
 ```
 
-O histórico de cada versão enviada ao GitHub está em [CHANGELOG.md](CHANGELOG.md).
+O histórico de cada versão enviada ao GitHub está em [CHANGELOG.md](CHANGELOG.md). Cada ajuste é um commit no branch `main`, com data, objetivo, o que foi feito e como agrega ao projeto.
 
 ## Como executar
 
-Pré-requisitos: Python 3.12+ e Node.js 20+, além das contas gratuitas no Supabase, no Google AI Studio (Gemini) e na Twilio. O passo a passo para criá-las e preencher o `backend/.env` está em [docs/configuracao.md](docs/configuracao.md).
+Pré-requisitos: Python 3.12+ e Node.js 20+, além das contas gratuitas no Supabase, no Google AI Studio (Gemini) e na Twilio. O passo a passo para criá-las, criar o banco e preencher o `backend/.env` está no [guia de configuração](docs/configuracao.md).
 
-**Backend** (em `backend/`):
-
-```bash
-python -m venv .venv
-.venv\Scripts\activate        # Windows (no Linux/macOS: source .venv/bin/activate)
-pip install -r requirements-dev.txt
-uvicorn app.main:app --reload --port 8000
-```
-
-Testes: `pytest`
-
-**Frontend** (em `frontend/`, com o backend rodando):
+**Execução completa (deploy local)**, na pasta do projeto:
 
 ```bash
-npm install
-npm run dev
+iniciar.bat
 ```
 
-Acesse http://localhost:5173. Em desenvolvimento, as chamadas para `/api` são encaminhadas ao backend na porta 8000.
+O script instala as dependências, compila o frontend e abre o sistema em http://localhost:8000. No Linux ou macOS, use `./iniciar.sh`.
+
+**Primeiro administrador** (uma vez só, depois de configurar o banco):
+
+```bash
+backend\.venv\Scripts\python backend\scripts\criar_administrador.py
+```
+
+**Desenvolvimento** (recarrega a tela a cada alteração): rode o backend em `backend/` com `uvicorn app.main:app --reload --port 8000` e o frontend em `frontend/` com `npm run dev` (http://localhost:5173).
+
+**Testes automatizados** (em `backend/`): `pytest`
 
 ## Equipe
 

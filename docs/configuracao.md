@@ -17,6 +17,9 @@ Guarda a cartilha do TRT4, as perguntas feitas e os pedidos de WhatsApp.
 3. Quando o projeto estiver pronto, abra **SQL Editor** e execute, nesta ordem, cada arquivo da pasta [`supabase/`](../supabase/) (cole todo o conteúdo e clique em **Run**):
    1. [`001_estrutura_inicial.sql`](../supabase/001_estrutura_inicial.sql)
    2. [`002_corrige_busca_e_sinonimos.sql`](../supabase/002_corrige_busca_e_sinonimos.sql)
+   3. [`003_modelo_relacional.sql`](../supabase/003_modelo_relacional.sql)
+   4. [`004_conta_com_whatsapp.sql`](../supabase/004_conta_com_whatsapp.sql)
+   5. [`005_historico_de_operacoes.sql`](../supabase/005_historico_de_operacoes.sql)
 4. Em **Project Settings > API**, copie para o `backend/.env`:
    - **Project URL** → `SUPABASE_URL`
    - **service_role** (em *Project API keys*) → `SUPABASE_SERVICE_ROLE_KEY`
