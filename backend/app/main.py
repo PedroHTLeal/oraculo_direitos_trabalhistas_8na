@@ -1,8 +1,10 @@
 import logging
+from pathlib import Path
 
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
 
 from app.config import ConfiguracaoAusente
 from app.rotas import autenticacao, base_conhecimento, consulta, inscricoes, usuarios
@@ -62,3 +64,20 @@ def traduzir_erro(erro):
 def erro_de_validacao(_: Request, erro: RequestValidationError):
     mensagens = list(dict.fromkeys(traduzir_erro(e) for e in erro.errors()))
     return JSONResponse(status_code=422, content={"detail": " ".join(mensagens), "erros": mensagens})
+
+
+# Deploy local: se o frontend já foi compilado (npm run build), o próprio backend serve o site
+SITE = Path(__file__).resolve().parent.parent.parent / "frontend" / "dist"
+
+if SITE.is_dir():
+    app.mount("/assets", StaticFiles(directory=SITE / "assets"), name="assets")
+
+    @app.get("/{caminho:path}", include_in_schema=False)
+    def site(caminho: str):
+        if caminho.startswith("api/"):
+            return JSONResponse(status_code=404, content={"detail": "Endereço da API não encontrado."})
+        arquivo = (SITE / caminho).resolve()
+        if caminho and arquivo.is_file() and SITE in arquivo.parents:
+            return FileResponse(arquivo)
+        # As demais rotas (/entrar, /painel...) são resolvidas pelo React
+        return FileResponse(SITE / "index.html")
