@@ -151,3 +151,26 @@ class Inscricao(BaseModel):
     tema: str
     telefone: str
     criado_em: str | None = None
+
+
+# Atualizações de temas (Módulo 2)
+
+
+class NovaAtualizacao(Entrada):
+    tema_id: int
+    titulo: str = Field(min_length=5, max_length=120)
+    conteudo: str = Field(min_length=20, max_length=1000)
+    url: str | None = Field(default=None, max_length=500, pattern=r"^https?://\S+$")
+
+
+class Atualizacao(BaseModel):
+    id: int
+    tema_id: int
+    tema: str
+    titulo: str
+    conteudo: str
+    url: str | None = None
+    autor_id: str | None = None
+    autor: str | None = None
+    publicado_em: str
+    envios: dict[str, int]

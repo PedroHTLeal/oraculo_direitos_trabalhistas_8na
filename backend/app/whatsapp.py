@@ -38,3 +38,11 @@ def montar_mensagem(pergunta, resposta, materiais):
     if len(resposta) > espaco:
         resposta = resposta[: max(espaco - 3, 0)].rstrip() + "..."
     return _juntar(pergunta, resposta, materiais)
+
+
+def montar_mensagem_atualizacao(tema, titulo, conteudo, url):
+    linhas = [f"*Oráculo · Novidade sobre {tema}*", "", f"*{titulo}*", "", conteudo]
+    if url:
+        linhas += ["", f"Saiba mais: {url}"]
+    linhas += ["", "Você recebe esta mensagem porque acompanha este tema no Oráculo."]
+    return "\n".join(linhas)[:LIMITE_MENSAGEM]

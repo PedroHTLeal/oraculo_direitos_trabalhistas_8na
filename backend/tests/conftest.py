@@ -8,6 +8,7 @@ from app.config import Configuracao
 from app.dependencias import obter_configuracao, obter_ia, obter_repositorio, obter_whatsapp
 from app.ia import RecusaDaIA
 from app.main import app
+from app.rotas.atualizacoes import whatsapp_opcional
 from app.repositorio import RegistroDuplicado
 from app.seguranca import gerar_hash_senha
 
@@ -48,6 +49,9 @@ class RepositorioFalso:
         self.usuarios = {}
         self.sessoes = {}
         self.inscricoes = {}
+        self.atualizacoes = {}
+        self.envios = []
+        self.historico = []
         self.base = {
             1: {"id": 1, "tema_id": 1, "secao": "Visão geral", "ordem": 1, "texto": "Todo trabalhador tem direito a 30 dias de férias."},
             2: {"id": 2, "tema_id": 2, "secao": "Direitos do estagiário", "ordem": 1, "texto": "O estagiário tem direito a recesso remunerado."},
@@ -225,6 +229,114 @@ class RepositorioFalso:
         return True
 
 
+    # Atualizações (Módulo 2)
+
+    def criar_atualizacao(self, tema_id, titulo, conteudo, url, autor_id):
+        atualizacao_id = len(self.atualizacoes) + 1
+        self.atualizacoes[atualizacao_id] = {
+            "id": atualizacao_id,
+            "tema_id": tema_id,
+            "titulo": titulo,
+            "conteudo": conteudo,
+            "url": url,
+            "autor_id": autor_id,
+            "publicado_em": datetime.now(timezone.utc).isoformat(),
+        }
+        return self.obter_atualizacao(atualizacao_id)
+
+    def _completar_atualizacao(self, a):
+        envios = [e for e in self.envios if e["atualizacao_id"] == a["id"]]
+        autor = self.usuarios.get(a["autor_id"])
+        return {
+            **a,
+            "tema": next(t["nome"] for t in TEMAS if t["id"] == a["tema_id"]),
+            "autor": autor["nome"] if autor else None,
+            "envios": {s: sum(1 for e in envios if e["status"] == s) for s in ("pendente", "enviado", "erro")},
+        }
+
+    def listar_atualizacoes(self, tema_id=None):
+        return [self._completar_atualizacao(a) for a in self.atualizacoes.values() if not tema_id or a["tema_id"] == tema_id]
+
+    def obter_atualizacao(self, atualizacao_id):
+        a = self.atualizacoes.get(atualizacao_id)
+        return self._completar_atualizacao(a) if a else None
+
+    def excluir_atualizacao(self, atualizacao_id):
+        return self.atualizacoes.pop(atualizacao_id, None) is not None
+
+    def listar_inscricoes_ativas(self, tema_id):
+        return [{"id": i["id"], "telefone": i["telefone"]} for i in self.inscricoes.values() if i["tema_id"] == tema_id]
+
+    def criar_envios(self, atualizacao_id, inscricoes_ids):
+        self.envios += [{"atualizacao_id": atualizacao_id, "inscricao_id": i, "status": "pendente"} for i in inscricoes_ids]
+
+    def listar_envios(self, atualizacao_id, status=None):
+        telefones = {i["id"]: i["telefone"] for i in self.inscricoes.values()}
+        return [
+            {"inscricao_id": e["inscricao_id"], "status": e["status"], "telefone": telefones[e["inscricao_id"]]}
+            for e in self.envios
+            if e["atualizacao_id"] == atualizacao_id and (not status or e["status"] == status)
+        ]
+
+    def registrar_envio(self, atualizacao_id, inscricao_id, status):
+        for e in self.envios:
+            if e["atualizacao_id"] == atualizacao_id and e["inscricao_id"] == inscricao_id:
+                e["status"] = status
+
+    def atualizacoes_do_usuario(self, usuario_id, limite=20):
+        temas = {i["tema_id"] for i in self.listar_inscricoes(usuario_id)}
+        return [a for a in self.listar_atualizacoes() if a["tema_id"] in temas][:limite]
+
+    # Histórico, dashboard e relatórios
+
+    def registrar_operacao(self, usuario, acao, entidade, entidade_id, descricao):
+        self.historico.append(
+            {
+                "id": len(self.historico) + 1,
+                "usuario_id": usuario["id"] if usuario else None,
+                "usuario_nome": usuario["nome"] if usuario else None,
+                "acao": acao,
+                "entidade": entidade,
+                "entidade_id": str(entidade_id),
+                "descricao": descricao,
+                "criado_em": datetime.now(timezone.utc).isoformat(),
+            }
+        )
+
+    def listar_historico(self, inicio=None, fim=None, acao=None, entidade=None, busca=None, limite=500):
+        return [
+            h
+            for h in reversed(self.historico)
+            if (not acao or h["acao"] == acao)
+            and (not entidade or h["entidade"] == entidade)
+            and (not busca or busca.lower() in (h["descricao"] + (h["usuario_nome"] or "")).lower())
+            and (not inicio or h["criado_em"] >= inicio)
+            and (not fim or h["criado_em"] < fim)
+        ][:limite]
+
+    def perguntas_no_periodo(self, inicio=None, fim=None, encontrou=None, busca=None, tema_id=None, limite=1000):
+        resultado = []
+        for p in self.perguntas.values():
+            criado_em = p.get("criado_em") or datetime.now(timezone.utc).isoformat()
+            temas = sorted({t["tema"] for t in TRECHOS if t["id"] in p["trechos_ids"]})
+            if inicio and criado_em < inicio or fim and criado_em >= fim:
+                continue
+            if encontrou is not None and p["encontrou"] != encontrou:
+                continue
+            if busca and busca.lower() not in p["texto"].lower():
+                continue
+            if tema_id and next(t["nome"] for t in TEMAS if t["id"] == tema_id) not in temas:
+                continue
+            resultado.append({"id": p["id"], "texto": p["texto"], "encontrou": p["encontrou"], "criado_em": criado_em, "temas": temas})
+        return resultado
+
+    def solicitacoes_no_periodo(self, inicio=None, fim=None):
+        return [{"status": s["status"], "criado_em": datetime.now(timezone.utc).isoformat()} for s in self.solicitacoes.values()]
+
+    def resumo_inscricoes(self):
+        return [{"tema_id": i["tema_id"], "temas": {"nome": i["tema"]}} for i in self.inscricoes.values()]
+
+
 class IAFalsa:
     def __init__(self):
         self.resultado = {"encontrou": True, "resposta": "Você tem direito a 30 dias.", "trechos_usados": [10, 99]}
@@ -261,6 +373,7 @@ def falsos():
     app.dependency_overrides[obter_repositorio] = lambda: repositorio
     app.dependency_overrides[obter_ia] = lambda: ia
     app.dependency_overrides[obter_whatsapp] = lambda: whatsapp
+    app.dependency_overrides[whatsapp_opcional] = lambda: whatsapp
     app.dependency_overrides[obter_configuracao] = lambda: Configuracao(
         supabase_url="https://exemplo.supabase.co",
         supabase_chave_servico="chave",
