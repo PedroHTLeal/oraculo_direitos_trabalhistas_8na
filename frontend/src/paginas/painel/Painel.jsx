@@ -7,7 +7,7 @@ const MENU = [
   { para: '/painel/base', rotulo: 'Base de conhecimento', perfis: ['administrador', 'curador'] },
   { para: '/painel/perguntas', rotulo: 'Perguntas recebidas', perfis: ['administrador', 'curador'] },
   { para: '/painel/usuarios', rotulo: 'Usuários', perfis: ['administrador'] },
-  { para: '/painel/temas', rotulo: 'Meus temas', perfis: ['administrador', 'curador', 'usuario'] },
+  { para: '/painel/temas', rotulo: 'Meus temas', perfis: ['usuario'] },
 ]
 
 // Só exibe o conteúdo para quem está logado e tem um dos perfis exigidos

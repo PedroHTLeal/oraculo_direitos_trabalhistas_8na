@@ -63,7 +63,14 @@ function App() {
               </RotaProtegida>
             }
           />
-          <Route path="temas" element={<MeusTemas />} />
+          <Route
+            path="temas"
+            element={
+              <RotaProtegida perfis={['usuario']}>
+                <MeusTemas />
+              </RotaProtegida>
+            }
+          />
         </Route>
         <Route path="*" element={<PaginaNaoEncontrada />} />
       </Routes>

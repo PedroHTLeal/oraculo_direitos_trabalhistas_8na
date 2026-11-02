@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { useAutenticacao } from '../autenticacao/contexto'
+import { paginaInicial, useAutenticacao } from '../autenticacao/contexto'
 import Logo from './Logo'
 
 // Topo da página pública: logotipo e acesso à conta
@@ -12,8 +12,8 @@ function MenuConta() {
         <Logo />
       </Link>
       {usuario ? (
-        <Link to="/painel" className="botao-secundario">
-          Olá, {usuario.nome.split(' ')[0]} · Painel
+        <Link to={paginaInicial(usuario)} className="botao-secundario">
+          Olá, {usuario.nome.split(' ')[0]} · {usuario.perfil === 'usuario' ? 'Meus temas' : 'Painel'}
         </Link>
       ) : (
         <Link to="/entrar" className="botao-secundario">

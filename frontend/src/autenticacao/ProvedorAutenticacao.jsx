@@ -37,8 +37,8 @@ function ProvedorAutenticacao({ children }) {
       usuario,
       carregando,
       aviso,
-      entrar: (email, senha) => abrirSessao(api.entrar(email, senha)),
-      cadastrar: (nome, email, senha) => abrirSessao(api.cadastrar(nome, email, senha)),
+      entrar: (identificador, senha) => abrirSessao(api.entrar(identificador, senha)),
+      cadastrar: (dados) => abrirSessao(api.cadastrar(dados)),
       sair: async () => {
         await api.sair().catch(() => {})
         encerrar()

@@ -567,3 +567,49 @@ a.botao-principal {
 .modal form .consentimento {
   margin: 0;
 }
+
+/* Janela "Saiba mais": abas de conta e destino do envio */
+
+.modal {
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
+}
+
+.modal .cartao-formulario {
+  padding: 0;
+  border: none;
+  box-shadow: none;
+}
+
+.abas {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+  padding: 0.25rem;
+  border-radius: 12px;
+  background: var(--cor-fundo-suave);
+}
+
+.abas button {
+  flex: 1;
+  min-height: 44px;
+  border: none;
+  border-radius: 10px;
+  background: none;
+  color: var(--cor-texto-suave);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.abas button[aria-selected='true'] {
+  background: var(--cor-fundo);
+  color: var(--cor-marinho);
+  box-shadow: 0 2px 6px rgba(3, 12, 44, 0.08);
+}
+
+.destino-envio {
+  margin: 0 0 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  background: var(--cor-marinho-claro);
+}

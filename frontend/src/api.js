@@ -71,10 +71,11 @@ export const enviarPergunta = (texto) =>
 
 export const buscarInstrucoesWhatsApp = () => requisitar('/api/whatsapp')
 
-export const pedirSaibaMais = (perguntaId, telefone, consentimento) =>
+// O conteúdo vai para o WhatsApp da conta de quem está logado
+export const pedirSaibaMais = (perguntaId) =>
   requisitar('/api/saiba-mais', {
     metodo: 'POST',
-    corpo: { pergunta_id: perguntaId, telefone, consentimento },
+    corpo: { pergunta_id: perguntaId },
     mensagemPadrao: 'Não foi possível registrar seu pedido agora.',
   })
 
@@ -82,10 +83,12 @@ export const consultarPedido = (id) => requisitar(`/api/saiba-mais/${id}`)
 
 // Autenticação
 
-export const entrar = (email, senha) => requisitar('/api/auth/login', { metodo: 'POST', corpo: { email, senha } })
+// Identificador: telefone (usuários) ou e-mail (equipe)
+export const entrar = (identificador, senha) =>
+  requisitar('/api/auth/login', { metodo: 'POST', corpo: { identificador, senha } })
 
-export const cadastrar = (nome, email, senha) =>
-  requisitar('/api/auth/cadastro', { metodo: 'POST', corpo: { nome, email, senha } })
+export const cadastrar = ({ nome, telefone, senha, consentimento }) =>
+  requisitar('/api/auth/cadastro', { metodo: 'POST', corpo: { nome, telefone, senha, consentimento } })
 
 export const sair = () => requisitar('/api/auth/sair', { metodo: 'POST' })
 
@@ -124,7 +127,6 @@ export const excluirUsuario = (id) => requisitar(`/api/usuarios/${id}`, { metodo
 
 export const listarInscricoes = () => requisitar('/api/inscricoes')
 
-export const criarInscricao = (temaId, telefone, consentimento) =>
-  requisitar('/api/inscricoes', { metodo: 'POST', corpo: { tema_id: temaId, telefone, consentimento } })
+export const criarInscricao = (temaId) => requisitar('/api/inscricoes', { metodo: 'POST', corpo: { tema_id: temaId } })
 
 export const excluirInscricao = (id) => requisitar(`/api/inscricoes/${id}`, { metodo: 'DELETE' })

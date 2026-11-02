@@ -1,22 +1,21 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { criarInscricao, excluirInscricao, listarInscricoes, listarTemas } from '../../api'
+import { telefoneLegivel, useAutenticacao } from '../../autenticacao/contexto'
 import Campo from '../../components/Campo'
-import { formatarTelefone } from '../../telefone'
 import { regras, validar } from '../../validacao'
 
 const ESQUEMA = {
   tema_id: [regras.obrigatorio('tema')],
-  telefone: [regras.obrigatorio('telefone'), regras.telefone()],
-  consentimento: [(valor) => (valor ? null : 'É preciso autorizar o envio de atualizações pelo WhatsApp.')],
 }
 
 // Acompanhamento de temas (UC06, RF12)
 function MeusTemas() {
+  const { usuario } = useAutenticacao()
   const boasVindas = useLocation().state?.boasVindas
   const [temas, setTemas] = useState([])
   const [inscricoes, setInscricoes] = useState(null)
-  const [dados, setDados] = useState({ tema_id: '', telefone: '', consentimento: false })
+  const [dados, setDados] = useState({ tema_id: '' })
   const [erros, setErros] = useState({})
   const [erroGeral, setErroGeral] = useState(null)
   const [mensagem, setMensagem] = useState(boasVindas ? 'Conta criada! Escolha abaixo os temas que quer acompanhar.' : null)
@@ -40,9 +39,9 @@ function MeusTemas() {
 
     setSalvando(true)
     try {
-      const nova = await criarInscricao(Number(dados.tema_id), dados.telefone, dados.consentimento)
+      const nova = await criarInscricao(Number(dados.tema_id))
       setInscricoes([...inscricoes, nova])
-      setDados({ ...dados, tema_id: '' })
+      setDados({ tema_id: '' })
       setMensagem(`Pronto! Você vai receber as novidades sobre ${nova.tema}.`)
     } catch (falha) {
       setErroGeral(falha.message)
@@ -66,7 +65,10 @@ function MeusTemas() {
   return (
     <section>
       <h1>Meus temas</h1>
-      <p className="subtitulo">Escolha os assuntos sobre os quais quer receber novidades no seu WhatsApp.</p>
+      <p className="subtitulo">
+        Escolha os assuntos sobre os quais quer receber novidades. Elas chegam no WhatsApp{' '}
+        <strong>{telefoneLegivel(usuario?.telefone)}</strong>.
+      </p>
 
       {mensagem && (
         <p className="alerta alerta-sucesso" role="status">
@@ -85,7 +87,7 @@ function MeusTemas() {
           <select
             id="tema"
             value={dados.tema_id}
-            onChange={(evento) => setDados({ ...dados, tema_id: evento.target.value })}
+            onChange={(evento) => setDados({ tema_id: evento.target.value })}
             aria-invalid={Boolean(erros.tema_id)}
           >
             <option value="">Escolha um tema</option>
@@ -97,29 +99,6 @@ function MeusTemas() {
             ))}
           </select>
         </Campo>
-        <Campo
-          id="telefone"
-          rotulo="WhatsApp com DDD"
-          type="tel"
-          inputMode="numeric"
-          placeholder="(51) 99999-8888"
-          value={dados.telefone}
-          onChange={(evento) => setDados({ ...dados, telefone: formatarTelefone(evento.target.value) })}
-          erro={erros.telefone}
-        />
-        <label className={erros.consentimento ? 'consentimento com-erro' : 'consentimento'}>
-          <input
-            type="checkbox"
-            checked={dados.consentimento}
-            onChange={(evento) => setDados({ ...dados, consentimento: evento.target.checked })}
-          />
-          <span>Autorizo o uso do meu telefone apenas para receber atualizações deste tema (LGPD).</span>
-        </label>
-        {erros.consentimento && (
-          <p className="campo-erro" role="alert">
-            {erros.consentimento}
-          </p>
-        )}
         <button type="submit" className="botao-principal botao-compacto" disabled={salvando}>
           {salvando ? 'Salvando...' : 'Acompanhar tema'}
         </button>
@@ -135,10 +114,7 @@ function MeusTemas() {
         <ul className="lista-inscricoes">
           {inscricoes.map((inscricao) => (
             <li key={inscricao.id}>
-              <div>
-                <strong>{inscricao.tema}</strong>
-                <span className="texto-apoio"> · {inscricao.telefone}</span>
-              </div>
+              <strong>{inscricao.tema}</strong>
               <button type="button" className="botao-texto-perigo" onClick={() => cancelar(inscricao)}>
                 Deixar de acompanhar
               </button>
