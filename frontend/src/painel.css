@@ -905,7 +905,101 @@ a.botao-principal {
   margin-left: 0;
 }
 
+/* Convite "Quer saber mais sobre o assunto?" abaixo da resposta */
+
+.saiba-mais {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+  margin-top: 1.5rem;
+  padding: 1rem 1.25rem;
+  border-radius: var(--raio);
+  background: var(--cor-marinho-claro);
+}
+
+.saiba-mais p {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.saiba-mais .botao-saiba-mais {
+  margin-top: 0;
+  min-width: 7rem;
+  justify-content: center;
+}
+
+.vitrine-resposta .saiba-mais {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.passos {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin: 0 0 1rem;
+  padding-left: 1.25rem;
+}
+
+.passos li::marker {
+  color: var(--cor-marinho);
+  font-weight: 800;
+}
+
+p.modal-aviso {
+  margin: 0 0 1rem;
+}
+
 .novidade-texto {
   margin: 0 0 0.4rem;
   white-space: pre-line;
+}
+
+/* Símbolo da órbita no topo da resposta */
+
+.resposta-topo {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 0.75rem;
+}
+
+.resposta-topo .chamada {
+  margin: 0;
+}
+
+.resposta-simbolo {
+  position: relative;
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: var(--cor-destaque);
+  color: var(--cor-marinho);
+  box-shadow: 0 0 30px rgba(232, 178, 15, 0.35);
+}
+
+.resposta-simbolo svg {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.anel-mini {
+  position: absolute;
+  inset: -0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-top-color: var(--cor-destaque);
+  border-radius: 50%;
+  animation: girar 8s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anel-mini {
+    animation: none;
+  }
 }

@@ -18,19 +18,25 @@ function Orbita({ carregando }) {
       </div>
 
       <span className="orbita-nucleo">
-        <svg viewBox="0 0 48 48">
-          {/* Balança da justiça */}
-          <path
-            d="M24 9v29M15 38h18M11 15h26M24 9l0 6M11 15l-6 12a6 6 0 0 0 12 0zM37 15l-6 12a6 6 0 0 0 12 0z"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.6"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+        <Balanca />
       </span>
     </div>
+  )
+}
+
+// Balança da justiça, símbolo do Oráculo
+function Balanca() {
+  return (
+    <svg viewBox="0 0 48 48" aria-hidden="true">
+      <path
+        d="M24 9v29M15 38h18M11 15h26M24 9l0 6M11 15l-6 12a6 6 0 0 0 12 0zM37 15l-6 12a6 6 0 0 0 12 0z"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   )
 }
 
@@ -41,7 +47,14 @@ function Vitrine({ resposta, carregando, aoSaberMais }) {
     return (
       <aside className="vitrine com-resposta" aria-label="Resposta">
         <div className="vitrine-resposta" aria-live="polite">
-          <p className="chamada">{resposta.encontrou ? 'Resposta' : 'Não encontrei'}</p>
+          <div className="resposta-topo">
+            {/* O símbolo da órbita acompanha a resposta, mantendo a identidade do painel */}
+            <span className="resposta-simbolo">
+              <span className="anel-mini" />
+              <Balanca />
+            </span>
+            <p className="chamada">{resposta.encontrou ? 'Resposta' : 'Não encontrei'}</p>
+          </div>
           <ConteudoResposta dados={resposta} aoSaberMais={aoSaberMais} />
         </div>
       </aside>

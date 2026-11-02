@@ -1,4 +1,4 @@
-// Pergunta, resposta, fontes e botão "Saiba mais"; usado no painel azul e no celular
+// Pergunta, resposta, fontes e o convite "Quer saber mais?"; usado no painel azul e no celular
 function ConteudoResposta({ dados, aoSaberMais }) {
   return (
     <>
@@ -31,9 +31,12 @@ function ConteudoResposta({ dados, aoSaberMais }) {
       )}
 
       {dados.encontrou && dados.id && (
-        <button type="button" className="botao-saiba-mais" onClick={aoSaberMais}>
-          Saiba mais pelo WhatsApp
-        </button>
+        <div className="saiba-mais">
+          <p>Quer saber mais sobre o assunto?</p>
+          <button type="button" className="botao-saiba-mais" onClick={aoSaberMais}>
+            Sim
+          </button>
+        </div>
       )}
     </>
   )

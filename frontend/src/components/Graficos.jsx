@@ -8,7 +8,9 @@ function useDica() {
   const [dica, setDica] = useState(null)
   const mostrar = (texto) => (evento) => {
     const caixa = evento.currentTarget.closest('.grafico').getBoundingClientRect()
-    const alvo = evento.currentTarget.getBoundingClientRect()
+    // A dica fica sobre o topo da barra (e não da coluna inteira), para não cobrir a legenda
+    const barra = evento.currentTarget.querySelector('.coluna-pilha') || evento.currentTarget
+    const alvo = barra.getBoundingClientRect()
     setDica({ texto, x: alvo.left - caixa.left + alvo.width / 2, y: alvo.top - caixa.top })
   }
   return { dica, mostrar, esconder: () => setDica(null) }

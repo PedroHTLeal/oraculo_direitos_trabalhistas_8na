@@ -11,12 +11,14 @@ function linkWhatsApp(numero, codigo) {
   return `https://wa.me/${numero.replace(/\D/g, '')}?text=${encodeURIComponent(codigo)}`
 }
 
-// "Saiba mais": envia resposta, 2 sites e 2 vídeos para o WhatsApp da conta.
-// Sem login, a própria janela oferece criar a conta ou entrar, sem perder a resposta.
+// "Quer saber mais?": envia resposta, 2 sites e 2 vídeos para o WhatsApp da conta.
+// Sem login, explica o que acontece e oferece criar a conta ou entrar, sem perder a resposta.
 function ModalSaibaMais({ perguntaId, aoFechar }) {
   const dialogo = useRef(null)
   const { usuario } = useAutenticacao()
   const [aba, setAba] = useState('cadastro')
+  // Antes do formulário, quem não tem conta vê o que acontece ao informar nome e WhatsApp
+  const [explicado, setExplicado] = useState(false)
   const [etapa, setEtapa] = useState('confirmar') // confirmar | enviando | enviado
   const [erro, setErro] = useState(null)
   const [sandbox, setSandbox] = useState(null)
@@ -76,15 +78,49 @@ function ModalSaibaMais({ perguntaId, aoFechar }) {
       ) : (
         <div className="modal-conteudo">
           <p className="chamada">Saiba mais</p>
-          <h2 id="titulo-modal">Receba mais conteúdo no seu WhatsApp</h2>
-          <p className="modal-texto">
-            Vamos enviar a resposta junto com <strong>2 sites</strong> e <strong>2 vídeos do YouTube</strong> que explicam o
-            assunto.
-          </p>
+          <h2 id="titulo-modal">Receba mais sobre o assunto no seu WhatsApp</h2>
 
-          {!usuario && (
+          {!usuario && !explicado && (
             <>
-              <p className="modal-texto">Para isso, crie sua conta com o WhatsApp ou entre, se já tiver uma.</p>
+              <p className="modal-texto">Veja o que acontece se você informar seu nome e seu WhatsApp:</p>
+              <ol className="passos">
+                <li>
+                  <strong>Criamos sua conta no Oráculo</strong> com seu nome, seu WhatsApp e uma senha que você escolhe, para
+                  entrar de novo depois.
+                </li>
+                <li>
+                  <strong>Enviamos no seu WhatsApp</strong> esta resposta, <strong>2 sites</strong> e{' '}
+                  <strong>2 vídeos do YouTube</strong> que explicam o assunto.
+                </li>
+                <li>
+                  <strong>Se quiser</strong>, você escolhe temas para acompanhar e recebe as novidades deles no WhatsApp.
+                </li>
+              </ol>
+              <p className="modal-aviso">
+                Seu telefone é usado <strong>somente</strong> para enviar os conteúdos do Oráculo, conforme a Lei Geral de
+                Proteção de Dados (LGPD). Nada é enviado sem a sua autorização.
+              </p>
+              <div className="acoes">
+                <button type="button" className="botao-secundario" onClick={fechar}>
+                  Agora não
+                </button>
+                <button type="button" className="botao-principal botao-compacto" onClick={() => setExplicado(true)}>
+                  Quero receber
+                </button>
+              </div>
+            </>
+          )}
+
+          {usuario && (
+            <p className="modal-texto">
+              Vamos enviar a resposta junto com <strong>2 sites</strong> e <strong>2 vídeos do YouTube</strong> que explicam
+              o assunto.
+            </p>
+          )}
+
+          {!usuario && explicado && (
+            <>
+              <p className="modal-texto">Informe seu nome e seu WhatsApp, ou entre se já tiver uma conta.</p>
               <div className="abas" role="tablist">
                 <button type="button" role="tab" aria-selected={aba === 'cadastro'} onClick={() => setAba('cadastro')}>
                   Criar conta
