@@ -1,6 +1,6 @@
 # Sprint 09 — Verificação completa e documentação
 
-**Situação:** Em andamento: testes com o banco real, a IA (Gemini) e o envio de e-mail reais concluídos; faltam refazer os prints das telas de conta · [← Voltar ao índice](../../README.md)
+**Situação:** Concluída: testes com o banco real, a IA (Gemini) e o envio de e-mail reais; prints refeitos em 03/11/2026 · [← Voltar ao índice](../../README.md)
 
 ## O que a Sprint pediu
 
@@ -10,11 +10,11 @@ Testes funcionais, correção de bugs, testes de validação, testes de navegaç
 
 | Tipo | Ferramenta | Resultado |
 | --- | --- | --- |
-| **Automatizados (backend)** | 97 testes com `pytest` (rodar `pytest` em `backend/`), com versões simuladas do banco, da IA e do e-mail | 97 de 97 passando |
-| **Funcionais, de validação e de navegação** | Roteiro [`capturar_evidencias.py`](../../ferramentas/capturar_evidencias.py), que usa o navegador Edge, o sistema rodando localmente e o **banco real** no Supabase. Cada passo verifica o que deve aparecer na tela e salva um print | 35 de 35 passos aprovados (02/11/2026) |
+| **Automatizados (backend)** | 88 testes com `pytest` (rodar `pytest` em `backend/`), com versões simuladas do banco, da IA e do e-mail | 88 de 88 passando |
+| **Funcionais, de validação e de navegação** | Roteiro [`capturar_evidencias.py`](../../ferramentas/capturar_evidencias.py), que usa o navegador Edge, o sistema rodando localmente e o **banco real** no Supabase. Cada passo verifica o que deve aparecer na tela e salva um print | 35 de 35 passos aprovados (03/11/2026) |
 | **Persistência** | O roteiro roda em duas fases; entre elas o sistema é encerrado e aberto de novo | Dados mantidos |
 
-## Casos de teste (sistema real, 02/11/2026)
+## Casos de teste (sistema real, 02 e 03/11/2026)
 
 | # | Caso de teste | Perfil | Resultado esperado | Resultado obtido | Evidência |
 | --- | --- | --- | --- | --- | --- |
@@ -60,7 +60,4 @@ Testes funcionais, correção de bugs, testes de validação, testes de navegaç
 
 | Pendência | Ação prevista |
 | --- | --- |
-| Refazer os prints das telas de conta (cadastro e login com e-mail) | Rodar de novo o roteiro [`capturar_evidencias.py`](../../ferramentas/capturar_evidencias.py) |
 | Mais assuntos com sites e vídeos escolhidos | A equipe envia os links das demais perguntas sugeridas |
-| Relatório de perguntas com dados | Gerado automaticamente depois que a IA estiver respondendo |
-| Diagramas técnicos (arquitetura, classes, MER e relacional) | Incluir no documento técnico ([Sprint 02](../sprint-02/README.md)) |

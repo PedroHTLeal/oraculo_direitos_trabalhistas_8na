@@ -1,6 +1,6 @@
 # Sprint 02 — Arquitetura, modelagem e protótipos
 
-**Situação:** Em andamento: banco e estrutura prontos; diagramas e documento técnico em elaboração · [← Voltar ao índice](../../README.md)
+**Situação:** Concluída · [← Voltar ao índice](../../README.md)
 
 ## O que a Sprint pediu
 
@@ -10,10 +10,10 @@ Transformar o planejamento em estrutura técnica: arquitetura do sistema, diagra
 
 | Item pedido | Entrega | Situação | Onde ver |
 | --- | --- | --- | --- |
-| Arquitetura do sistema | Frontend React → API FastAPI → Supabase (PostgreSQL), Google Gemini e envio de e-mails pelo Gmail | Implementada; diagrama em elaboração | [README principal](../../../README.md#como-funciona) |
-| Diagrama de classes | Classes de domínio e de serviço do backend | Em elaboração | — |
-| MER | Entidades: tema, trecho, pergunta, usuário, sessão, inscrição, atualização, envio, solicitação, material, histórico | Em elaboração | — |
-| Modelo relacional | 13 tabelas com chaves primárias e estrangeiras | Implementado no banco; diagrama em elaboração | [Scripts SQL](../../../supabase/) |
+| Arquitetura do sistema | Frontend React → API FastAPI → Supabase (PostgreSQL), Google Gemini e envio de e-mails pelo Gmail | Concluída | [Diagrama de arquitetura](diagramas.md#1-arquitetura-do-sistema) |
+| Diagrama de classes | Classes de serviço e rotas do backend | Concluído | [Diagrama de classes](diagramas.md#2-diagrama-de-classes) |
+| MER | Entidades: tema, trecho, pergunta, usuário, sessão, inscrição, atualização, envio, solicitação, material, histórico | Concluído | [MER](diagramas.md#3-modelo-entidade-relacionamento-mer) |
+| Modelo relacional | 14 tabelas com chaves primárias e estrangeiras | Concluído e implementado no banco | [Modelo relacional](diagramas.md#4-modelo-relacional) |
 | Protótipo das telas | Telas funcionais no próprio sistema (consulta, resposta, Saiba mais) | Concluído | [Identidade visual, seção 14](../sprint-01/relatorio.md#14-identidade-visual) |
 | Banco de dados criado | Supabase com a cartilha do TRT4 carregada (25 temas, 217 trechos) | Concluído | [supabase/](../../../supabase/) |
 | Projeto no GitHub | Estrutura `backend/`, `frontend/`, `supabase/` e `docs/` | Concluído | [Repositório](https://github.com/PedroHTLeal/oraculo_direitos_trabalhistas_8na) |
@@ -35,6 +35,6 @@ Transformar o planejamento em estrutura técnica: arquitetura do sistema, diagra
 - **Banco de dados:** foi escolhido o Supabase (PostgreSQL gerenciado e gratuito), com busca textual em português no lugar de um banco vetorial. A cartilha tem apenas 217 trechos, e a busca textual com sinônimos se mostrou suficiente e sem custo.
 - **Protótipos:** em vez de um protótipo no Figma, a equipe construiu as telas direto no sistema, que já funcionam como protótipo navegável.
 
-## Pendências
+## Documento técnico
 
-- Diagramas de arquitetura, de classes, MER e relacional, com explicação de cada um, no documento técnico desta Sprint.
+Os diagramas de arquitetura, de classes, MER e relacional, com a explicação de cada um, estão em [diagramas.md](diagramas.md).

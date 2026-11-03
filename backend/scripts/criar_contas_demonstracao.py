@@ -23,9 +23,9 @@ from app.seguranca import gerar_hash_senha  # noqa: E402
 ARQUIVO_ENV = Path(__file__).resolve().parent.parent / ".env"
 
 CONTAS = [
-    ("administrador", "Ana Administradora", "admin.demo@oraculo.com.br"),
-    ("curador", "Carlos Curador", "curador.demo@oraculo.com.br"),
-    ("usuario", "Maria Trabalhadora", "usuario.demo@oraculo.com.br"),
+    ("administrador", "Ana Administradora", "admin.demo@example.com"),
+    ("curador", "Carlos Curador", "curador.demo@example.com"),
+    ("usuario", "Maria Trabalhadora", "usuario.demo@example.com"),
 ]
 
 

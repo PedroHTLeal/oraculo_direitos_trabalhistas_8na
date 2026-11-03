@@ -78,7 +78,7 @@ def criar(r):
     p.get_by_role("button", name="Entrar", exact=True).last.click()
     expect(p.get_by_text("Preencha o campo e-mail.")).to_be_visible()
     r.print("02-login-validacao")
-    p.fill("#entrar-email", "ninguem@oraculo.com.br")
+    p.fill("#entrar-email", "ninguem@example.com")
     p.fill("#entrar-senha", "senha-errada-123")
     p.get_by_role("button", name="Entrar", exact=True).last.click()
     expect(p.get_by_text("E-mail ou senha incorretos.")).to_be_visible()
@@ -101,7 +101,7 @@ def criar(r):
     p.get_by_role("button", name="Criar conta").click()
     expect(p.get_by_text("Já existe um usuário com este e-mail.", exact=False)).to_be_visible()
     r.print("05-cadastro-email-repetido")
-    email_novo = f"joao.teste{random.randint(1000, 9999)}@oraculo.com.br"
+    email_novo = f"joao.teste{random.randint(1000, 9999)}@example.com"
     p.fill("#cadastro-email", email_novo)
     p.get_by_role("button", name="Criar conta").click()
     p.wait_for_url("**/painel/temas")

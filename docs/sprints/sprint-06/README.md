@@ -1,6 +1,6 @@
 # Sprint 06 — Módulo 3, integração e melhorias de interface
 
-**Situação:** Em andamento: módulo 3 e integração prontos no código; aguarda as observações da Pré-Banca e a chave do Gemini · [← Voltar ao índice](../../README.md)
+**Situação:** Em andamento: módulo 3 e integração prontos e testados com a IA real; aguarda as observações da Pré-Banca · [← Voltar ao índice](../../README.md)
 
 ## O que a Sprint pediu
 
@@ -24,7 +24,7 @@ Correções apontadas na Pré-Banca, terceiro módulo implementado, integração
 | Item pedido | Situação |
 | --- | --- |
 | Correções da Pré-Banca | **Pendente:** aguardando as observações recebidas pela equipe |
-| Terceiro módulo | Implementado; a geração de respostas aguarda a chave gratuita do Gemini no `backend/.env` |
+| Terceiro módulo | Implementado e testado com a IA real (Google Gemini) e o envio real de e-mail |
 | Integração entre módulos | Concluída (tabela acima) |
 | Melhorias na interface | Abaixo da resposta, no painel azul (com o símbolo da órbita), o convite **"Quer saber mais sobre o assunto?"** com o botão **Sim**; ao clicar, abre a janela **Saber mais**, que explica o que será enviado e pede só nome, e-mail e a autorização (LGPD); menu por perfil |
 | Ajustes de navegação | Cada perfil começa pela sua área (equipe → Dashboard, usuário → Meus temas); depois de sair, a próxima pessoa não é mais levada à página da anterior (bug B06); "Meus temas" só aparece para quem tem conta de usuário |

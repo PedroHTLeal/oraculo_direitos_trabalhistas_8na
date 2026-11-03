@@ -1,6 +1,6 @@
 # Sprint 05 — Módulo 2: acompanhamento de temas
 
-**Situação:** Concluída e testada com o banco real; o envio real por e-mail aguarda a senha de app do Gmail · [← Voltar ao índice](../../README.md)
+**Situação:** Concluída e testada com o banco real e com o envio real de e-mail · [← Voltar ao índice](../../README.md)
 
 ## O que a Sprint pediu
 
@@ -17,7 +17,7 @@ Segundo módulo completo, integrado ao banco de dados, com regras de negócio at
 | Segundo módulo | Conta com e-mail, temas acompanhados e atualizações | Telas **Crie sua conta**, **Meus temas** e **Atualizações** |
 | Integração com o banco | Tabelas `usuarios`, `inscricoes_tema`, `atualizacoes` e `envios_atualizacao` | [`supabase/003_modelo_relacional.sql`](../../../supabase/003_modelo_relacional.sql) e [`006_contato_por_email.sql`](../../../supabase/006_contato_por_email.sql) |
 | Regras de negócio | Ver tabela abaixo | [`rotas/atualizacoes.py`](../../../backend/app/rotas/atualizacoes.py) |
-| Testes | 97 testes automatizados no backend (`pytest`) | [`backend/tests/`](../../../backend/tests/) |
+| Testes | Testes automatizados no backend (`pytest`), 88 no total na versão atual | [`backend/tests/`](../../../backend/tests/) |
 | Correção de bugs | Ver tabela de bugs abaixo | — |
 
 ### Regras de negócio implementadas ou atualizadas

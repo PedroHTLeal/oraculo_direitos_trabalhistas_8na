@@ -13,14 +13,14 @@ Esta pasta reúne tudo o que foi pedido e entregue em cada Sprint das disciplina
 | Sprint | Tema | Situação | Principais entregas |
 | --- | --- | --- | --- |
 | [01](sprints/sprint-01/README.md) | Planejamento inicial | Concluída | Requisitos, casos de uso, backlog, cronograma · [relatório completo](sprints/sprint-01/relatorio.md) |
-| [02](sprints/sprint-02/README.md) | Arquitetura, modelagem e protótipos | Em andamento | Banco no Supabase com a cartilha do TRT4, modelo relacional, telas e identidade visual |
+| [02](sprints/sprint-02/README.md) | Arquitetura, modelagem e protótipos | Concluída | Banco no Supabase com a cartilha do TRT4, diagramas de arquitetura, classes, MER e relacional, telas e identidade visual |
 | [03](sprints/sprint-03/README.md) | Base funcional | Concluída | Login, cadastro, perfis, CRUD da base de conhecimento e deploy local |
 | [04](sprints/sprint-04/README.md) | Módulo 1: gestão da base de conhecimento | Concluída | Persistência (testada reiniciando o sistema), validações, mensagens de erro e navegação |
-| [05](sprints/sprint-05/README.md) | Módulo 2: acompanhamento de temas | Concluída (envio real aguarda a senha de app do Gmail) | Conta com e-mail, temas acompanhados, atualizações por e-mail, regras de negócio e bugs corrigidos |
+| [05](sprints/sprint-05/README.md) | Módulo 2: acompanhamento de temas | Concluída | Conta com e-mail, temas acompanhados, atualizações por e-mail, regras de negócio e bugs corrigidos |
 | [06](sprints/sprint-06/README.md) | Módulo 3 e integração | Em andamento | Consulta com IA (RAG), integração entre os módulos e ajustes de interface |
 | [07](sprints/sprint-07/README.md) | Dashboard e relatórios | Concluída | Dashboard, relatórios, pesquisas, filtros, CSV e histórico de operações |
 | [08](sprints/sprint-08/README.md) | Consolidação | Em andamento | Matriz de permissões por perfil e situação dos requisitos |
-| [09](sprints/sprint-09/README.md) | Verificação e documentação | Em andamento | 97 testes automatizados, 24 casos de teste no sistema real, 6 bugs corrigidos |
+| [09](sprints/sprint-09/README.md) | Verificação e documentação | Concluída | 88 testes automatizados, 26 casos de teste no sistema real, 6 bugs corrigidos |
 
 ## Os três módulos do sistema
 
