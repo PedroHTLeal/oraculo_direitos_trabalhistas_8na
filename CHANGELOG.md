@@ -4,6 +4,21 @@ Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o
 
 ---
 
+## 0.10.1 — Ajustes de usabilidade na consulta
+
+**Data:** 03/11/2026 · **Branch:** `main`
+
+**Objetivo:** deixar a consulta mais direta, a partir da revisão da equipe com o sistema publicado.
+
+**O que foi feito:**
+- O botão "Entrar" saiu do topo da tela de consulta; a equipe entra pelo endereço `/entrar`.
+- As fontes mostram cada seção da cartilha uma vez, só com o link "Ver na cartilha", sem repetir o texto da resposta.
+- O botão "Receber por e-mail" só fica disponível com nome, e-mail e a autorização da LGPD.
+
+**Como agrega:** menos distrações e menos repetição para quem consulta, e consentimento mais claro (RNF03). Registrado na [Sprint 08](docs/sprints/sprint-08/README.md).
+
+---
+
 ## 0.10.0 — Pronto para publicar na Vercel
 
 **Data:** 03/11/2026 · **Branch:** `main`

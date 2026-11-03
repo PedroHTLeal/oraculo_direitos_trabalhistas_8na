@@ -256,13 +256,6 @@ main {
   list-style: none;
 }
 
-.fontes blockquote {
-  margin: 0.25rem 0;
-  padding-left: 0.75rem;
-  border-left: 3px solid var(--cor-marinho);
-  color: var(--cor-texto-suave);
-}
-
 .fontes a {
   color: var(--cor-marinho);
   font-weight: 600;
@@ -530,13 +523,9 @@ main {
   margin-top: 0.6rem;
 }
 
-.fontes summary {
-  cursor: pointer;
+.fonte-titulo {
+  display: block;
   font-weight: 600;
-}
-
-.fontes details[open] summary {
-  margin-bottom: 0.25rem;
 }
 
 .fontes a {
@@ -600,13 +589,6 @@ main {
 
 .vitrine-resposta .fontes h3 {
   color: rgba(255, 255, 255, 0.6);
-}
-
-.vitrine-resposta .fontes blockquote {
-  border-left-color: var(--cor-destaque);
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 0.9rem;
-  white-space: pre-line;
 }
 
 .vitrine-resposta .fontes a {
@@ -727,6 +709,12 @@ main {
   height: 1.2rem;
   margin-top: 0.1rem;
   accent-color: var(--cor-marinho);
+}
+
+.modal-pendente {
+  display: block;
+  margin-top: 0.6rem;
+  text-align: center;
 }
 
 .modal .erro {

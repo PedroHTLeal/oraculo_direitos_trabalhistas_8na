@@ -46,6 +46,14 @@ As permissões são verificadas **no servidor**, em cada rota: o menu só escond
 | RF12 e RF13 (acompanhar temas e receber atualizações) | Implementados (Módulo 2) |
 | RF14 (área administrativa) | Implementado (painel com perfis) |
 
+## Melhorias de usabilidade (revisão da equipe, 03/11/2026)
+
+| Antes | Depois | Por quê |
+| --- | --- | --- |
+| Botão **Entrar** no topo da tela de consulta | Removido da consulta; a equipe entra pelo endereço `/entrar` | Quem consulta não precisa de conta: pergunta e, se quiser, usa o "Saber mais" |
+| Cada fonte abria o mesmo texto que já estava na resposta | Cada seção da cartilha aparece uma vez, só com o link **Ver na cartilha** | Evita repetição e leva direto ao conteúdo original |
+| O botão **Receber por e-mail** ficava ativo com o formulário vazio | Só fica disponível com nome, e-mail válido e a autorização da LGPD marcada, com um aviso do que falta | Deixa claro o que precisa ser preenchido e reforça o consentimento (RNF03) |
+
 ## Pendências
 
 - Revisão de usabilidade com o público-alvo e registro das melhorias.

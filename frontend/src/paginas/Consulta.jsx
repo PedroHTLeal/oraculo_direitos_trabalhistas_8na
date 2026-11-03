@@ -40,7 +40,7 @@ function Consulta() {
   return (
     <div className="pagina">
       <div className="painel">
-        <MenuConta />
+        <MenuConta mostrarEntrar={false} />
 
         <main>
           <div className="apresentacao">

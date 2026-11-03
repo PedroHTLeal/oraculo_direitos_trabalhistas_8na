@@ -64,6 +64,7 @@ function ModalSaibaMais({ perguntaId, aoFechar }) {
   }
 
   const fechar = () => dialogo.current.close()
+  const completo = Object.keys(validar(dados, ESQUEMA)).length === 0
 
   return (
     <dialog ref={dialogo} className="modal" onClose={aoFechar} aria-labelledby="titulo-modal">
@@ -126,9 +127,19 @@ function ModalSaibaMais({ perguntaId, aoFechar }) {
               {erro}
             </p>
           )}
-          <button type="submit" className="botao-principal" disabled={etapa === 'enviando'}>
+          <button
+            type="submit"
+            className="botao-principal"
+            disabled={!completo || etapa === 'enviando'}
+            aria-describedby={completo ? undefined : 'saiba-pendente'}
+          >
             {etapa === 'enviando' ? 'Buscando conteúdos e enviando...' : 'Receber por e-mail'}
           </button>
+          {!completo && (
+            <p id="saiba-pendente" className="campo-ajuda modal-pendente">
+              Preencha o nome, o e-mail e marque a autorização para liberar o envio.
+            </p>
+          )}
         </form>
       )}
     </dialog>
