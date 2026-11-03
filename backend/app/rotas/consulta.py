@@ -12,6 +12,7 @@ from app.esquemas import Fonte, PedidoSaibaMais, Pergunta, Resposta, SituacaoPed
 from app.historico import registrar
 from app.ia import RecusaDaIA
 from app.materiais import montar_materiais
+from app.segundo_plano import agendar
 from app.sugestoes import SUGESTOES
 from app.envio_email import montar_email_conteudo
 
@@ -89,8 +90,8 @@ def saiba_mais(
     descricao = f'Pediu por e-mail mais conteúdo sobre "{pergunta["texto"][:80]}"'
     registrar(repositorio, {"id": None, "nome": pedido.nome}, "pedir_conteudo", "pergunta", pedido.pergunta_id, descricao)
     # A pesquisa de links e vídeos leva alguns segundos: roda depois de responder
-    tarefas.add_task(enviar_conteudo_complementar, solicitacao_id, pergunta, pedido, repositorio, enviador)
-    return SituacaoPedido(id=solicitacao_id, status="pendente")
+    agendar(tarefas, enviar_conteudo_complementar, solicitacao_id, pergunta, pedido, repositorio, enviador)
+    return SituacaoPedido(id=solicitacao_id, status=repositorio.obter_solicitacao(solicitacao_id)["status"])
 
 
 @rotas.get("/saiba-mais/{solicitacao_id}", response_model=SituacaoPedido)

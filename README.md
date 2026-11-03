@@ -81,16 +81,19 @@ Fluxo da consulta:
 ```
 backend/     API em Python (FastAPI): rotas, regras de negócio, testes e scripts
 frontend/    Interface web em React (consulta pública e painel)
-supabase/    Estrutura do banco de dados, em scripts numerados (001 a 005)
+supabase/    Estrutura do banco de dados, em scripts numerados (001 a 007)
 docs/        Documentação: uma página por Sprint, guia de configuração e ferramentas
 iniciar.bat  Executa o sistema completo no Windows (iniciar.sh no Linux/macOS)
+api/         Entrada do backend na Vercel (publicação na internet), com vercel.json
 ```
 
 O histórico de cada versão enviada ao GitHub está em [CHANGELOG.md](CHANGELOG.md). Cada ajuste é um commit no branch `main`, com data, objetivo, o que foi feito e como agrega ao projeto.
 
 ## Como executar
 
-Pré-requisitos: Python 3.12+ e Node.js 20+, além das contas gratuitas no Supabase e no Google AI Studio (Gemini), além de uma conta do Gmail para enviar os e-mails. O passo a passo para criá-las, criar o banco e preencher o `backend/.env` está no [guia de configuração](docs/configuracao.md).
+Para publicar na internet de graça (endereço público para apresentar), siga o [guia de publicação na Vercel](docs/publicacao.md).
+
+Pré-requisitos: Python 3.12+ e Node.js 20+, contas gratuitas no Supabase e no Google AI Studio (Gemini) e uma conta do Gmail para enviar os e-mails. O passo a passo para criá-las, criar o banco e preencher o `backend/.env` está no [guia de configuração](docs/configuracao.md).
 
 **Execução completa (deploy local)**, na pasta do projeto:
 

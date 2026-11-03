@@ -4,6 +4,21 @@ Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o
 
 ---
 
+## 0.10.0 — Pronto para publicar na Vercel
+
+**Data:** 03/11/2026 · **Branch:** `main`
+
+**Objetivo:** permitir apresentar o Oráculo por um endereço público, sem custo.
+
+**O que foi feito:**
+- `vercel.json`, `api/index.py` e `requirements.txt` na raiz: a Vercel monta o site React e publica o backend FastAPI como função Python, na região de São Paulo.
+- Na Vercel, os envios de e-mail ("Saber mais" e novidades) acontecem dentro do próprio pedido, porque a função para logo depois de responder (`backend/app/segundo_plano.py`).
+- Guia passo a passo em [`docs/publicacao.md`](docs/publicacao.md), com a comparação com o GitHub Pages.
+
+**Como agrega:** atende à entrega (DevOps Tools) com o sistema acessível de qualquer lugar e atualizado automaticamente a cada envio ao GitHub.
+
+---
+
 ## 0.9.2 — E-mail com a identidade visual do Oráculo
 
 **Data:** 03/11/2026 · **Branch:** `main`

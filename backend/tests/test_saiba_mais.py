@@ -73,3 +73,14 @@ def test_falha_no_envio_marca_pedido_com_erro(client, falsos):
     solicitacao_id = client.post("/api/saiba-mais", json=pedido(perguntar(client))).json()["id"]
 
     assert client.get(f"/api/saiba-mais/{solicitacao_id}").json()["status"] == "erro"
+
+
+def test_na_vercel_envia_dentro_do_pedido(client, falsos, monkeypatch):
+    # Na Vercel não há processo depois da resposta: o pedido já volta como "enviado"
+    monkeypatch.setenv("VERCEL", "1")
+
+    resposta = client.post("/api/saiba-mais", json=pedido(perguntar(client)))
+
+    assert resposta.status_code == 202
+    assert resposta.json()["status"] == "enviado"
+    assert len(falsos[2].enviados) == 1

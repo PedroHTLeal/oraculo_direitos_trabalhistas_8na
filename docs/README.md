@@ -35,6 +35,7 @@ Esta pasta reúne tudo o que foi pedido e entregue em cada Sprint das disciplina
 | Documento | Conteúdo |
 | --- | --- |
 | [Guia de configuração](configuracao.md) | Como configurar o Supabase, o Google Gemini e o envio de e-mails pelo Gmail (passo a passo) |
+| [Guia de publicação](publicacao.md) | Como publicar o Oráculo na internet de graça pela Vercel (passo a passo) |
 | [Histórico de versões](../CHANGELOG.md) | Cada versão enviada ao GitHub: data, objetivo, o que mudou e como agrega |
 | [Scripts do banco](../supabase/) | Estrutura do banco, na ordem em que deve ser executada (001 a 005) |
 | [Evidências](evidencias/) | Prints e arquivos exportados nos testes com o sistema real |

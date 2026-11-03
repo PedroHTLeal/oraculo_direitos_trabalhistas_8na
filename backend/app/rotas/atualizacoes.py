@@ -13,6 +13,7 @@ from app.dependencias import equipe_de_conteudo, obter_email, obter_repositorio,
 from app.esquemas import Atualizacao, NovaAtualizacao
 from app.historico import registrar
 from app.rotas.base_conhecimento import validar_tema
+from app.segundo_plano import agendar
 from app.envio_email import montar_email_atualizacao
 
 logger = logging.getLogger("oraculo")
@@ -62,7 +63,7 @@ def publicar(
     inscricoes = repositorio.listar_inscricoes_ativas(dados.tema_id)
     repositorio.criar_envios(atualizacao["id"], [i["id"] for i in inscricoes])
     envios = [{"inscricao_id": i["id"], "email": i["email"]} for i in inscricoes]
-    tarefas.add_task(enviar_atualizacao, atualizacao, envios, repositorio, enviador)
+    agendar(tarefas, enviar_atualizacao, atualizacao, envios, repositorio, enviador)
 
     registrar(
         repositorio,
@@ -89,7 +90,7 @@ def reenviar(
     falhas = repositorio.listar_envios(atualizacao_id, status="erro")
     if not falhas:
         raise HTTPException(status_code=422, detail="Não há envios com erro para reenviar.")
-    tarefas.add_task(enviar_atualizacao, atualizacao, falhas, repositorio, enviador)
+    agendar(tarefas, enviar_atualizacao, atualizacao, falhas, repositorio, enviador)
     registrar(repositorio, usuario, "reenviar", "atualizacao", atualizacao_id, f'Reenviou "{atualizacao["titulo"]}" a {len(falhas)} inscrito(s)')
     return atualizacao
 

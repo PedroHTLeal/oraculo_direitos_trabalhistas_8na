@@ -1,0 +1,2 @@
+# Dependências do backend para a Vercel (a lista completa está em backend/requirements.txt)
+-r backend/requirements.txt
