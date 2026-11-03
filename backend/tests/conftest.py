@@ -31,6 +31,11 @@ TRECHOS = [
     },
 ]
 
+MATERIAIS = [
+    {"assunto": "Férias", "palavras_chave": ["ferias"], "tipo": "video", "titulo": "Entenda suas férias", "url": "https://www.youtube.com/watch?v=abc", "ordem": 1},
+    {"assunto": "Férias", "palavras_chave": ["ferias"], "tipo": "site", "titulo": "Férias - artigo", "url": "https://www.exemplo.com.br/ferias", "ordem": 1},
+]
+
 TEMAS = [
     {"id": 1, "nome": "Férias", "url": "https://www.trt4.jus.br/portais/trt4/ferias"},
     {"id": 2, "nome": "Contrato de Estágio", "url": "https://www.trt4.jus.br/portais/trt4/contrato-de-estagio"},
@@ -52,6 +57,7 @@ class RepositorioFalso:
         self.atualizacoes = {}
         self.envios = []
         self.historico = []
+        self.materiais = list(MATERIAIS)
         self.base = {
             1: {"id": 1, "tema_id": 1, "secao": "Visão geral", "ordem": 1, "texto": "Todo trabalhador tem direito a 30 dias de férias."},
             2: {"id": 2, "tema_id": 2, "secao": "Direitos do estagiário", "ordem": 1, "texto": "O estagiário tem direito a recesso remunerado."},
@@ -78,6 +84,9 @@ class RepositorioFalso:
 
     def obter_trechos(self, ids):
         return [t for t in TRECHOS if t["id"] in ids]
+
+    def listar_materiais(self):
+        return self.materiais
 
     def criar_solicitacao(self, pergunta_id, nome, email):
         solicitacao_id = f"s{len(self.solicitacoes) + 1}"
@@ -335,22 +344,11 @@ class IAFalsa:
     def __init__(self):
         self.resultado = {"encontrou": True, "resposta": "Você tem direito a 30 dias.", "trechos_usados": [10, 99]}
         self.recusar = False
-        self.materiais = {
-            "sites": [{"titulo": "Férias - gov.br", "url": "https://www.gov.br/ferias"}],
-            "videos": [{"titulo": "Entenda suas férias", "url": "https://www.youtube.com/watch?v=abc"}],
-        }
-        self.falhar_materiais = False
 
     def responder(self, pergunta, trechos):
         if self.recusar:
             raise RecusaDaIA("recusada")
         return self.resultado
-
-    def buscar_materiais(self, pergunta, tema):
-        if self.falhar_materiais:
-            raise RuntimeError("pesquisa indisponível")
-        self.tema_pesquisado = tema
-        return self.materiais
 
 
 class EmailFalso:

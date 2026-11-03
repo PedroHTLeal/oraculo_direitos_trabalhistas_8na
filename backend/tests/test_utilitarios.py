@@ -1,45 +1,7 @@
 import pytest
 
-from app.ia import eh_video_youtube, formatar_trechos, resolver_link, separar_materiais
+from app.ia import formatar_trechos
 from app.repositorio import diversificar
-
-
-@pytest.mark.parametrize(
-    "url, esperado",
-    [
-        ("https://www.youtube.com/watch?v=abc123", True),
-        ("https://youtu.be/abc123", True),
-        ("https://m.youtube.com/watch?v=abc123", True),
-        ("https://www.youtube.com/@canal", False),
-        ("https://www.youtube.com/results?search_query=ferias", False),
-        ("https://www.gov.br/trabalho", False),
-    ],
-)
-def test_identifica_videos_do_youtube(url, esperado):
-    assert eh_video_youtube(url) is esperado
-
-
-def test_separa_sites_e_videos_sem_repeticoes():
-    links = [
-        {"titulo": "Gov", "url": "https://www.gov.br/a"},
-        {"titulo": "Canal", "url": "https://www.youtube.com/@canal"},
-        {"titulo": "V1", "url": "https://www.youtube.com/watch?v=1"},
-        {"titulo": "Gov repetido", "url": "https://www.gov.br/a"},
-        {"titulo": "TST", "url": "https://www.tst.jus.br/b"},
-        {"titulo": "V1 repetido", "url": "https://www.youtube.com/watch?v=1"},
-        {"titulo": "V2", "url": "https://youtu.be/2"},
-        {"titulo": "MPT", "url": "https://www.mpt.mp.br/c"},
-        {"titulo": "V3", "url": "https://youtu.be/3"},
-    ]
-
-    materiais = separar_materiais(links)
-
-    assert [s["url"] for s in materiais["sites"]] == ["https://www.gov.br/a", "https://www.tst.jus.br/b"]
-    assert [v["url"] for v in materiais["videos"]] == ["https://www.youtube.com/watch?v=1", "https://youtu.be/2"]
-
-
-def test_links_comuns_nao_passam_pelo_redirecionamento():
-    assert resolver_link("https://www.gov.br/a") == "https://www.gov.br/a"
 
 
 def test_formata_trechos_com_numero_para_a_ia():

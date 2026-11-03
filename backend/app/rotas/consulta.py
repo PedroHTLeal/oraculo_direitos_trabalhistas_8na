@@ -11,6 +11,7 @@ from app.dependencias import obter_email, obter_ia, obter_repositorio
 from app.esquemas import Fonte, PedidoSaibaMais, Pergunta, Resposta, SituacaoPedido
 from app.historico import registrar
 from app.ia import RecusaDaIA
+from app.materiais import montar_materiais
 from app.sugestoes import SUGESTOES
 from app.envio_email import montar_email_conteudo
 
@@ -70,7 +71,6 @@ def saiba_mais(
     pedido: PedidoSaibaMais,
     tarefas: BackgroundTasks,
     repositorio=Depends(obter_repositorio),
-    ia=Depends(obter_ia),
     enviador=Depends(obter_email),
 ):
     # Não exige conta: basta o nome, o e-mail e a autorização de envio (LGPD)
@@ -89,7 +89,7 @@ def saiba_mais(
     descricao = f'Pediu por e-mail mais conteúdo sobre "{pergunta["texto"][:80]}"'
     registrar(repositorio, {"id": None, "nome": pedido.nome}, "pedir_conteudo", "pergunta", pedido.pergunta_id, descricao)
     # A pesquisa de links e vídeos leva alguns segundos: roda depois de responder
-    tarefas.add_task(enviar_conteudo_complementar, solicitacao_id, pergunta, pedido, repositorio, ia, enviador)
+    tarefas.add_task(enviar_conteudo_complementar, solicitacao_id, pergunta, pedido, repositorio, enviador)
     return SituacaoPedido(id=solicitacao_id, status="pendente")
 
 
@@ -101,11 +101,17 @@ def situacao_saiba_mais(solicitacao_id: str, repositorio=Depends(obter_repositor
     return SituacaoPedido(id=solicitacao["id"], status=solicitacao["status"])
 
 
-def enviar_conteudo_complementar(solicitacao_id, pergunta, pedido, repositorio, ia, enviador):
+def enviar_conteudo_complementar(solicitacao_id, pergunta, pedido, repositorio, enviador):
     try:
         trechos = repositorio.obter_trechos(pergunta["trechos_ids"])
-        tema = trechos[0]["tema"] if trechos else pergunta["texto"]
-        materiais = ia.buscar_materiais(pergunta["texto"], tema)
+        tema = trechos[0]["tema"] if trechos else "Direitos trabalhistas"
+        url_cartilha = trechos[0]["url"] if trechos else None
+        try:
+            cadastrados = repositorio.listar_materiais()
+        except Exception:  # sem a tabela de materiais, ainda envia a cartilha e a lei
+            logger.exception("Não foi possível ler os materiais complementares")
+            cadastrados = []
+        materiais = montar_materiais(pergunta["texto"], tema, url_cartilha, cadastrados)
         conteudo = montar_email_conteudo(pedido.nome, pergunta["texto"], pergunta["resposta"], materiais)
         enviador.enviar(pedido.email, conteudo)
         repositorio.concluir_solicitacao(solicitacao_id, materiais)

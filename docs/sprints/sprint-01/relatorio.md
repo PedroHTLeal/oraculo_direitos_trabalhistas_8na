@@ -251,7 +251,7 @@ A definição das automações de integração contínua e deploy será realizad
 | Qualidade do frontend | ESLint | Verificação automática de padrões e erros no código React. |
 | Controle de versão | Git + GitHub | Versionamento e colaboração (RNF10, RNF11). |
 | Banco de dados | Supabase (PostgreSQL) | Banco gerenciado e gratuito no início, com busca textual em português (ignorando acentos) e controle de acesso por tabela (RNF03). |
-| Inteligência Artificial | Google Gemini (plano gratuito) | Gera respostas em linguagem simples usando só os trechos da cartilha e pesquisa no Google os sites e vídeos complementares, sem custo e sem outras APIs de busca (RNF09). |
+| Inteligência Artificial | Google Gemini (plano gratuito) | Gera respostas em linguagem simples usando só os trechos da cartilha, sem custo (RNF09). |
 | E-mail | Gmail (SMTP) com senha de app | Gratuito, sem instalar nada além do backend; a pessoa só precisa informar nome e e-mail. |
 
 As ferramentas de integração contínua e deploy serão definidas nas próximas Sprints.
@@ -299,7 +299,7 @@ Em computadores, a resposta aparece no painel azul, no lugar da órbita de temas
 **Saber mais por e-mail (RF10, RF11, UC04, UC05, PB08):**
 
 1. Abaixo da resposta, o convite "Quer saber mais sobre o assunto?" com o botão "Sim" abre uma janela que pede o nome, o e-mail e o consentimento para o uso desses dados, conforme a LGPD (RNF03). Não é preciso ter conta.
-2. O backend registra o pedido e, em segundo plano, a IA pesquisa na web 2 sites confiáveis e 2 vídeos do YouTube sobre o assunto. Só são aceitos links que apareceram de fato na pesquisa.
+2. O backend registra o pedido e escolhe os sites e vídeos do assunto da pergunta, cadastrados e conferidos pela equipe na tabela `materiais_complementares`. Quando o assunto ainda não tem links cadastrados, vão a página da cartilha do TRT4 sobre o tema, o texto oficial da lei e uma busca pronta no YouTube.
 3. O backend envia pelo Gmail um e-mail com a resposta, os 2 sites e os 2 vídeos. A tela acompanha o envio e confirma quando ele termina. Cada e-mail pode fazer até 5 pedidos por hora, para evitar abuso.
 
 **Registro de erros (RNF06, PB21):** falhas na IA, no banco ou no envio do e-mail são registradas no log do servidor, e um pedido que falha fica marcado como "erro" no banco, sem ficar pendente para sempre.

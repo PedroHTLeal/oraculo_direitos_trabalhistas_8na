@@ -74,7 +74,7 @@ Fluxo da consulta:
 1. A pessoa faz uma pergunta.
 2. O backend busca no Supabase os trechos mais relevantes da cartilha do TRT4.
 3. A IA escreve uma resposta simples usando **somente** esses trechos e indica quais usou como fonte.
-4. Abaixo da resposta, em "Quer saber mais sobre o assunto? Sim", a pessoa informa nome e e-mail; a IA pesquisa 2 sites e 2 vídeos do YouTube sobre o assunto e o Oráculo envia tudo para o e-mail dela.
+4. Abaixo da resposta, em "Quer saber mais sobre o assunto? Sim", a pessoa informa nome e e-mail e recebe a resposta com sites e vídeos do YouTube sobre o assunto, escolhidos pela equipe.
 
 ## Estrutura do repositório
 

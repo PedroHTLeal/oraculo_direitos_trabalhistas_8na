@@ -4,6 +4,22 @@ Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o
 
 ---
 
+## 0.9.1 — Sites e vídeos escolhidos pela equipe
+
+**Data:** 02/11/2026 · **Branch:** `main`
+
+**Objetivo:** enviar no "Saber mais" links confiáveis, escolhidos pela equipe, sem depender de pesquisa por API (o plano gratuito do Gemini não libera a pesquisa no Google).
+
+**O que foi feito:**
+- Nova tabela `materiais_complementares` ([`supabase/007_materiais_complementares.sql`](supabase/007_materiais_complementares.sql)) com os primeiros assuntos: férias e 13º salário.
+- O assunto é escolhido pelas palavras-chave da pergunta (`backend/app/materiais.py`); sem assunto cadastrado, vão a página da cartilha do TRT4, o texto oficial da lei e uma busca pronta no YouTube.
+- A pesquisa na web pelo Gemini foi retirada; a IA continua só escrevendo a resposta a partir da cartilha.
+- Quando o modelo principal do Gemini está sobrecarregado, a resposta usa um modelo reserva.
+
+**Como agrega:** os endereços enviados são sempre reais e conferidos, o envio fica mais rápido e não esbarra em limites de API.
+
+---
+
 ## 0.9.0 — Conteúdo complementar e novidades por e-mail
 
 **Data:** 02/11/2026 · **Branch:** `main`
@@ -48,7 +64,7 @@ Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o
 
 **O que foi feito:**
 - As respostas passaram a ser geradas pelo Gemini (`gemini-flash-latest`), com as mesmas regras: usar só os trechos da cartilha, linguagem simples e indicação das fontes.
-- Os 2 sites e os 2 vídeos enviados passaram a ser pesquisados no Google pelo próprio Gemini. O sistema segue cada link da pesquisa até o endereço final e busca o título real da página ou do vídeo.
+- Os 2 sites e os 2 vídeos enviados passaram a ser pesquisados pelo próprio Gemini.
 - Se a pesquisa não trouxer vídeos, a mensagem indica uma busca pronta no YouTube sobre o tema.
 - Novos testes da integração com o Gemini (42 no total).
 - Guia de configuração, modelo do `.env`, README e relatório atualizados.

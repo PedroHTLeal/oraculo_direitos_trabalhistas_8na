@@ -13,7 +13,7 @@ const ESQUEMA = {
   consentimento: [(valor) => (valor ? null : 'É preciso autorizar o envio do conteúdo para o seu e-mail.')],
 }
 
-// "Quer saber mais?": a pessoa informa nome e e-mail e recebe a resposta, 2 sites e 2 vídeos.
+// "Quer saber mais?": a pessoa informa nome e e-mail e recebe a resposta com sites e vídeos sobre o assunto.
 // Não precisa de conta; quem já entrou tem os campos preenchidos.
 function ModalSaibaMais({ perguntaId, aoFechar }) {
   const dialogo = useRef(null)
@@ -78,7 +78,7 @@ function ModalSaibaMais({ perguntaId, aoFechar }) {
           </span>
           <h2 id="titulo-modal">Pronto! Confira seu e-mail</h2>
           <p>
-            Enviamos a resposta, 2 sites e 2 vídeos sobre o assunto para <strong>{dados.email.trim()}</strong>. Se não
+            Enviamos a resposta, sites e vídeos sobre o assunto para <strong>{dados.email.trim()}</strong>. Se não
             encontrar na caixa de entrada, olhe também a pasta de spam.
           </p>
           <button type="button" className="botao-principal" onClick={fechar}>
@@ -90,8 +90,8 @@ function ModalSaibaMais({ perguntaId, aoFechar }) {
           <p className="chamada">Saber mais</p>
           <h2 id="titulo-modal">Receba mais no seu e-mail</h2>
           <p className="modal-texto">
-            Informe seu nome e seu e-mail. Vamos enviar esta resposta junto com <strong>2 sites</strong> e{' '}
-            <strong>2 vídeos do YouTube</strong> que explicam bem o assunto.
+            Informe seu nome e seu e-mail. Vamos enviar esta resposta junto com <strong>sites</strong> e{' '}
+            <strong>vídeos do YouTube</strong> que explicam bem o assunto.
           </p>
 
           <Campo id="saiba-nome" rotulo="Nome" autoComplete="name" value={dados.nome} onChange={mudar('nome')} erro={erros.nome} />

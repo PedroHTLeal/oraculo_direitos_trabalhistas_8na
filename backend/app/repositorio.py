@@ -91,6 +91,15 @@ class RepositorioSupabase:
             {"id": t["id"], "secao": t["secao"], "tema": t["temas"]["nome"], "url": t["temas"]["url"]} for t in dados
         ]
 
+    def listar_materiais(self):
+        return (
+            self.cliente.table("materiais_complementares")
+            .select("assunto,palavras_chave,tipo,titulo,url,ordem")
+            .order("ordem")
+            .execute()
+            .data
+        )
+
     def criar_solicitacao(self, pergunta_id, nome, email):
         registro = {"pergunta_id": pergunta_id, "nome": nome, "email": email.lower(), "consentimento": True}
         return self.cliente.table("solicitacoes_conteudo").insert(registro).execute().data[0]["id"]

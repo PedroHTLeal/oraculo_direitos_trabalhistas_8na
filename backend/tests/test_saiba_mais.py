@@ -7,7 +7,7 @@ def pedido(pergunta_id, **campos):
 
 
 def test_envia_resposta_sites_e_videos_para_o_email_informado(client, falsos):
-    repositorio, ia, email = falsos
+    repositorio, _, email = falsos
 
     resposta = client.post("/api/saiba-mais", json=pedido(perguntar(client)))
 
@@ -16,9 +16,9 @@ def test_envia_resposta_sites_e_videos_para_o_email_informado(client, falsos):
     destinatario, conteudo = email.enviados[0]
     assert destinatario == "maria@exemplo.com.br"
     assert "Olá, Maria!" in conteudo["texto"]
-    for parte in ("Você tem direito a 30 dias.", "https://www.gov.br/ferias", "https://www.youtube.com/watch?v=abc"):
+    # Materiais escolhidos pela equipe para "Férias" + a página da cartilha do tema
+    for parte in ("Você tem direito a 30 dias.", "https://www.exemplo.com.br/ferias", "https://www.trt4.jus.br/portais/trt4/ferias", "https://www.youtube.com/watch?v=abc"):
         assert parte in conteudo["texto"] and parte in conteudo["html"]
-    assert ia.tema_pesquisado == "Férias"
     assert client.get(f"/api/saiba-mais/{solicitacao_id}").json()["status"] == "enviado"
     assert repositorio.historico[-1]["acao"] == "pedir_conteudo"
     assert repositorio.historico[-1]["usuario_nome"] == "Maria"
@@ -63,11 +63,13 @@ def test_pergunta_inexistente(client, falsos):
     assert resposta.status_code == 404
 
 
-def test_falha_na_pesquisa_marca_pedido_com_erro(client, falsos):
-    _, ia, email = falsos
-    ia.falhar_materiais = True
+def test_falha_no_envio_marca_pedido_com_erro(client, falsos):
+    _, _, email = falsos
 
+    def falhar(destinatario, conteudo):
+        raise RuntimeError("Gmail fora do ar")
+
+    email.enviar = falhar
     solicitacao_id = client.post("/api/saiba-mais", json=pedido(perguntar(client))).json()["id"]
 
-    assert email.enviados == []
     assert client.get(f"/api/saiba-mais/{solicitacao_id}").json()["status"] == "erro"

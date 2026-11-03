@@ -62,5 +62,5 @@ A resposta gerada pela IA (no painel azul, com o convite "Quer saber mais sobre 
 ## Mudanças em relação ao planejado
 
 - **IA:** a primeira versão usava o Claude (Anthropic), que é pago; foi trocado pelo **Google Gemini** no plano gratuito, para atender ao RNF09 (custo operacional).
-- **Links e vídeos:** são pesquisados pelo próprio Gemini no Google; o sistema só envia endereços que vieram da pesquisa real.
+- **Links e vídeos:** são escolhidos e conferidos pela equipe, por assunto (tabela `materiais_complementares`), sem pesquisa automática; assim os endereços são sempre reais e o envio não depende de cota de API. A primeira versão tem férias e 13º salário.
 - **Conteúdo complementar:** enviado **por e-mail** pelo Gmail, de graça, sem exigir conta: a pessoa informa só o nome e o e-mail (decisão da equipe, por ser o caminho mais simples para quem usa e para quem mantém o sistema).

@@ -21,6 +21,7 @@ Guarda a cartilha do TRT4, as perguntas feitas, as contas e os pedidos de conte�
    4. [`004_conta_com_whatsapp.sql`](../supabase/004_conta_com_whatsapp.sql)
    5. [`005_historico_de_operacoes.sql`](../supabase/005_historico_de_operacoes.sql)
    6. [`006_contato_por_email.sql`](../supabase/006_contato_por_email.sql)
+   7. [`007_materiais_complementares.sql`](../supabase/007_materiais_complementares.sql)
 4. Em **Project Settings > API**, copie para o `backend/.env`:
    - **Project URL** → `SUPABASE_URL`
    - **service_role** (em *Project API keys*) → `SUPABASE_SERVICE_ROLE_KEY`
@@ -37,7 +38,7 @@ Para atualizar a cartilha no futuro, rode `python scripts/extrair_cartilha.py` e
 
 ## 2. Google Gemini (inteligência artificial, gratuito)
 
-Gera as respostas a partir dos trechos da cartilha e pesquisa no Google os sites e vídeos enviados por e-mail. O plano gratuito não pede cartão de crédito.
+Gera as respostas a partir dos trechos da cartilha. O plano gratuito não pede cartão de crédito.
 
 1. Acesse https://aistudio.google.com e entre com uma conta Google.
 2. Aceite os termos de uso, se aparecerem.
@@ -69,6 +70,15 @@ O Oráculo envia por e-mail a resposta, os 2 sites e os 2 vídeos do "Saber mais
 | "Não conseguimos enviar o e-mail agora" | Veja o terminal do backend. Se aparecer "O Gmail recusou o login", gere uma nova senha de app e confira se a verificação em duas etapas está ativa |
 | "Você fez muitos pedidos na última hora" | Limite de 5 pedidos por e-mail por hora; espere e tente de novo |
 
-## 4. Conferir
+## 4. Sites e vídeos do "Saber mais"
+
+Os sites e vídeos enviados por e-mail são **escolhidos pela equipe**, sem pesquisa automática. Eles ficam na tabela `materiais_complementares` do Supabase, por assunto, cada um com as palavras-chave que o identificam na pergunta (por exemplo, `ferias` ou `13` e `decimo terceiro`, sempre sem acento e em minúsculas).
+
+- **Pergunta de um assunto cadastrado:** vão os sites e vídeos da equipe; se faltar um site, entra a página da cartilha do TRT4 sobre o tema.
+- **Outros assuntos:** vão a página da cartilha do TRT4 sobre o tema, o texto oficial da lei (CLT ou a lei própria do tema, no site do Planalto) e uma busca pronta no YouTube.
+
+Para incluir um assunto, abra o Supabase em **Table Editor › materiais_complementares › Insert row**, ou copie um dos `insert` do [`007_materiais_complementares.sql`](../supabase/007_materiais_complementares.sql) e troque os dados.
+
+## 5. Conferir
 
 Reinicie o backend e faça uma pergunta na tela. Se aparecer "O serviço ainda não foi configurado", alguma variável do `backend/.env` está vazia: o nome dela aparece no terminal do backend.
