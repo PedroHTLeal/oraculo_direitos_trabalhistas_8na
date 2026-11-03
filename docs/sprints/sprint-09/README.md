@@ -1,6 +1,6 @@
 # Sprint 09 — Verificação completa e documentação
 
-**Situação:** Em andamento: testes com o banco real concluídos; faltam os testes com a IA (Gemini) e o envio de e-mail reais · [← Voltar ao índice](../../README.md)
+**Situação:** Em andamento: testes com o banco real, a IA (Gemini) e o envio de e-mail reais concluídos; faltam refazer os prints das telas de conta · [← Voltar ao índice](../../README.md)
 
 ## O que a Sprint pediu
 
@@ -42,6 +42,8 @@ Testes funcionais, correção de bugs, testes de validação, testes de navegaç
 | CT22 | Excluir o usuário cadastrado no CT05 | Administrador | Confirmação e "Usuário excluído." | Conforme esperado | [print](../../evidencias/29-usuario-excluido.png) |
 | CT23 | Filtrar o histórico pela ação "Exclusão" e exportar | Administrador | Só exclusões, com quem fez e quando; CSV baixado | Conforme esperado | [print](../../evidencias/31-historico-filtro-exclusao.png) · [CSV](../../evidencias/historico-de-operacoes.csv) |
 | CT24 | Consulta, cadastro e painel no celular | Todos | Telas adaptadas, sem rolagem lateral | Conforme esperado | [print](../../evidencias/35-celular-painel.png) |
+| CT25 | Perguntar "Quantos dias de férias eu tenho direito?" com a IA real | Visitante | Resposta da cartilha em cerca de 15 s, com fontes e o convite "Quer saber mais?" | Conforme esperado (03/11/2026) | — |
+| CT26 | "Saber mais" com nome e e-mail reais | Visitante | E-mail recebido com a resposta, 2 sites (Jusbrasil e cartilha do TRT4) e 2 vídeos (CEISC e Contas Online); pedido marcado como "enviado" no banco | Conforme esperado (03/11/2026) | — |
 
 ## Bugs encontrados e corrigidos
 
@@ -58,7 +60,7 @@ Testes funcionais, correção de bugs, testes de validação, testes de navegaç
 
 | Pendência | Ação prevista |
 | --- | --- |
-| Testar a resposta da IA com dados reais | Configurar a chave gratuita do Gemini e repetir a consulta com as perguntas de referência |
-| Testar o envio por e-mail | Criar a senha de app do Gmail (guia de configuração, seção 3) e repetir o CT14 e o "Quer saber mais" |
+| Refazer os prints das telas de conta (cadastro e login com e-mail) | Rodar de novo o roteiro [`capturar_evidencias.py`](../../ferramentas/capturar_evidencias.py) |
+| Mais assuntos com sites e vídeos escolhidos | A equipe envia os links das demais perguntas sugeridas |
 | Relatório de perguntas com dados | Gerado automaticamente depois que a IA estiver respondendo |
 | Diagramas técnicos (arquitetura, classes, MER e relacional) | Incluir no documento técnico ([Sprint 02](../sprint-02/README.md)) |
