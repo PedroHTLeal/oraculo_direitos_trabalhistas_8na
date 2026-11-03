@@ -7,7 +7,7 @@ O Oráculo fica disponível em um endereço público (por exemplo, `https://orac
 | **Vercel (plano Hobby)** | **Sim** | Gratuita para projetos pessoais e acadêmicos, roda o site e o backend Python juntos, guarda as chaves com segurança e permite enviar e-mail pelo Gmail |
 | GitHub Pages (github.io) | Não | Só hospeda páginas estáticas: não roda o backend em Python, então não haveria respostas da IA, login nem envio de e-mail. Também não guarda chaves em segredo |
 
-O projeto já vem preparado: [`vercel.json`](../vercel.json) (como montar o site e o backend), [`api/index.py`](../api/index.py) (entrada do backend) e [`requirements.txt`](../requirements.txt) (dependências do Python).
+O projeto já vem preparado: [`vercel.json`](../vercel.json) (como montar o site e o backend), [`api/index.py`](../api/index.py) (entrada do backend) e [`requirements.txt`](../requirements.txt) (dependências do Python, usadas também pelo `backend/`).
 
 ## Passo a passo (cerca de 10 minutos)
 

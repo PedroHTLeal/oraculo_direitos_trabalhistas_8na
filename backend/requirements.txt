@@ -1,7 +1,2 @@
-fastapi==0.115.6
-uvicorn[standard]==0.34.0
-google-genai==2.34.0
-supabase==2.33.0
-python-dotenv==1.2.4
-email-validator==2.3.0
-httpx==0.28.1
+# A lista de dependencias do backend fica na raiz do projeto (requirements.txt), que a Vercel le na publicacao
+-r ../requirements.txt
