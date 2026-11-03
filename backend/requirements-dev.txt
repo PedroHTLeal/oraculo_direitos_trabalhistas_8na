@@ -3,3 +3,5 @@ pytest==8.3.4
 # Usados apenas pelo script de extração da cartilha
 requests==2.34.2
 beautifulsoup4==4.15.0
+# Usado apenas para gerar as imagens dos e-mails (scripts/gerar_imagens_email.py)
+pillow==11.3.0

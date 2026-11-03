@@ -4,6 +4,21 @@ Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o
 
 ---
 
+## 0.9.2 — E-mail com a identidade visual do Oráculo
+
+**Data:** 03/11/2026 · **Branch:** `main`
+
+**Objetivo:** deixar o e-mail do "Saber mais" e das novidades com a mesma cara do site.
+
+**O que foi feito:**
+- Novo modelo de e-mail: cabeçalho azul-escuro com o logo do Oráculo, a balança dourada e a pergunta em destaque, resposta da cartilha, sites e vídeos em cartões e rodapé com a frase do site.
+- Logo e balança em PNG, anexados ao próprio e-mail (o Gmail não exibe SVG), gerados por `backend/scripts/gerar_imagens_email.py`.
+- O e-mail de novidades dos temas usa a mesma moldura, com o botão "Saiba mais".
+
+**Como agrega:** reforça a identidade do Oráculo fora do site e deixa os links mais fáceis de encontrar e tocar no celular.
+
+---
+
 ## 0.9.1 — Sites e vídeos escolhidos pela equipe
 
 **Data:** 02/11/2026 · **Branch:** `main`

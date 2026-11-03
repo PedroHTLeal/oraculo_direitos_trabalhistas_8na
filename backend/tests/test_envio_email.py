@@ -52,6 +52,9 @@ def test_envia_pelo_gmail_com_tls_e_senha_de_app():
     assert "oraculo@gmail.com" in smtp.enviada["From"]
     assert smtp.enviada["Subject"] == "Oráculo: mais sobre a sua pergunta"
     assert smtp.enviada.is_multipart()
+    # O logo e a balança vão anexados ao e-mail e são referenciados pelo HTML
+    anexos = {parte["Content-ID"] for parte in smtp.enviada.walk() if parte.get_content_type() == "image/png"}
+    assert anexos == {"<simbolo@oraculo>", "<balanca@oraculo>"}
 
 
 def test_login_recusado_vira_mensagem_clara():
