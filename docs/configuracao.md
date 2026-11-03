@@ -45,21 +45,21 @@ Gera as respostas a partir dos trechos da cartilha e pesquisa no Google os sites
 
 > O plano gratuito tem limites diários de uso, suficientes para testes e para a apresentação. Nesse plano, o Google pode usar o conteúdo das requisições para melhorar seus produtos; por isso, o Oráculo envia à IA apenas a pergunta e os trechos da cartilha, nunca o telefone do usuário.
 
-## 3. WhatsApp com n8n (gratuito, no seu computador)
+## 3. WhatsApp com n8n e Evolution API (gratuito, no seu computador)
 
-O Oráculo envia o WhatsApp por uma **automação no n8n**, que roda no seu computador junto com o **WAHA**, um conector que liga um WhatsApp por **QR code** (como o WhatsApp Web). Tudo é gratuito e já vem configurado na pasta [`automacao/`](../automacao/).
+O Oráculo envia o WhatsApp por uma **automação no n8n**, que roda no seu computador junto com a **Evolution API**, uma ferramenta de código aberto (muito usada no Brasil) que conecta um WhatsApp por **QR code**, como o WhatsApp Web. Tudo é gratuito e já vem configurado na pasta [`automacao/`](../automacao/).
 
 ```
-Oráculo  ──(pedido: telefone + mensagem)──▶  n8n  ──▶  WAHA  ──▶  WhatsApp da pessoa
+Oráculo  ──(pedido: telefone + mensagem)──▶  n8n  ──▶  Evolution API  ──▶  WhatsApp da pessoa
 ```
 
 O fluxo do n8n confere como o número está registrado no WhatsApp antes de enviar, o que resolve sozinho o "9" extra dos celulares brasileiros.
 
 > **Importante:** a conexão pelo WhatsApp Web **não é um serviço oficial do WhatsApp** e vai contra os termos de uso dele. Para um projeto acadêmico, com poucas mensagens, costuma funcionar bem, mas existe o risco de o número ser bloqueado. **Use um número secundário (um chip só para o Oráculo)**, não o seu WhatsApp principal.
 
-### 3.1. Instalar o Docker Desktop (uma vez só, ~15 minutos)
+### 3.1. Instalar o Docker Desktop (uma vez só, cerca de 15 minutos)
 
-O Docker roda o n8n e o WAHA sem instalar cada um separadamente. É gratuito para uso pessoal e educacional.
+O Docker roda o n8n, a Evolution API e o banco de dados dela sem instalar cada um separadamente. É gratuito para uso pessoal e educacional.
 
 1. Baixe em https://www.docker.com/products/docker-desktop/ (**Download for Windows**).
 2. Execute o instalador e deixe marcada a opção **Use WSL 2**. Aceite os pedidos de permissão do Windows.
@@ -73,20 +73,28 @@ O Docker roda o n8n e o WAHA sem instalar cada um separadamente. É gratuito par
 1. Abra a pasta do projeto, entre em `automacao` e dê dois cliques em **`iniciar-automacao.bat`**.
 2. Na primeira vez, o download leva alguns minutos. No fim, o navegador abre duas páginas:
    - **n8n**: http://localhost:5678
-   - **WAHA**: http://localhost:3000/dashboard
-3. As senhas da automação já estão no arquivo `automacao/.env`, e o Oráculo (`backend/.env`) já está ligado a ela.
+   - **Evolution API**: http://localhost:8080/manager
+3. As senhas já estão no arquivo `automacao/.env`, e o Oráculo (`backend/.env`) já está ligado ao n8n.
+4. No **Docker Desktop**, em **Containers**, devem aparecer três itens rodando (bolinha verde): `oraculo-n8n`, `oraculo-evolution` e `oraculo-evolution-db`.
 
-### 3.3. Conectar o WhatsApp no WAHA (QR code)
+### 3.3. Conectar o WhatsApp na Evolution API (QR code)
 
-1. Na página do WAHA, entre com o usuário **`admin`** e a senha que está em `automacao/.env`, na linha `WAHA_SENHA_PAINEL`.
-2. Se pedir a **API key**, use o valor da linha `WAHA_API_KEY` do mesmo arquivo.
-3. Na sessão **`default`**, clique em **Start** (iniciar) e depois no ícone de **câmera/QR code**.
+1. Na página da Evolution API (http://localhost:8080/manager), faça o login:
+   - **Server URL:** `http://localhost:8080`
+   - **API Key Global:** o valor da linha `EVOLUTION_API_KEY` do arquivo `automacao/.env` (abra com o Bloco de Notas e copie só o que vem depois do `=`).
+2. Clique em **Instance +** (nova instância) e preencha:
+   - **Name:** `oraculo` (exatamente assim, em minúsculas; é o nome que o fluxo do n8n usa);
+   - **Channel:** `Baileys`;
+   - deixe o **Token** como está e clique em **Save**.
+3. Abra a instância **oraculo** (ícone de engrenagem ou clique no nome) e clique em **Get QR Code** (gerar QR code).
 4. No celular com o **número do Oráculo**: WhatsApp › **Configurações › Aparelhos conectados › Conectar um aparelho** e leia o QR code.
-5. Espere a sessão ficar **WORKING** (funcionando). A conexão fica salva: não é preciso ler o QR code de novo a cada vez.
+5. Espere a instância aparecer como **Connected** / **open** (conectada). A conexão fica salva: não é preciso ler o QR code de novo a cada vez.
+
+> **O QR code não aparece?** É um problema conhecido quando o WhatsApp atualiza o WhatsApp Web. Consulte a versão atual em https://wppconnect.io/pt-BR/whatsapp-versions/ (a primeira da lista, por exemplo `2.3000.10xxxxxxxx`), coloque-a na linha `WHATSAPP_WEB_VERSAO=` do `automacao/.env`, salve, rode `iniciar-automacao.bat` de novo e repita o passo 3.
 
 ### 3.4. Importar o fluxo no n8n
 
-1. Na página do n8n, crie a sua conta local (nome, e-mail e senha; fica só no seu computador). Se oferecer um questionário ou plano pago, pule.
+1. Na página do n8n (http://localhost:5678), crie a sua conta local (nome, e-mail e senha; fica só no seu computador). Se oferecer um questionário ou plano pago, pule.
 2. Clique em **Create workflow** (ou **+** › Workflow).
 3. No menu **⋯** (três pontinhos, no canto superior direito), escolha **Import from File** e selecione `automacao/fluxo-oraculo-whatsapp.json`.
 4. Clique em **Save** e ligue a chave **Active** (ou **Publish**) no topo. Sem isso, o Oráculo recebe o erro "O fluxo do n8n não está ativo".
@@ -95,7 +103,7 @@ O Docker roda o n8n e o WAHA sem instalar cada um separadamente. É gratuito par
 
 1. Abra o Oráculo (`iniciar.bat`), faça uma pergunta e clique em **"Quer saber mais sobre o assunto?" › Sim**.
 2. Entre ou crie a conta com o seu WhatsApp e clique em **Receber no WhatsApp**.
-3. A mensagem chega vinda do número conectado no WAHA.
+3. A mensagem chega vinda do número conectado na Evolution API.
 4. Se algo falhar, abra o n8n › **Executions**: cada pedido do Oráculo aparece ali, com o passo que deu erro e a explicação.
 
 | Mensagem no Oráculo | O que fazer |
@@ -103,7 +111,7 @@ O Docker roda o n8n e o WAHA sem instalar cada um separadamente. É gratuito par
 | "Não foi possível falar com o n8n" | Abra o Docker Desktop e rode `iniciar-automacao.bat` de novo |
 | "O fluxo do n8n não está ativo" | No n8n, abra o fluxo e ligue a chave **Active** |
 | "Este número não tem WhatsApp" | Confira o número cadastrado na conta |
-| Erro na etapa "Conferir número" no n8n | No WAHA, confira se a sessão `default` está **WORKING**; se não, leia o QR code de novo |
+| Erro na etapa "Conferir número" no n8n | Na Evolution API, confira se a instância `oraculo` existe e está **conectada**; se não, gere o QR code de novo |
 
 ## 4. Conferir
 

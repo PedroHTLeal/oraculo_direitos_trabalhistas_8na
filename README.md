@@ -57,7 +57,7 @@ A interface deve priorizar simplicidade e clareza, permitindo uma consulta sem c
 - **Frontend:** React com [Vite](https://vite.dev/)
 - **Banco de dados:** [Supabase](https://supabase.com/) (PostgreSQL), com busca textual em português
 - **Inteligência Artificial:** [Google Gemini](https://ai.google.dev/) (plano gratuito), para gerar respostas e pesquisar materiais complementares no Google
-- **WhatsApp:** automação no [n8n](https://n8n.io/) com o conector [WAHA](https://waha.devlike.pro/), rodando no Docker (gratuito) — ver [`automacao/`](automacao/)
+- **WhatsApp:** automação no [n8n](https://n8n.io/) com a [Evolution API](https://doc.evolution-api.com/), rodando no Docker (gratuito) — ver [`automacao/`](automacao/)
 
 ## Como funciona
 
@@ -82,7 +82,7 @@ Fluxo da consulta:
 backend/     API em Python (FastAPI): rotas, regras de negócio, testes e scripts
 frontend/    Interface web em React (consulta pública e painel)
 supabase/    Estrutura do banco de dados, em scripts numerados (001 a 005)
-automacao/   Automação do WhatsApp: n8n + WAHA no Docker e o fluxo para importar no n8n
+automacao/   Automação do WhatsApp: n8n + Evolution API no Docker e o fluxo para importar no n8n
 docs/        Documentação: uma página por Sprint, guia de configuração e ferramentas
 iniciar.bat  Executa o sistema completo no Windows (iniciar.sh no Linux/macOS)
 ```

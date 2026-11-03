@@ -11,8 +11,8 @@ class EnviadorN8n:
     """Envia mensagens de WhatsApp por um fluxo do n8n (automacao/fluxo-oraculo-whatsapp.json).
 
     O Oráculo só avisa o n8n "envie este texto para este telefone"; o n8n confere
-    como o número está registrado no WhatsApp (com ou sem o 9 extra) e envia pelo
-    conector WAHA, ligado a um WhatsApp por QR code.
+    como o número está registrado no WhatsApp (com ou sem o 9 extra) e envia pela
+    Evolution API, ligada a um WhatsApp por QR code.
     """
 
     def __init__(self, url_webhook, token, cliente=None):

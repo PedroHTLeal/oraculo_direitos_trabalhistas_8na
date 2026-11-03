@@ -38,6 +38,6 @@ Esta pasta reúne tudo o que foi pedido e entregue em cada Sprint das disciplina
 | [Histórico de versões](../CHANGELOG.md) | Cada versão enviada ao GitHub: data, objetivo, o que mudou e como agrega |
 | [Scripts do banco](../supabase/) | Estrutura do banco, na ordem em que deve ser executada (001 a 005) |
 | [Evidências](evidencias/) | Prints e arquivos exportados nos testes com o sistema real |
-| [Automação do WhatsApp](../automacao/) | Fluxo do n8n e configuração do n8n + WAHA no Docker |
+| [Automação do WhatsApp](../automacao/) | Fluxo do n8n e configuração do n8n + Evolution API no Docker |
 | [Ferramentas](ferramentas/) | Roteiro automatizado que testa as telas e gera as evidências |
 | [README do projeto](../README.md) | Visão geral, tecnologias e como executar |

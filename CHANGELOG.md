@@ -4,17 +4,31 @@ Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o
 
 ---
 
+## 0.8.1 — Evolution API no lugar do WAHA
+
+**Data:** 02/11/2026 · **Branch:** `main`
+
+**Objetivo:** conectar o WhatsApp à automação do n8n pela **Evolution API**, escolha da equipe por ser muito usada no Brasil e ter bastante material em português.
+
+**O que foi feito:**
+- `automacao/docker-compose.yml` passa a subir o n8n, a Evolution API e o banco PostgreSQL dela.
+- O fluxo do n8n confere o número (`/chat/whatsappNumbers`) e envia o texto (`/message/sendText`) pela instância `oraculo` da Evolution API.
+- Guia passo a passo da seção 3 refeito para a Evolution API, incluindo o que fazer se o QR code não aparecer.
+
+**Como agrega:** usa uma ferramenta conhecida pela comunidade brasileira, facilitando a manutenção e a apresentação. O Oráculo não mudou: ele continua falando só com o n8n.
+
+---
+
 ## 0.8.0 — WhatsApp por automação no n8n
 
 **Data:** 02/11/2026 · **Branch:** `main`
 
-**Objetivo:** enviar o WhatsApp por uma automação gratuita e local no **n8n**, no lugar da Twilio e da API da Meta (decisão da equipe).
+**Objetivo:** enviar o WhatsApp por uma automação gratuita e local no **n8n** (decisão da equipe).
 
 **O que foi feito:**
 - O Oráculo envia o pedido (telefone e mensagem) a um fluxo do n8n, protegido por um token combinado.
 - Pasta `automacao/` com o n8n e o conector WAHA (WhatsApp por QR code) no Docker, o fluxo pronto para importar e o script `iniciar-automacao.bat`.
 - O fluxo confere como o número está registrado no WhatsApp antes de enviar, o que resolve o 9 extra dos celulares brasileiros.
-- Twilio e Meta removidas do código, das dependências, das configurações e da documentação; a janela "Quer saber mais?" não pede mais código de entrada.
 - Guia passo a passo (Docker, QR code e importação do fluxo); testes do envio pelo n8n e do arquivo do fluxo (104 no total).
 
 **Como agrega:** cumpre o item PB09 do backlog (automação com n8n) sem custo e sem depender de contas externas para o WhatsApp. Risco registrado: o WAHA usa o WhatsApp Web, que não é oficial; por isso o Oráculo usa um número secundário.

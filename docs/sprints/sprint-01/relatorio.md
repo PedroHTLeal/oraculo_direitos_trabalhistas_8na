@@ -252,7 +252,7 @@ A definição das automações de integração contínua e deploy será realizad
 | Controle de versão | Git + GitHub | Versionamento e colaboração (RNF10, RNF11). |
 | Banco de dados | Supabase (PostgreSQL) | Banco gerenciado e gratuito no início, com busca textual em português (ignorando acentos) e controle de acesso por tabela (RNF03). |
 | Inteligência Artificial | Google Gemini (plano gratuito) | Gera respostas em linguagem simples usando só os trechos da cartilha e pesquisa no Google os sites e vídeos complementares, sem custo e sem outras APIs de busca (RNF09). |
-| WhatsApp | Automação no n8n + WAHA (Docker) | Gratuita e local; o n8n cumpre o item PB09 do backlog (automação com n8n) e o WAHA conecta um WhatsApp por QR code. |
+| WhatsApp | Automação no n8n + Evolution API (Docker) | Gratuita e local; o n8n cumpre o item PB09 do backlog (automação com n8n) e a Evolution API conecta um WhatsApp por QR code. |
 
 As ferramentas de integração contínua e deploy serão definidas nas próximas Sprints.
 
