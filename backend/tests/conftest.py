@@ -361,6 +361,16 @@ class EmailFalso:
         self.enviados.append((destinatario, conteudo))
 
 
+@pytest.fixture(autouse=True)
+def sem_email_de_verdade(monkeypatch):
+    """Nenhum teste pode enviar e-mail real, mesmo com o Gmail configurado no backend/.env."""
+
+    def bloquear(*args, **kwargs):
+        raise AssertionError("Teste tentou enviar um e-mail de verdade")
+
+    monkeypatch.setattr("app.envio_email.smtplib.SMTP", bloquear)
+
+
 @pytest.fixture
 def falsos():
     repositorio, ia, email = RepositorioFalso(), IAFalsa(), EmailFalso()

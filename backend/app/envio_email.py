@@ -13,7 +13,7 @@ class ErroEnvioEmail(RuntimeError):
 
 
 class EnviadorEmail:
-    def __init__(self, remetente, senha, servidor="smtp.gmail.com", porta=587, conectar=smtplib.SMTP):
+    def __init__(self, remetente, senha, servidor="smtp.gmail.com", porta=587, conectar=None):
         self.remetente = remetente
         self.senha = senha
         self.servidor = servidor
@@ -28,7 +28,8 @@ class EnviadorEmail:
         mensagem.set_content(conteudo["texto"])
         mensagem.add_alternative(conteudo["html"], subtype="html")
         try:
-            with self.conectar(self.servidor, self.porta, timeout=30) as smtp:
+            conectar = self.conectar or smtplib.SMTP
+            with conectar(self.servidor, self.porta, timeout=30) as smtp:
                 smtp.starttls()
                 smtp.login(self.remetente, self.senha)
                 smtp.send_message(mensagem)

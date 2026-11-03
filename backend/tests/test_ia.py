@@ -29,7 +29,10 @@ class ClienteFalso:
 
     def generate_content(self, model, contents, config):
         self.chamadas.append({"model": model, "contents": contents, "config": config})
-        return self.respostas.pop(0)
+        resposta = self.respostas.pop(0)
+        if isinstance(resposta, Exception):
+            raise resposta
+        return resposta
 
 
 def test_responde_em_json_com_os_trechos():
@@ -42,6 +45,17 @@ def test_responde_em_json_com_os_trechos():
     assert chamada["model"] == "modelo-teste"
     assert '<trecho numero="7"' in chamada["contents"]
     assert chamada["config"].response_mime_type == "application/json"
+
+
+def test_modelo_sobrecarregado_usa_o_modelo_reserva():
+    from google.genai import errors
+
+    resultado = {"encontrou": True, "resposta": "30 dias.", "trechos_usados": [7]}
+    sobrecarga = errors.ServerError(503, {"error": {"code": 503, "message": "high demand", "status": "UNAVAILABLE"}})
+    cliente = ClienteFalso([sobrecarga, resposta_falsa(json.dumps(resultado))])
+
+    assert AssistenteIA(cliente=cliente, modelo="principal").responder("Quantos dias?", []) == resultado
+    assert [c["model"] for c in cliente.chamadas] == ["principal", ia.MODELO_RESERVA]
 
 
 @pytest.mark.parametrize(

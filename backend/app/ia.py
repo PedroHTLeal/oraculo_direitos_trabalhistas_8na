@@ -9,12 +9,14 @@ from concurrent.futures import ThreadPoolExecutor
 from html import unescape
 
 from google import genai
-from google.genai import types
+from google.genai import errors, types
 
 logger = logging.getLogger(__name__)
 
 # Apelido que aponta sempre para o modelo Flash mais recente (disponível no plano gratuito)
 MODELO_PADRAO = "gemini-flash-latest"
+# Usado quando o modelo principal está sobrecarregado (erro 503), comum no plano gratuito
+MODELO_RESERVA = "gemini-flash-lite-latest"
 
 INSTRUCOES_RESPOSTA = """Você é o Oráculo dos Direitos Trabalhistas, um assistente que explica \
 direitos e obrigações no trabalho para pessoas sem conhecimento jurídico: trabalhadores \
@@ -153,9 +155,17 @@ class AssistenteIA:
         self.cliente = cliente or genai.Client()
         self.modelo = modelo or os.getenv("GEMINI_MODELO", "").strip() or MODELO_PADRAO
 
+    def _gerar(self, contents, config):
+        try:
+            return self.cliente.models.generate_content(model=self.modelo, contents=contents, config=config)
+        except errors.ServerError as erro:
+            if erro.code != 503 or self.modelo == MODELO_RESERVA:
+                raise
+            logger.warning("Modelo %s sobrecarregado; usando %s", self.modelo, MODELO_RESERVA)
+            return self.cliente.models.generate_content(model=MODELO_RESERVA, contents=contents, config=config)
+
     def responder(self, pergunta, trechos):
-        resposta = self.cliente.models.generate_content(
-            model=self.modelo,
+        resposta = self._gerar(
             contents=f"<trechos>\n{formatar_trechos(trechos)}\n</trechos>\n\n<pergunta>{pergunta}</pergunta>",
             config=types.GenerateContentConfig(
                 system_instruction=INSTRUCOES_RESPOSTA,
@@ -166,8 +176,7 @@ class AssistenteIA:
         return json.loads(_texto(resposta))
 
     def _pesquisar(self, instrucao):
-        resposta = self.cliente.models.generate_content(
-            model=self.modelo,
+        resposta = self._gerar(
             contents=instrucao,
             config=types.GenerateContentConfig(tools=[types.Tool(google_search=types.GoogleSearch())]),
         )

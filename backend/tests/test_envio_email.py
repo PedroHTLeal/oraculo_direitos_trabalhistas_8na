@@ -3,7 +3,7 @@ import smtplib
 import pytest
 
 from app.config import Configuracao
-from app.dependencias import obter_configuracao, obter_email
+from app.dependencias import obter_email
 from app.envio_email import EnviadorEmail, ErroEnvioEmail, montar_email_conteudo
 
 MATERIAIS = {
@@ -71,12 +71,14 @@ def test_email_traz_resposta_sites_e_videos_com_html_seguro():
     assert "Férias &lt;gov.br&gt;" in conteudo["html"]
 
 
-def test_sem_configuracao_de_email_avisa(client, falsos):
+def test_sem_configuracao_de_email_avisa(client, falsos, monkeypatch):
+    from app import dependencias
     from app.main import app
 
-    app.dependency_overrides.pop(obter_email)
-    app.dependency_overrides[obter_configuracao] = lambda: Configuracao("https://exemplo.supabase.co", "chave")
+    # Usa uma configuração sem e-mail, sem ler o backend/.env de verdade
+    monkeypatch.setattr(dependencias, "obter_configuracao", lambda: Configuracao("https://exemplo.supabase.co", "chave"))
     obter_email.cache_clear()
+    app.dependency_overrides.pop(obter_email)
     pergunta_id = client.post("/api/perguntas", json={"texto": "Quantos dias de férias?"}).json()["id"]
 
     resposta = client.post(
@@ -85,3 +87,4 @@ def test_sem_configuracao_de_email_avisa(client, falsos):
     )
 
     assert resposta.status_code == 503
+    obter_email.cache_clear()
