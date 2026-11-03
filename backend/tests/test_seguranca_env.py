@@ -10,12 +10,11 @@ import pytest
 from dotenv import dotenv_values
 
 RAIZ = Path(__file__).resolve().parents[2]
-EXEMPLOS = [RAIZ / "backend" / ".env.example", RAIZ / "automacao" / ".env.example"]
+EXEMPLOS = [RAIZ / "backend" / ".env.example"]
 
 # Valores de exemplo que não são segredos
 PERMITIDOS = {
     "SUPABASE_URL": "https://SEU-PROJETO.supabase.co",
-    "N8N_WEBHOOK_URL": "http://localhost:5678/webhook/oraculo-whatsapp",
 }
 
 

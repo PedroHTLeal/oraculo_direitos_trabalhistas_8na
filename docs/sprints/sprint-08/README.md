@@ -11,7 +11,7 @@ Todas as funcionalidades previstas implementadas, controle de permissões revisa
 | Funcionalidade | Visitante | Usuário | Curador | Administrador |
 | --- | :---: | :---: | :---: | :---: |
 | Fazer perguntas e ver respostas | Sim | Sim | Sim | Sim |
-| Receber "Saiba mais" pelo WhatsApp | Cria conta | Sim | Se tiver WhatsApp na conta | Se tiver WhatsApp na conta |
+| Receber "Saber mais" por e-mail | Sim | Sim | Sim | Sim |
 | Acompanhar temas e ver novidades | — | Sim | — | — |
 | Dashboard e relatório de perguntas | — | — | Sim | Sim |
 | Base de conhecimento (CRUD) | — | — | Sim | Sim |
@@ -42,7 +42,7 @@ As permissões são verificadas **no servidor**, em cada rota: o menu só escond
 | --- | --- |
 | RF01 a RF03 (consulta sem conta, sugestões, pergunta livre) | Implementados |
 | RF04 a RF09 (RAG, resposta simples, fontes, conteúdo original, sem informação) | Implementados; a geração depende da chave do Gemini |
-| RF10 e RF11 (conteúdo complementar e WhatsApp) | Implementados; o envio é feito pela automação no n8n |
+| RF10 e RF11 (conteúdo complementar por e-mail) | Implementados; o envio é feito pelo Gmail |
 | RF12 e RF13 (acompanhar temas e receber atualizações) | Implementados (Módulo 2) |
 | RF14 (área administrativa) | Implementado (painel com perfis) |
 

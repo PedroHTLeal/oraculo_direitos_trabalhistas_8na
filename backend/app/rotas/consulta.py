@@ -1,20 +1,24 @@
-"""Consulta pública: perguntas, respostas e conteúdo complementar pelo WhatsApp.
+"""Consulta pública: perguntas, respostas e conteúdo complementar por e-mail.
 Não exige login (RF01)."""
 
 import logging
+from datetime import datetime, timedelta, timezone
 
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
 from google.genai import errors as erros_gemini
 
-from app.dependencias import obter_ia, obter_repositorio, obter_whatsapp, usuario_atual
+from app.dependencias import obter_email, obter_ia, obter_repositorio
 from app.esquemas import Fonte, PedidoSaibaMais, Pergunta, Resposta, SituacaoPedido
 from app.historico import registrar
 from app.ia import RecusaDaIA
 from app.sugestoes import SUGESTOES
-from app.whatsapp import montar_mensagem
+from app.envio_email import montar_email_conteudo
 
 logger = logging.getLogger("oraculo")
 rotas = APIRouter(prefix="/api", tags=["Consulta"])
+
+# Limite de pedidos por e-mail em uma hora, para o formulário não virar fonte de spam
+LIMITE_PEDIDOS_POR_HORA = 5
 
 RESPOSTA_SEM_INFORMACAO = (
     "Não encontrei informações sobre isso na Cartilha de Direitos e Obrigações no Trabalho. "
@@ -65,25 +69,27 @@ def perguntar(pergunta: Pergunta, repositorio=Depends(obter_repositorio), ia=Dep
 def saiba_mais(
     pedido: PedidoSaibaMais,
     tarefas: BackgroundTasks,
-    usuario=Depends(usuario_atual),
     repositorio=Depends(obter_repositorio),
     ia=Depends(obter_ia),
-    whatsapp=Depends(obter_whatsapp),
+    enviador=Depends(obter_email),
 ):
-    # O conteúdo vai para o WhatsApp da conta, autorizado no cadastro (LGPD)
-    telefone = usuario.get("telefone")
-    if not telefone:
-        raise HTTPException(status_code=422, detail="Sua conta não tem um telefone cadastrado para receber pelo WhatsApp.")
+    # Não exige conta: basta o nome, o e-mail e a autorização de envio (LGPD)
+    if not pedido.consentimento:
+        raise HTTPException(status_code=422, detail="É preciso autorizar o envio do conteúdo para o seu e-mail.")
 
     pergunta = repositorio.obter_pergunta(pedido.pergunta_id)
     if not pergunta:
         raise HTTPException(status_code=404, detail="Pergunta não encontrada.")
 
-    solicitacao_id = repositorio.criar_solicitacao(pedido.pergunta_id, telefone, usuario["id"])
-    descricao = f'Pediu conteúdo sobre "{pergunta["texto"][:80]}"'
-    registrar(repositorio, usuario, "pedir_whatsapp", "pergunta", pedido.pergunta_id, descricao)
+    uma_hora_atras = (datetime.now(timezone.utc) - timedelta(hours=1)).isoformat()
+    if repositorio.contar_solicitacoes_recentes(pedido.email, uma_hora_atras) >= LIMITE_PEDIDOS_POR_HORA:
+        raise HTTPException(status_code=429, detail="Você fez muitos pedidos na última hora. Tente de novo mais tarde.")
+
+    solicitacao_id = repositorio.criar_solicitacao(pedido.pergunta_id, pedido.nome, pedido.email)
+    descricao = f'Pediu por e-mail mais conteúdo sobre "{pergunta["texto"][:80]}"'
+    registrar(repositorio, {"id": None, "nome": pedido.nome}, "pedir_conteudo", "pergunta", pedido.pergunta_id, descricao)
     # A pesquisa de links e vídeos leva alguns segundos: roda depois de responder
-    tarefas.add_task(enviar_conteudo_complementar, solicitacao_id, pergunta, telefone, repositorio, ia, whatsapp)
+    tarefas.add_task(enviar_conteudo_complementar, solicitacao_id, pergunta, pedido, repositorio, ia, enviador)
     return SituacaoPedido(id=solicitacao_id, status="pendente")
 
 
@@ -95,12 +101,13 @@ def situacao_saiba_mais(solicitacao_id: str, repositorio=Depends(obter_repositor
     return SituacaoPedido(id=solicitacao["id"], status=solicitacao["status"])
 
 
-def enviar_conteudo_complementar(solicitacao_id, pergunta, telefone, repositorio, ia, whatsapp):
+def enviar_conteudo_complementar(solicitacao_id, pergunta, pedido, repositorio, ia, enviador):
     try:
         trechos = repositorio.obter_trechos(pergunta["trechos_ids"])
         tema = trechos[0]["tema"] if trechos else pergunta["texto"]
         materiais = ia.buscar_materiais(pergunta["texto"], tema)
-        whatsapp.enviar(telefone, montar_mensagem(pergunta["texto"], pergunta["resposta"], materiais))
+        conteudo = montar_email_conteudo(pedido.nome, pergunta["texto"], pergunta["resposta"], materiais)
+        enviador.enviar(pedido.email, conteudo)
         repositorio.concluir_solicitacao(solicitacao_id, materiais)
     except Exception as erro:  # registra qualquer falha para o pedido não ficar pendente
         logger.exception("Falha ao enviar conteúdo complementar %s", solicitacao_id)

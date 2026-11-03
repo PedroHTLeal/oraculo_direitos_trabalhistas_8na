@@ -49,7 +49,7 @@ class Roteiro:
     def entrar(self, perfil):
         login, senha = CONTAS[perfil]
         self.ir("/entrar")
-        self.pagina.fill("#entrar-identificador", login)
+        self.pagina.fill("#entrar-email", login)
         self.pagina.fill("#entrar-senha", senha)
         self.pagina.get_by_role("button", name="Entrar", exact=True).last.click()
         self.pagina.wait_for_url("**/painel/**")
@@ -76,33 +76,33 @@ def criar(r):
     print("Login: validações e erros")
     r.ir("/entrar")
     p.get_by_role("button", name="Entrar", exact=True).last.click()
-    expect(p.get_by_text("Preencha o campo WhatsApp ou e-mail.")).to_be_visible()
+    expect(p.get_by_text("Preencha o campo e-mail.")).to_be_visible()
     r.print("02-login-validacao")
-    p.fill("#entrar-identificador", "(11) 98888-0000")
+    p.fill("#entrar-email", "ninguem@oraculo.com.br")
     p.fill("#entrar-senha", "senha-errada-123")
     p.get_by_role("button", name="Entrar", exact=True).last.click()
-    expect(p.get_by_text("Telefone, e-mail ou senha incorretos.")).to_be_visible()
+    expect(p.get_by_text("E-mail ou senha incorretos.")).to_be_visible()
     r.print("03-login-senha-errada")
 
-    print("Cadastro com WhatsApp: validações, telefone repetido e sucesso")
+    print("Cadastro: validações, e-mail repetido e sucesso")
     r.ir("/cadastro")
     p.fill("#cadastro-nome", "J")
-    p.fill("#cadastro-telefone", "1234")
+    p.fill("#cadastro-email", "joao")
     p.fill("#cadastro-senha", "123")
     p.fill("#cadastro-confirmacao", "321")
     p.get_by_role("button", name="Criar conta").click()
-    expect(p.get_by_text("Informe o telefone com DDD, por exemplo (51) 99999-8888.")).to_be_visible()
+    expect(p.get_by_text("Informe um e-mail válido, por exemplo nome@exemplo.com.")).to_be_visible()
     r.print("04-cadastro-validacao")
     p.fill("#cadastro-nome", "João Teste")
-    p.fill("#cadastro-telefone", CONTAS["usuario"][0].removeprefix("+55"))
+    p.fill("#cadastro-email", CONTAS["usuario"][0])
     p.fill("#cadastro-senha", "senha-teste-123")
     p.fill("#cadastro-confirmacao", "senha-teste-123")
-    p.check("text=Autorizo o uso do meu telefone")
+    p.check("text=Autorizo o uso do meu e-mail")
     p.get_by_role("button", name="Criar conta").click()
-    expect(p.get_by_text("Já existe uma conta com este telefone.")).to_be_visible()
-    r.print("05-cadastro-telefone-repetido")
-    telefone_novo = f"1190{random.randint(1000000, 9999999)}"
-    p.fill("#cadastro-telefone", telefone_novo)
+    expect(p.get_by_text("Já existe um usuário com este e-mail.", exact=False)).to_be_visible()
+    r.print("05-cadastro-email-repetido")
+    email_novo = f"joao.teste{random.randint(1000, 9999)}@oraculo.com.br"
+    p.fill("#cadastro-email", email_novo)
     p.get_by_role("button", name="Criar conta").click()
     p.wait_for_url("**/painel/temas")
     expect(p.get_by_text("Conta criada!")).to_be_visible()
@@ -185,7 +185,7 @@ def criar(r):
     r.print("19-curador-sem-acesso-historico")
     r.sair()
 
-    ESTADO.write_text(json.dumps({"telefone_cadastrado": telefone_novo}), encoding="utf-8")
+    ESTADO.write_text(json.dumps({"email_cadastrado": email_novo}), encoding="utf-8")
     print("\nEncerre e abra o sistema de novo e rode: capturar_evidencias.py conferir")
 
 
@@ -235,8 +235,7 @@ def conferir(r):
     r.print("27-regra-administrador")
     p.get_by_role("button", name="Fechar").click()
 
-    tel = estado["telefone_cadastrado"]
-    linha = p.get_by_role("row").filter(has_text=f"({tel[:2]}) {tel[2:7]}-{tel[7:]}")
+    linha = p.get_by_role("row").filter(has_text=estado["email_cadastrado"])
     linha.get_by_role("button", name="Excluir").click()
     r.print("28-usuario-confirmar-exclusao")
     p.get_by_role("dialog").get_by_role("button", name="Excluir").click()

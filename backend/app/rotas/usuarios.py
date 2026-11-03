@@ -7,7 +7,6 @@ from app.esquemas import AlteracaoUsuario, NovoUsuario, Usuario
 from app.historico import registrar
 from app.repositorio import RegistroDuplicado
 from app.seguranca import gerar_hash_senha
-from app.telefone import TelefoneInvalido, normalizar_telefone
 
 rotas = APIRouter(prefix="/api/usuarios", tags=["Usuários"])
 
@@ -15,28 +14,10 @@ NOMES_DOS_PERFIS = {"administrador": "Administrador", "curador": "Curador", "usu
 CAMPOS_LEGIVEIS = {
     "nome": "nome",
     "email": "e-mail",
-    "telefone": "WhatsApp",
     "perfil": "perfil",
     "ativo": "situação",
     "senha_hash": "senha",
 }
-
-
-def validar_meio_de_login(perfil, email, telefone):
-    # Regra de negócio: a equipe entra com e-mail; usuários comuns, com o telefone
-    if perfil == "usuario" and not telefone:
-        raise HTTPException(status_code=422, detail="Usuários comuns precisam de um telefone (WhatsApp).")
-    if perfil != "usuario" and not email:
-        raise HTTPException(status_code=422, detail="Administradores e curadores precisam de um e-mail.")
-
-
-def telefone_normalizado(valor):
-    if not valor:
-        return None
-    try:
-        return normalizar_telefone(valor)
-    except TelefoneInvalido as erro:
-        raise HTTPException(status_code=422, detail=str(erro))
 
 
 @rotas.get("", response_model=list[Usuario])
@@ -46,10 +27,8 @@ def listar(_=Depends(somente_administrador), repositorio=Depends(obter_repositor
 
 @rotas.post("", response_model=Usuario, status_code=201)
 def criar(dados: NovoUsuario, administrador=Depends(somente_administrador), repositorio=Depends(obter_repositorio)):
-    telefone = telefone_normalizado(dados.telefone)
-    validar_meio_de_login(dados.perfil, dados.email, telefone)
     try:
-        usuario = repositorio.criar_usuario(dados.nome, dados.email, telefone, gerar_hash_senha(dados.senha), dados.perfil)
+        usuario = repositorio.criar_usuario(dados.nome, dados.email, gerar_hash_senha(dados.senha), dados.perfil)
     except RegistroDuplicado as erro:
         raise HTTPException(status_code=409, detail=str(erro))
     descricao = f"Cadastrou {dados.nome} ({NOMES_DOS_PERFIS[dados.perfil]})"
@@ -69,12 +48,6 @@ def alterar(
         raise HTTPException(status_code=404, detail="Usuário não encontrado.")
 
     campos = dados.model_dump(exclude_none=True)
-    if "telefone" in campos:
-        campos["telefone"] = telefone_normalizado(campos["telefone"])
-    validar_meio_de_login(
-        campos.get("perfil", atual["perfil"]), campos.get("email", atual["email"]), campos.get("telefone", atual["telefone"])
-    )
-
     perde_administracao = atual["perfil"] == "administrador" and (
         campos.get("perfil", "administrador") != "administrador" or campos.get("ativo") is False
     )

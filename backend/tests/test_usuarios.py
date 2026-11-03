@@ -65,18 +65,12 @@ def test_email_repetido_ao_alterar(client, falsos, entrar):
     assert resposta.status_code == 409
 
 
-def test_meio_de_login_conforme_o_perfil(client, falsos, entrar):
+def test_toda_conta_precisa_de_email(client, falsos, entrar):
     cabecalho = entrar("administrador")
 
-    curador_sem_email = client.post("/api/usuarios", json={**NOVO, "email": None}, headers=cabecalho)
-    usuario_sem_telefone = client.post("/api/usuarios", json={**NOVO, "perfil": "usuario"}, headers=cabecalho)
-    usuario_com_telefone = client.post(
-        "/api/usuarios",
-        json={**NOVO, "email": None, "perfil": "usuario", "telefone": "(51) 98888-7777"},
-        headers=cabecalho,
-    )
+    sem_email = client.post("/api/usuarios", json={**NOVO, "email": None}, headers=cabecalho)
+    usuario_comum = client.post("/api/usuarios", json={**NOVO, "perfil": "usuario"}, headers=cabecalho)
 
-    assert curador_sem_email.json()["detail"] == "Administradores e curadores precisam de um e-mail."
-    assert usuario_sem_telefone.json()["detail"] == "Usuários comuns precisam de um telefone (WhatsApp)."
-    assert usuario_com_telefone.status_code == 201
-    assert usuario_com_telefone.json()["telefone"] == "+5551988887777"
+    assert sem_email.status_code == 422
+    assert usuario_comum.status_code == 201
+    assert usuario_comum.json()["email"] == NOVO["email"]

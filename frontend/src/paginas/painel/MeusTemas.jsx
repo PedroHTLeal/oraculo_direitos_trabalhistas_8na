@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { criarInscricao, excluirInscricao, listarInscricoes, listarMinhasAtualizacoes, listarTemas } from '../../api'
-import { telefoneLegivel, useAutenticacao } from '../../autenticacao/contexto'
+import { useAutenticacao } from '../../autenticacao/contexto'
 import Campo from '../../components/Campo'
 import { regras, validar } from '../../validacao'
 
@@ -70,8 +70,7 @@ function MeusTemas() {
     <section>
       <h1>Meus temas</h1>
       <p className="subtitulo">
-        Escolha os assuntos sobre os quais quer receber novidades. Elas chegam no WhatsApp{' '}
-        <strong>{telefoneLegivel(usuario?.telefone)}</strong>.
+        Escolha os assuntos sobre os quais quer receber novidades. Elas chegam no e-mail <strong>{usuario?.email}</strong>.
       </p>
 
       {mensagem && (

@@ -9,8 +9,6 @@ export const regras = {
   maximo: (rotulo, tamanho) => (valor) =>
     String(valor ?? '').trim().length <= tamanho ? null : `O campo ${rotulo} pode ter no máximo ${tamanho} caracteres.`,
   email: () => (valor) => (EMAIL.test(String(valor ?? '').trim()) ? null : 'Informe um e-mail válido, por exemplo nome@exemplo.com.'),
-  telefone: () => (valor) =>
-    [10, 11].includes(String(valor ?? '').replace(/\D/g, '').length) ? null : 'Informe o telefone com DDD, por exemplo (51) 99999-8888.',
   igual: (outro, mensagem) => (valor, dados) => (valor === dados[outro] ? null : mensagem),
 }
 

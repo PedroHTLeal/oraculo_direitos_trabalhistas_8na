@@ -712,20 +712,6 @@ main {
   font-weight: 600;
 }
 
-.modal input[type='tel'] {
-  width: 100%;
-  min-height: 48px;
-  padding: 0 0.9rem;
-  border: 1px solid var(--cor-borda);
-  border-radius: 10px;
-  font: inherit;
-  font-size: 1.1rem;
-}
-
-.modal input[type='tel']:focus-visible {
-  border-color: var(--cor-marinho);
-}
-
 .consentimento {
   display: flex;
   gap: 0.6rem;

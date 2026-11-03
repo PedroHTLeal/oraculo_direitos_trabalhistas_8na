@@ -1,6 +1,6 @@
 # Sprint 09 — Verificação completa e documentação
 
-**Situação:** Em andamento: testes com o banco real concluídos; faltam os testes com a IA (Gemini) e o WhatsApp (n8n) reais · [← Voltar ao índice](../../README.md)
+**Situação:** Em andamento: testes com o banco real concluídos; faltam os testes com a IA (Gemini) e o envio de e-mail reais · [← Voltar ao índice](../../README.md)
 
 ## O que a Sprint pediu
 
@@ -10,7 +10,7 @@ Testes funcionais, correção de bugs, testes de validação, testes de navegaç
 
 | Tipo | Ferramenta | Resultado |
 | --- | --- | --- |
-| **Automatizados (backend)** | 97 testes com `pytest` (rodar `pytest` em `backend/`), com versões simuladas do banco, da IA e do WhatsApp | 97 de 97 passando |
+| **Automatizados (backend)** | 97 testes com `pytest` (rodar `pytest` em `backend/`), com versões simuladas do banco, da IA e do e-mail | 97 de 97 passando |
 | **Funcionais, de validação e de navegação** | Roteiro [`capturar_evidencias.py`](../../ferramentas/capturar_evidencias.py), que usa o navegador Edge, o sistema rodando localmente e o **banco real** no Supabase. Cada passo verifica o que deve aparecer na tela e salva um print | 35 de 35 passos aprovados (02/11/2026) |
 | **Persistência** | O roteiro roda em duas fases; entre elas o sistema é encerrado e aberto de novo | Dados mantidos |
 
@@ -18,10 +18,10 @@ Testes funcionais, correção de bugs, testes de validação, testes de navegaç
 
 | # | Caso de teste | Perfil | Resultado esperado | Resultado obtido | Evidência |
 | --- | --- | --- | --- | --- | --- |
-| CT01 | Entrar sem preencher os campos | Visitante | Mensagem "Preencha o campo WhatsApp ou e-mail." | Conforme esperado | [print](../../evidencias/02-login-validacao.png) |
+| CT01 | Entrar sem preencher os campos | Visitante | Mensagem "Preencha o campo e-mail." | Conforme esperado | [print](../../evidencias/02-login-validacao.png) |
 | CT02 | Entrar com senha errada | Visitante | Mensagem genérica, sem revelar se a conta existe | Conforme esperado | [print](../../evidencias/03-login-senha-errada.png) |
-| CT03 | Cadastro com nome curto, telefone e senha inválidos e senhas diferentes | Visitante | Uma mensagem junto de cada campo | Conforme esperado | [print](../../evidencias/04-cadastro-validacao.png) |
-| CT04 | Cadastro com telefone já usado | Visitante | "Já existe uma conta com este telefone." | Conforme esperado | [print](../../evidencias/05-cadastro-telefone-repetido.png) |
+| CT03 | Cadastro com nome curto, e-mail e senha inválidos e senhas diferentes | Visitante | Uma mensagem junto de cada campo | Conforme esperado | [print](../../evidencias/04-cadastro-validacao.png) |
+| CT04 | Cadastro com e-mail já usado | Visitante | "Já existe um usuário com este e-mail." | Conforme esperado | [print](../../evidencias/05-cadastro-email-repetido.png) |
 | CT05 | Cadastro válido | Visitante | Conta criada e pessoa levada a "Meus temas" | Conforme esperado | [print](../../evidencias/06-cadastro-sucesso.png) |
 | CT06 | Acompanhar tema sem escolher o tema | Usuário | "Preencha o campo tema." | Conforme esperado | [print](../../evidencias/07-temas-validacao.png) |
 | CT07 | Acompanhar o tema Férias | Usuário | Confirmação e tema na lista | Conforme esperado | [print](../../evidencias/08-temas-inscricao.png) |
@@ -31,7 +31,7 @@ Testes funcionais, correção de bugs, testes de validação, testes de navegaç
 | CT11 | Salvar trecho sem campos | Curador | "Preencha o campo tema." e demais campos | Conforme esperado | [print](../../evidencias/13-trecho-validacao.png) |
 | CT12 | Cadastrar, editar e salvar um trecho | Curador | Mensagens "Trecho cadastrado." e "Trecho atualizado." | Conforme esperado | [print](../../evidencias/16-trecho-atualizado.png) |
 | CT13 | Publicar atualização sem título | Curador | "Preencha o campo título." | Conforme esperado | [print](../../evidencias/17-atualizacao-validacao.png) |
-| CT14 | Publicar atualização do tema Férias sem o WhatsApp configurado | Curador | Publicação salva; envio marcado com erro e botão "Reenviar" | Conforme esperado | [print](../../evidencias/18-atualizacao-publicada.png) |
+| CT14 | Publicar atualização do tema Férias sem o e-mail configurado | Curador | Publicação salva; envio marcado com erro e botão "Reenviar" | Conforme esperado | [print](../../evidencias/18-atualizacao-publicada.png) |
 | CT15 | Abrir o histórico de operações | Curador | "Acesso não permitido" (exclusivo do administrador) | Conforme esperado | [print](../../evidencias/19-curador-sem-acesso-historico.png) |
 | CT16 | Fechar e abrir o sistema e procurar o trecho cadastrado | Curador | Trecho continua salvo | Conforme esperado | [print](../../evidencias/20-persistencia-apos-reiniciar.png) |
 | CT17 | Excluir o trecho | Curador | Confirmação e depois "Trecho excluído." | Conforme esperado | [print](../../evidencias/22-trecho-excluido.png) |
@@ -59,6 +59,6 @@ Testes funcionais, correção de bugs, testes de validação, testes de navegaç
 | Pendência | Ação prevista |
 | --- | --- |
 | Testar a resposta da IA com dados reais | Configurar a chave gratuita do Gemini e repetir a consulta com as perguntas de referência |
-| Testar o envio pelo WhatsApp | Ligar a automação no n8n, conectar o WhatsApp do Oráculo na Evolution API e repetir o CT14 e o "Quer saber mais" |
+| Testar o envio por e-mail | Criar a senha de app do Gmail (guia de configuração, seção 3) e repetir o CT14 e o "Quer saber mais" |
 | Relatório de perguntas com dados | Gerado automaticamente depois que a IA estiver respondendo |
 | Diagramas técnicos (arquitetura, classes, MER e relacional) | Incluir no documento técnico ([Sprint 02](../sprint-02/README.md)) |

@@ -13,7 +13,7 @@ ACOES = {
     "excluir": "Exclusão",
     "publicar": "Publicação",
     "reenviar": "Reenvio",
-    "pedir_whatsapp": "Pedido de WhatsApp",
+    "pedir_conteudo": "Pedido de conteúdo por e-mail",
 }
 
 ENTIDADES = {

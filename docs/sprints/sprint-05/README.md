@@ -1,21 +1,21 @@
-# Sprint 05 — Módulo 2: acompanhamento pelo WhatsApp
+# Sprint 05 — Módulo 2: acompanhamento de temas
 
-**Situação:** Concluída e testada com o banco real; o envio real pelo WhatsApp aguarda a automação no n8n · [← Voltar ao índice](../../README.md)
+**Situação:** Concluída e testada com o banco real; o envio real por e-mail aguarda a senha de app do Gmail · [← Voltar ao índice](../../README.md)
 
 ## O que a Sprint pediu
 
 Segundo módulo completo, integrado ao banco de dados, com regras de negócio atualizadas, testes das funcionalidades e correção dos bugs encontrados.
 
-## Módulo entregue: acompanhamento de temas pelo WhatsApp
+## Módulo entregue: acompanhamento de temas por e-mail
 
-**Fluxo completo:** a pessoa cria a conta com o WhatsApp → escolhe temas para acompanhar → a equipe publica uma atualização do tema → o sistema envia a mensagem a cada inscrito e registra a situação de cada envio → a pessoa também vê a novidade em **Meus temas**.
+**Fluxo completo:** a pessoa cria a conta com o e-mail → escolhe temas para acompanhar → a equipe publica uma atualização do tema → o sistema envia um e-mail a cada inscrito e registra a situação de cada envio → a pessoa também vê a novidade em **Meus temas**.
 
 ## O que foi entregue
 
 | Item pedido | Entrega | Onde ver |
 | --- | --- | --- |
-| Segundo módulo | Conta com WhatsApp, temas acompanhados e atualizações | Telas **Cadastre seu WhatsApp**, **Meus temas** e **Atualizações** |
-| Integração com o banco | Tabelas `usuarios`, `inscricoes_tema`, `atualizacoes` e `envios_atualizacao` | [`supabase/004_conta_com_whatsapp.sql`](../../../supabase/004_conta_com_whatsapp.sql) |
+| Segundo módulo | Conta com e-mail, temas acompanhados e atualizações | Telas **Crie sua conta**, **Meus temas** e **Atualizações** |
+| Integração com o banco | Tabelas `usuarios`, `inscricoes_tema`, `atualizacoes` e `envios_atualizacao` | [`supabase/003_modelo_relacional.sql`](../../../supabase/003_modelo_relacional.sql) e [`006_contato_por_email.sql`](../../../supabase/006_contato_por_email.sql) |
 | Regras de negócio | Ver tabela abaixo | [`rotas/atualizacoes.py`](../../../backend/app/rotas/atualizacoes.py) |
 | Testes | 97 testes automatizados no backend (`pytest`) | [`backend/tests/`](../../../backend/tests/) |
 | Correção de bugs | Ver tabela de bugs abaixo | — |
@@ -24,12 +24,12 @@ Segundo módulo completo, integrado ao banco de dados, com regras de negócio at
 
 | Regra | Justificativa |
 | --- | --- |
-| O cadastro público usa **nome, WhatsApp e senha**, com autorização obrigatória (LGPD) | A conta existe para a pessoa receber conteúdo pelo WhatsApp (mudança pedida pela equipe) |
-| A equipe entra com **e-mail**; usuários comuns, com o **telefone** | Cada público usa o dado que já tem |
-| Só recebem a atualização as **inscrições ativas** do tema no momento da publicação | Evita mensagens a quem deixou de acompanhar |
+| O cadastro público usa **nome, e-mail e senha**, com autorização obrigatória (LGPD) | A conta existe para a pessoa acompanhar temas e receber as novidades por e-mail |
+| Todos entram com **e-mail e senha** | Um único jeito de entrar, simples para todos os perfis |
+| Só recebem a atualização as **inscrições ativas** do tema no momento da publicação | Evita e-mails a quem deixou de acompanhar |
 | O **curador só exclui as próprias** publicações; o administrador exclui qualquer uma | Responsabilidade sobre o que foi publicado |
-| A publicação é salva **mesmo sem o WhatsApp configurado**; os envios ficam com erro e podem ser reenviados | Nenhuma informação se perde por falha externa |
-| Uma pessoa não acompanha o mesmo tema duas vezes | Evita mensagens duplicadas |
+| A publicação é salva **mesmo sem o e-mail configurado**; os envios ficam com erro e podem ser reenviados | Nenhuma informação se perde por falha externa |
+| Uma pessoa não acompanha o mesmo tema duas vezes | Evita e-mails duplicados |
 
 ### Bugs encontrados e corrigidos
 
@@ -47,9 +47,9 @@ O registro completo de bugs, incluindo os encontrados depois, está na [Sprint 0
 
 Prints gerados em 02/11/2026 pelo roteiro automatizado [`capturar_evidencias.py`](../../ferramentas/capturar_evidencias.py), com o sistema rodando localmente e o banco real no Supabase. Todos os prints estão em [`docs/evidencias/`](../../evidencias/).
 
-**Regra: não pode haver duas contas com o mesmo telefone**
+**Regra: não pode haver duas contas com o mesmo e-mail**
 
-![Regra: não pode haver duas contas com o mesmo telefone](../../evidencias/05-cadastro-telefone-repetido.png)
+![Regra: não pode haver duas contas com o mesmo e-mail](../../evidencias/05-cadastro-email-repetido.png)
 
 **Meus temas: validação**
 
@@ -63,9 +63,9 @@ Prints gerados em 02/11/2026 pelo roteiro automatizado [`capturar_evidencias.py`
 
 ![Atualizações: validação do formulário](../../evidencias/17-atualizacao-validacao.png)
 
-**Atualização publicada; sem WhatsApp configurado o envio fica com erro e pode ser reenviado**
+**Atualização publicada; sem o e-mail configurado o envio fica com erro e pode ser reenviado**
 
-![Atualização publicada; sem WhatsApp configurado o envio fica com erro e pode ser reenviado](../../evidencias/18-atualizacao-publicada.png)
+![Atualização publicada; sem o e-mail configurado o envio fica com erro e pode ser reenviado](../../evidencias/18-atualizacao-publicada.png)
 
 **A pessoa vê a novidade do tema que acompanha**
 
@@ -75,7 +75,7 @@ Prints gerados em 02/11/2026 pelo roteiro automatizado [`capturar_evidencias.py`
 
 | Commit | O que mudou |
 | --- | --- |
-| [`43414b5`](https://github.com/PedroHTLeal/oraculo_direitos_trabalhistas_8na/commit/43414b5) | Cadastro e login por telefone; "Saiba mais" e temas usam o telefone da conta |
-| [`7f76733`](https://github.com/PedroHTLeal/oraculo_direitos_trabalhistas_8na/commit/7f76733) | Telas de conta com WhatsApp e "Saiba mais" com criar conta / entrar |
+| [`43414b5`](https://github.com/PedroHTLeal/oraculo_direitos_trabalhistas_8na/commit/43414b5) | Cadastro e login da conta; "Saiba mais" e temas ligados à conta |
+| [`7f76733`](https://github.com/PedroHTLeal/oraculo_direitos_trabalhistas_8na/commit/7f76733) | Telas de conta e "Saiba mais" com criar conta / entrar |
 | [`7f43866`](https://github.com/PedroHTLeal/oraculo_direitos_trabalhistas_8na/commit/7f43866) | Módulo 2 no backend: publicar, enviar, reenviar e excluir atualizações |
 | [`e24c793`](https://github.com/PedroHTLeal/oraculo_direitos_trabalhistas_8na/commit/e24c793) | Telas do Módulo 2: Atualizações e novidades em Meus temas |

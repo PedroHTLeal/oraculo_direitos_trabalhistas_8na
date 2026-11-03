@@ -70,11 +70,11 @@ export const enviarPergunta = (texto) =>
   })
 
 
-// O conteúdo vai para o WhatsApp da conta de quem está logado
-export const pedirSaibaMais = (perguntaId) =>
+// A resposta, 2 sites e 2 vídeos vão para o e-mail informado
+export const pedirSaibaMais = (perguntaId, { nome, email, consentimento }) =>
   requisitar('/api/saiba-mais', {
     metodo: 'POST',
-    corpo: { pergunta_id: perguntaId },
+    corpo: { pergunta_id: perguntaId, nome, email, consentimento },
     mensagemPadrao: 'Não foi possível registrar seu pedido agora.',
   })
 
@@ -82,12 +82,10 @@ export const consultarPedido = (id) => requisitar(`/api/saiba-mais/${id}`)
 
 // Autenticação
 
-// Identificador: telefone (usuários) ou e-mail (equipe)
-export const entrar = (identificador, senha) =>
-  requisitar('/api/auth/login', { metodo: 'POST', corpo: { identificador, senha } })
+export const entrar = (email, senha) => requisitar('/api/auth/login', { metodo: 'POST', corpo: { email, senha } })
 
-export const cadastrar = ({ nome, telefone, senha, consentimento }) =>
-  requisitar('/api/auth/cadastro', { metodo: 'POST', corpo: { nome, telefone, senha, consentimento } })
+export const cadastrar = ({ nome, email, senha, consentimento }) =>
+  requisitar('/api/auth/cadastro', { metodo: 'POST', corpo: { nome, email, senha, consentimento } })
 
 export const sair = () => requisitar('/api/auth/sair', { metodo: 'POST' })
 

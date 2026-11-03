@@ -109,7 +109,7 @@ def indicadores(
         "sem_resposta_recentes": [
             {"id": p["id"], "texto": p["texto"], "criado_em": p["criado_em"]} for p in perguntas if not p["encontrou"]
         ][:5],
-        "whatsapp": {status: pedidos.get(status, 0) for status in ("enviado", "pendente", "erro")},
+        "saiba_mais": {status: pedidos.get(status, 0) for status in ("enviado", "pendente", "erro")},
         "inscricoes": {"total": sum(inscricoes.values()), "por_tema": [{"tema": t, "total": n} for t, n in inscricoes.most_common(8)]},
         "atualizacoes": {
             "publicadas": len(atualizacoes),

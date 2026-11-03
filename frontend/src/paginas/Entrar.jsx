@@ -20,8 +20,8 @@ function Entrar() {
             <p className="chamada">Sua conta</p>
             <h1>Entrar</h1>
             <p className="subtitulo">
-              Entre para receber no seu WhatsApp mais conteúdos sobre as suas dúvidas e as novidades dos temas que você
-              acompanha. Para só fazer perguntas, não é preciso conta.
+              Entre para acompanhar temas e receber as novidades deles no seu e-mail. Para fazer perguntas, não é preciso
+              conta.
             </p>
           </div>
 
@@ -34,7 +34,7 @@ function Entrar() {
           <FormularioEntrar aoEntrar={(conta) => navegar(destino || paginaInicial(conta), { replace: true })} />
 
           <p className="texto-apoio">
-            Ainda não tem conta? <Link to="/cadastro">Cadastre seu WhatsApp</Link> · <Link to="/">Voltar para a consulta</Link>
+            Ainda não tem conta? <Link to="/cadastro">Crie sua conta</Link> · <Link to="/">Voltar para a consulta</Link>
           </p>
         </main>
       </div>

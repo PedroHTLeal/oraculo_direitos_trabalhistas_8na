@@ -67,9 +67,9 @@ function Dashboard() {
               detalhe={`${p.respondidas} respondidas · ${p.sem_resposta} sem informação`}
             />
             <Indicador
-              titulo="Pedidos de WhatsApp"
-              valor={dados.whatsapp.enviado + dados.whatsapp.pendente + dados.whatsapp.erro}
-              detalhe={`${dados.whatsapp.enviado} enviados · ${dados.whatsapp.erro} com erro`}
+              titulo="Pedidos de Saber mais"
+              valor={dados.saiba_mais.enviado + dados.saiba_mais.pendente + dados.saiba_mais.erro}
+              detalhe={`${dados.saiba_mais.enviado} e-mails enviados · ${dados.saiba_mais.erro} com erro`}
             />
             <Indicador
               titulo="Pessoas acompanhando temas"
@@ -129,7 +129,7 @@ function Dashboard() {
                   <span>Curadores</span> <strong>{dados.usuarios.curador}</strong>
                 </li>
                 <li>
-                  <span>Contas com WhatsApp</span> <strong>{dados.usuarios.usuario}</strong>
+                  <span>Contas de usuários</span> <strong>{dados.usuarios.usuario}</strong>
                 </li>
               </ul>
             </article>

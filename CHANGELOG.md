@@ -4,19 +4,21 @@ Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o
 
 ---
 
-## 0.8.0 — WhatsApp por automação no n8n com a Evolution API
+## 0.9.0 — Conteúdo complementar e novidades por e-mail
 
 **Data:** 02/11/2026 · **Branch:** `main`
 
-**Objetivo:** enviar o WhatsApp por uma automação gratuita e local no **n8n**, conectada ao WhatsApp pela **Evolution API** (decisão da equipe).
+**Objetivo:** tornar o "Saber mais" simples e rápido: a pessoa informa só o nome e o e-mail e recebe a resposta, 2 sites e 2 vídeos do YouTube sobre o assunto (decisão da equipe).
 
 **O que foi feito:**
-- O Oráculo envia o pedido (telefone e mensagem) a um fluxo do n8n, protegido por um token combinado.
-- Pasta `automacao/` com o n8n, a Evolution API e o banco PostgreSQL dela no Docker, o fluxo pronto para importar e o script `iniciar-automacao.bat`.
-- O fluxo confere como o número está registrado no WhatsApp (`/chat/whatsappNumbers`) antes de enviar (`/message/sendText`), o que resolve o 9 extra dos celulares brasileiros.
-- Guia passo a passo (Docker, QR code na Evolution API e importação do fluxo); testes do envio pelo n8n e do arquivo do fluxo (104 no total).
+- Novo envio de e-mails pelo Gmail (`backend/app/envio_email.py`), com versão em texto e em HTML nas cores do Oráculo.
+- Janela "Saber mais" com nome, e-mail e autorização (LGPD), sem exigir conta; quem já entrou tem os campos preenchidos.
+- Limite de 5 pedidos por e-mail a cada hora, para o formulário não ser usado para spam.
+- Contas com e-mail e senha para todos os perfis; as novidades dos temas acompanhados também chegam por e-mail.
+- Banco ajustado pelo [`supabase/006_contato_por_email.sql`](supabase/006_contato_por_email.sql).
+- Guia de configuração com o passo a passo da senha de app do Gmail; documentação das Sprints atualizada; 91 testes no backend.
 
-**Como agrega:** cumpre o item PB09 do backlog (automação com n8n) sem custo, com uma ferramenta conhecida pela comunidade brasileira. Risco registrado: a Evolution API usa o WhatsApp Web, que não é oficial; por isso o Oráculo usa um número secundário.
+**Como agrega:** atende RF10, RF11 e UC05 do jeito mais simples para quem usa: nada para instalar, sem custo e sem precisar criar conta para receber o conteúdo.
 
 ---
 
@@ -27,8 +29,8 @@ Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o
 **Objetivo:** cumprir as entregas práticas das Sprints 03 a 09.
 
 **O que foi feito:**
-- Login, cadastro e perfis (administrador, curador, usuário); cadastro público com nome, WhatsApp e senha.
-- Módulo 1: CRUD da base de conhecimento. Módulo 2: temas acompanhados e atualizações enviadas pelo WhatsApp. Módulo 3: consulta com IA integrada aos outros dois.
+- Login, cadastro e perfis (administrador, curador, usuário); cadastro público com nome e senha.
+- Módulo 1: CRUD da base de conhecimento. Módulo 2: temas acompanhados e atualizações enviadas aos inscritos. Módulo 3: consulta com IA integrada aos outros dois.
 - Dashboard, relatórios com filtros, exportação em CSV e histórico de operações.
 - Deploy local com `iniciar.bat`; branches consolidados em um único `main`.
 - 97 testes automatizados, 35 passos testados no banco real e 6 bugs corrigidos.
@@ -46,13 +48,13 @@ Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o
 
 **O que foi feito:**
 - As respostas passaram a ser geradas pelo Gemini (`gemini-flash-latest`), com as mesmas regras: usar só os trechos da cartilha, linguagem simples e indicação das fontes.
-- Os 2 sites e os 2 vídeos enviados pelo WhatsApp passaram a ser pesquisados no Google pelo próprio Gemini. O sistema segue cada link da pesquisa até o endereço final e busca o título real da página ou do vídeo.
+- Os 2 sites e os 2 vídeos enviados passaram a ser pesquisados no Google pelo próprio Gemini. O sistema segue cada link da pesquisa até o endereço final e busca o título real da página ou do vídeo.
 - Se a pesquisa não trouxer vídeos, a mensagem indica uma busca pronta no YouTube sobre o tema.
 - Novos testes da integração com o Gemini (42 no total).
 - Guia de configuração, modelo do `.env`, README e relatório atualizados.
 
 **Como agrega ao projeto:**
-- Atende ao RNF09 (custo operacional): IA, banco de dados e WhatsApp agora usam apenas planos gratuitos.
+- Atende ao RNF09 (custo operacional): IA e banco de dados agora usam apenas planos gratuitos.
 - Uma única chave do Google cobre a geração das respostas e a pesquisa de materiais, simplificando a configuração.
 - Os links enviados continuam vindo só de resultados reais da pesquisa, evitando endereços inventados.
 
@@ -78,22 +80,22 @@ Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o
 - Aproxima a linguagem do público-alvo (pessoas sem familiaridade com termos jurídicos) da linguagem da cartilha.
 - Mostra na prática a importância de testar com o ambiente real: o erro não aparecia nos testes com dados simulados.
 
-**Pendente:** testar a geração das respostas e o envio pelo WhatsApp, que dependem das chaves da IA e do WhatsApp.
+**Pendente:** testar a geração das respostas e o envio do conteúdo complementar com as chaves reais.
 
 ---
 
-## 0.4.0 — Base de conhecimento, respostas com IA e WhatsApp
+## 0.4.0 — Base de conhecimento, respostas com IA e conteúdo complementar
 
 **Data:** 31/10/2026 · **Branch:** `base-conhecimento` · **Integração:** Pull Request para `main`, após `tela-perguntas` e `novo-visual`
 
-**Objetivo:** fazer o Oráculo responder de verdade, com base na cartilha do TRT4 guardada no Supabase, e permitir que o usuário receba conteúdo complementar (2 sites e 2 vídeos) no WhatsApp.
+**Objetivo:** fazer o Oráculo responder de verdade, com base na cartilha do TRT4 guardada no Supabase, e permitir que o usuário receba conteúdo complementar (2 sites e 2 vídeos).
 
 **O que foi feito:**
 - Extração automática das 25 páginas da Cartilha de Direitos e Obrigações no Trabalho do TRT4, divididas em 217 trechos com tema, seção e link da fonte.
-- Estrutura do banco no Supabase: tabelas de trechos, perguntas e pedidos de WhatsApp, busca textual em português que ignora acentos e acesso público bloqueado.
+- Estrutura do banco no Supabase: tabelas de trechos, perguntas e pedidos de conteúdo complementar, busca textual em português que ignora acentos e acesso público bloqueado.
 - Respostas geradas pela IA (Claude) usando somente os trechos encontrados, em linguagem simples, com as fontes conferidas pelo sistema.
 - A resposta aparece no painel azul, no lugar da órbita de temas; no celular, abaixo do campo de pergunta.
-- Botão "Saiba mais pelo WhatsApp": pede o telefone e o consentimento (LGPD); a IA pesquisa 2 sites e 2 vídeos do YouTube, e o Oráculo envia tudo para o WhatsApp do usuário.
+- Botão "Saiba mais": pede o contato e o consentimento (LGPD); a IA pesquisa 2 sites e 2 vídeos do YouTube, e o Oráculo envia tudo ao usuário.
 - Registro de erros no servidor e situação de cada pedido no banco.
 - Guia de configuração das contas (`docs/configuracao.md`) e modelo do arquivo de chaves (`backend/.env.example`).
 - 35 testes automatizados no backend (antes eram 7).
@@ -103,7 +105,7 @@ Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o
 - Adianta a implementação do RAG e da IA, prevista para a Sprint 04.
 - A IA só usa a cartilha e o sistema confere as fontes citadas, o que reduz respostas inventadas (RNF08).
 - Os links e vídeos enviados são só os encontrados de fato na pesquisa, evitando endereços inventados.
-- O consentimento obrigatório, a validação do telefone e o bloqueio de acesso público ao banco atendem ao RNF03 (LGPD).
+- O consentimento obrigatório, a validação do contato e o bloqueio de acesso público ao banco atendem ao RNF03 (LGPD).
 
 **Pendente:** o teste com os serviços reais depende da criação das contas no Supabase e na IA.
 

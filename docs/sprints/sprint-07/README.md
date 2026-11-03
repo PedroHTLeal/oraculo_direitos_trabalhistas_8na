@@ -10,12 +10,12 @@ Dashboard com dados reais, relatórios, pesquisas, filtros, exportação (quando
 
 | Item pedido | Entrega | Onde ver |
 | --- | --- | --- |
-| Dashboard | Indicadores (perguntas, taxa de resposta, pedidos de WhatsApp, pessoas acompanhando temas), gráfico de perguntas por data, temas mais consultados, temas acompanhados, perguntas sem resposta e usuários por perfil | Tela **Dashboard** · [`rotas/relatorios.py`](../../../backend/app/rotas/relatorios.py) |
+| Dashboard | Indicadores (perguntas, taxa de resposta, pedidos de Saber mais, pessoas acompanhando temas), gráfico de perguntas por data, temas mais consultados, temas acompanhados, perguntas sem resposta e usuários por perfil | Tela **Dashboard** · [`rotas/relatorios.py`](../../../backend/app/rotas/relatorios.py) |
 | Relatórios | Relatório de perguntas e relatório do histórico de operações | Telas **Relatório de perguntas** e **Histórico de operações** |
 | Pesquisas | Pesquisa no texto das perguntas, dos trechos da base e do histórico (pessoa ou descrição) | Campos "Pesquisar" de cada tela |
 | Filtros | Período (de/até ou 7, 30, 90 dias e 12 meses), resultado, tema, ação e área | Barra de filtros de cada tela |
 | Exportação | **CSV** com separador `;` e acentuação correta, que abre direto no Excel | Botão **Exportar CSV** |
-| Histórico de operações | Logins, cadastros, inclusões, alterações, exclusões, publicações e pedidos de WhatsApp, com quem fez e quando | [`supabase/005_historico_de_operacoes.sql`](../../../supabase/005_historico_de_operacoes.sql) · [`historico.py`](../../../backend/app/historico.py) |
+| Histórico de operações | Logins, cadastros, inclusões, alterações, exclusões, publicações e pedidos de conteúdo por e-mail, com quem fez e quando | [`supabase/005_historico_de_operacoes.sql`](../../../supabase/005_historico_de_operacoes.sql) · [`historico.py`](../../../backend/app/historico.py) |
 
 ## Decisões
 

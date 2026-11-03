@@ -1,10 +1,10 @@
-def test_usuario_acompanha_tema_no_telefone_da_conta(client, falsos, entrar):
-    cabecalho = entrar("usuario", login="+5551999998888")
+def test_usuario_acompanha_tema_no_email_da_conta(client, falsos, entrar):
+    cabecalho = entrar("usuario", login="maria@exemplo.com.br")
 
     criada = client.post("/api/inscricoes", json={"tema_id": 1}, headers=cabecalho)
     assert criada.status_code == 201
     assert criada.json()["tema"] == "Férias"
-    assert criada.json()["telefone"] == "+5551999998888"
+    assert criada.json()["email"] == "maria@exemplo.com.br"
 
     assert len(client.get("/api/inscricoes", headers=cabecalho).json()) == 1
     assert client.delete(f"/api/inscricoes/{criada.json()['id']}", headers=cabecalho).status_code == 204
@@ -22,9 +22,8 @@ def test_inscricao_repetida(client, falsos, entrar):
 
 def test_validacoes_da_inscricao(client, falsos, entrar):
     tema_invalido = client.post("/api/inscricoes", json={"tema_id": 99}, headers=entrar("usuario"))
-    sem_telefone = client.post("/api/inscricoes", json={"tema_id": 1}, headers=entrar("curador"))
 
-    assert tema_invalido.status_code == sem_telefone.status_code == 422
+    assert tema_invalido.status_code == 422
     assert tema_invalido.json()["detail"] == "Escolha um tema válido."
 
 

@@ -18,12 +18,10 @@ def listar(usuario=Depends(usuario_atual), repositorio=Depends(obter_repositorio
 
 @rotas.post("", response_model=Inscricao, status_code=201)
 def criar(dados: NovaInscricao, usuario=Depends(usuario_atual), repositorio=Depends(obter_repositorio)):
-    # As atualizações vão para o WhatsApp da conta, autorizado no cadastro (LGPD)
-    if not usuario.get("telefone"):
-        raise HTTPException(status_code=422, detail="Sua conta não tem um telefone cadastrado para receber pelo WhatsApp.")
+    # As novidades vão para o e-mail da conta, autorizado no cadastro (LGPD)
     validar_tema(repositorio, dados.tema_id)
     try:
-        inscricao = repositorio.criar_inscricao(usuario["id"], dados.tema_id, usuario["telefone"])
+        inscricao = repositorio.criar_inscricao(usuario["id"], dados.tema_id, usuario["email"])
     except RegistroDuplicado as erro:
         raise HTTPException(status_code=409, detail=str(erro))
     registrar(repositorio, usuario, "criar", "inscricao", inscricao["id"], f"Passou a acompanhar {inscricao['tema']}")

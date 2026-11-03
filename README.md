@@ -37,7 +37,7 @@ O acesso a informações sobre direitos e obrigações trabalhistas é dificulta
 - Apresentar as respostas em linguagem simples e compreensível.
 - Informar a fonte de cada resposta e permitir a consulta ao conteúdo original.
 - Evitar que a IA responda sem informações suficientes na base de conhecimento.
-- Permitir a solicitação de conteúdos complementares pelo WhatsApp.
+- Permitir a solicitação de conteúdos complementares por e-mail.
 - Permitir que o usuário escolha temas para acompanhar e receber atualizações.
 
 ## Público-alvo
@@ -57,7 +57,7 @@ A interface deve priorizar simplicidade e clareza, permitindo uma consulta sem c
 - **Frontend:** React com [Vite](https://vite.dev/)
 - **Banco de dados:** [Supabase](https://supabase.com/) (PostgreSQL), com busca textual em português
 - **Inteligência Artificial:** [Google Gemini](https://ai.google.dev/) (plano gratuito), para gerar respostas e pesquisar materiais complementares no Google
-- **WhatsApp:** automação no [n8n](https://n8n.io/) com a [Evolution API](https://doc.evolution-api.com/), rodando no Docker (gratuito) — ver [`automacao/`](automacao/)
+- **E-mail:** envio pelo Gmail (SMTP), com uma senha de app gratuita
 
 ## Como funciona
 
@@ -66,15 +66,15 @@ O sistema tem três módulos integrados:
 | Módulo | Para quem | O que faz |
 | --- | --- | --- |
 | **1. Gestão da base de conhecimento** | Equipe (administrador e curador) | Mantém os trechos da cartilha que a IA usa; dashboard, relatórios e histórico |
-| **2. Acompanhamento pelo WhatsApp** | Pessoas com conta | Conta com WhatsApp, temas acompanhados e atualizações enviadas pela equipe |
-| **3. Consulta inteligente** | Qualquer pessoa, sem login | Pergunta → busca na cartilha → resposta da IA com fontes → "Saiba mais" pelo WhatsApp |
+| **2. Acompanhamento de temas** | Pessoas com conta | Conta com e-mail, temas acompanhados e atualizações enviadas pela equipe por e-mail |
+| **3. Consulta inteligente** | Qualquer pessoa, sem login | Pergunta → busca na cartilha → resposta da IA com fontes → "Saber mais" por e-mail |
 
 Fluxo da consulta:
 
 1. A pessoa faz uma pergunta.
 2. O backend busca no Supabase os trechos mais relevantes da cartilha do TRT4.
 3. A IA escreve uma resposta simples usando **somente** esses trechos e indica quais usou como fonte.
-4. Em "Saiba mais", a pessoa entra ou cria a conta com o WhatsApp; a IA pesquisa 2 sites e 2 vídeos do YouTube sobre o assunto e a automação no n8n envia tudo para o celular dela.
+4. Abaixo da resposta, em "Quer saber mais sobre o assunto? Sim", a pessoa informa nome e e-mail; a IA pesquisa 2 sites e 2 vídeos do YouTube sobre o assunto e o Oráculo envia tudo para o e-mail dela.
 
 ## Estrutura do repositório
 
@@ -82,7 +82,6 @@ Fluxo da consulta:
 backend/     API em Python (FastAPI): rotas, regras de negócio, testes e scripts
 frontend/    Interface web em React (consulta pública e painel)
 supabase/    Estrutura do banco de dados, em scripts numerados (001 a 005)
-automacao/   Automação do WhatsApp: n8n + Evolution API no Docker e o fluxo para importar no n8n
 docs/        Documentação: uma página por Sprint, guia de configuração e ferramentas
 iniciar.bat  Executa o sistema completo no Windows (iniciar.sh no Linux/macOS)
 ```
@@ -91,7 +90,7 @@ O histórico de cada versão enviada ao GitHub está em [CHANGELOG.md](CHANGELOG
 
 ## Como executar
 
-Pré-requisitos: Python 3.12+ e Node.js 20+, além das contas gratuitas no Supabase e no Google AI Studio (Gemini) e do Docker Desktop (para a automação do WhatsApp). O passo a passo para criá-las, criar o banco e preencher o `backend/.env` está no [guia de configuração](docs/configuracao.md).
+Pré-requisitos: Python 3.12+ e Node.js 20+, além das contas gratuitas no Supabase e no Google AI Studio (Gemini), além de uma conta do Gmail para enviar os e-mails. O passo a passo para criá-las, criar o banco e preencher o `backend/.env` está no [guia de configuração](docs/configuracao.md).
 
 **Execução completa (deploy local)**, na pasta do projeto:
 

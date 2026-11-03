@@ -16,11 +16,10 @@ function Cadastro() {
         <MenuConta />
         <main>
           <div className="apresentacao">
-            <p className="chamada">Receba pelo WhatsApp</p>
-            <h1>Cadastre seu WhatsApp</h1>
+            <p className="chamada">Receba por e-mail</p>
+            <h1>Crie sua conta</h1>
             <p className="subtitulo">
-              Com a conta você recebe no WhatsApp sites e vídeos sobre as suas dúvidas e escolhe temas para receber
-              novidades.
+              Com a conta você escolhe temas para acompanhar e recebe as novidades deles no seu e-mail.
             </p>
           </div>
 

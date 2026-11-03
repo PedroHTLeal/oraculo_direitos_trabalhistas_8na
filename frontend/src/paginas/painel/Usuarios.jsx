@@ -1,19 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
 import { excluirUsuario, listarUsuarios, salvarUsuario } from '../../api'
-import { NOMES_DOS_PERFIS, telefoneLegivel, useAutenticacao } from '../../autenticacao/contexto'
+import { NOMES_DOS_PERFIS, useAutenticacao } from '../../autenticacao/contexto'
 import Campo from '../../components/Campo'
 import ConfirmarExclusao from '../../components/ConfirmarExclusao'
-import { formatarTelefone } from '../../telefone'
 import { regras, validar } from '../../validacao'
 
+// Todos entram com e-mail e senha
 const ESQUEMA_BASE = {
   nome: [regras.obrigatorio('nome'), regras.minimo('nome', 2), regras.maximo('nome', 100)],
-}
-
-// A equipe entra com e-mail; usuários comuns, com o telefone (WhatsApp)
-const ESQUEMA_POR_PERFIL = {
-  usuario: { telefone: [regras.obrigatorio('WhatsApp'), regras.telefone()] },
-  equipe: { email: [regras.obrigatorio('e-mail'), regras.email()] },
+  email: [regras.obrigatorio('e-mail'), regras.email()],
 }
 
 // Janela de cadastro e edição de usuário
@@ -23,7 +18,6 @@ function FormularioUsuario({ usuario, aoSalvar, aoFechar }) {
   const [dados, setDados] = useState({
     nome: usuario?.nome || '',
     email: usuario?.email || '',
-    telefone: usuario?.telefone ? telefoneLegivel(usuario.telefone) : '',
     perfil: usuario?.perfil || 'curador',
     ativo: usuario?.ativo ?? true,
     senha: '',
@@ -43,7 +37,6 @@ function FormularioUsuario({ usuario, aoSalvar, aoFechar }) {
     // Na edição, a senha é opcional: só é trocada se for preenchida
     const esquema = {
       ...ESQUEMA_BASE,
-      ...ESQUEMA_POR_PERFIL[dados.perfil === 'usuario' ? 'usuario' : 'equipe'],
       senha: editando && !dados.senha ? [] : [regras.obrigatorio('senha'), regras.minimo('senha', 8)],
     }
     const encontrados = validar(dados, esquema)
@@ -51,9 +44,7 @@ function FormularioUsuario({ usuario, aoSalvar, aoFechar }) {
     setErroGeral(null)
     if (Object.keys(encontrados).length) return
 
-    const corpo = { nome: dados.nome.trim(), perfil: dados.perfil }
-    if (dados.email.trim()) corpo.email = dados.email.trim()
-    if (dados.telefone) corpo.telefone = dados.telefone
+    const corpo = { nome: dados.nome.trim(), email: dados.email.trim(), perfil: dados.perfil }
     if (editando) corpo.ativo = dados.ativo
     if (dados.senha) corpo.senha = dados.senha
 
@@ -83,23 +74,12 @@ function FormularioUsuario({ usuario, aoSalvar, aoFechar }) {
         <Campo id="usuario-nome" rotulo="Nome" value={dados.nome} onChange={mudar('nome')} erro={erros.nome} />
         <Campo
           id="usuario-email"
-          rotulo={dados.perfil === 'usuario' ? 'E-mail (opcional)' : 'E-mail'}
+          rotulo="E-mail"
           type="email"
           value={dados.email}
           onChange={mudar('email')}
           erro={erros.email}
-          ajuda={dados.perfil === 'usuario' ? undefined : 'Administradores e curadores entram com o e-mail.'}
-        />
-        <Campo
-          id="usuario-telefone"
-          rotulo={dados.perfil === 'usuario' ? 'WhatsApp' : 'WhatsApp (opcional)'}
-          type="tel"
-          inputMode="numeric"
-          placeholder="(51) 99999-8888"
-          value={dados.telefone}
-          onChange={(evento) => setDados({ ...dados, telefone: formatarTelefone(evento.target.value) })}
-          erro={erros.telefone}
-          ajuda={dados.perfil === 'usuario' ? 'Usuários entram com o WhatsApp.' : undefined}
+          ajuda="É com este e-mail que a pessoa entra no sistema."
         />
         <Campo id="usuario-perfil" rotulo="Perfil" ajuda="Curadores cuidam da base; administradores também gerenciam usuários.">
           <select id="usuario-perfil" value={dados.perfil} onChange={mudar('perfil')} aria-describedby="usuario-perfil-ajuda">
@@ -205,7 +185,7 @@ function Usuarios() {
                     {usuario.nome}
                     {usuario.id === eu.id && <span className="texto-apoio"> (você)</span>}
                   </td>
-                  <td>{usuario.email || telefoneLegivel(usuario.telefone)}</td>
+                  <td>{usuario.email}</td>
                   <td>
                     <span className={`selo selo-${usuario.perfil}`}>{NOMES_DOS_PERFIS[usuario.perfil]}</span>
                   </td>
@@ -233,7 +213,7 @@ function Usuarios() {
       {paraExcluir && (
         <ConfirmarExclusao
           titulo="Excluir usuário?"
-          descricao={`${paraExcluir.nome} (${paraExcluir.email || telefoneLegivel(paraExcluir.telefone)}) perderá o acesso ao sistema. Essa ação não pode ser desfeita.`}
+          descricao={`${paraExcluir.nome} (${paraExcluir.email}) perderá o acesso ao sistema. Essa ação não pode ser desfeita.`}
           aoConfirmar={async () => {
             await excluirUsuario(paraExcluir.id)
             atualizar('Usuário excluído.')

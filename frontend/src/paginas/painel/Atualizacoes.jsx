@@ -91,7 +91,7 @@ function Atualizacoes() {
   return (
     <section>
       <h1>Atualizações</h1>
-      <p className="subtitulo">Publique novidades de um tema. Quem acompanha o tema recebe a mensagem no WhatsApp.</p>
+      <p className="subtitulo">Publique novidades de um tema. Quem acompanha o tema recebe a novidade por e-mail.</p>
 
       {mensagem && (
         <p className="alerta alerta-sucesso" role="status">
@@ -188,7 +188,7 @@ function Atualizacoes() {
       {paraExcluir && (
         <ConfirmarExclusao
           titulo="Excluir atualização?"
-          descricao={`"${paraExcluir.titulo}" sairá do histórico. As mensagens já enviadas não são apagadas do WhatsApp das pessoas.`}
+          descricao={`"${paraExcluir.titulo}" sairá do histórico. Os e-mails já enviados continuam com as pessoas.`}
           aoConfirmar={async () => {
             await excluirAtualizacao(paraExcluir.id)
             setMensagem('Atualização excluída.')

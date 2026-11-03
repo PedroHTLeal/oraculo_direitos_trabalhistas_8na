@@ -14,7 +14,7 @@ from app.config import ConfiguracaoAusente, carregar_configuracao
 from app.ia import AssistenteIA
 from app.repositorio import RepositorioSupabase
 from app.seguranca import hash_token
-from app.whatsapp import EnviadorN8n
+from app.envio_email import EnviadorEmail
 
 
 @lru_cache
@@ -36,12 +36,11 @@ def obter_ia():
 
 
 @lru_cache
-def obter_whatsapp():
-    # O WhatsApp é enviado pelo fluxo do n8n (pasta automacao/)
+def obter_email():
     config = obter_configuracao()
-    if not (config.n8n_webhook_url and config.n8n_token):
-        raise ConfiguracaoAusente("Automação do WhatsApp (n8n) não configurada no arquivo backend/.env")
-    return EnviadorN8n(config.n8n_webhook_url, config.n8n_token)
+    if not (config.email_remetente and config.email_senha_app):
+        raise ConfiguracaoAusente("Envio de e-mail não configurado no arquivo backend/.env")
+    return EnviadorEmail(config.email_remetente, config.email_senha_app)
 
 _bearer = HTTPBearer(auto_error=False)
 

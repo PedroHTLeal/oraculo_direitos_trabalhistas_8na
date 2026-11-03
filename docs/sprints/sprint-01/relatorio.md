@@ -80,14 +80,14 @@ Facilitar o acesso à informação sobre direitos e obrigações trabalhistas po
 - Informar a fonte utilizada para cada resposta.
 - Permitir que o usuário consulte o conteúdo original utilizado como referência.
 - Evitar que a Inteligência Artificial forneça respostas sem informações suficientes na base de conhecimento.
-- Permitir que o usuário solicite conteúdos complementares por meio do WhatsApp.
+- Permitir que o usuário solicite conteúdos complementares por e-mail.
 - Permitir que o usuário escolha temas para acompanhar e receber atualizações.
 
 ### 4.3. Resultados esperados
 
 Espera-se que o sistema facilite o acesso a informações trabalhistas, reduza a dificuldade de interpretação de conteúdos jurídicos e permita que o usuário encontre informações relevantes de maneira simples e direta.
 
-Também se espera criar uma estrutura que permita a evolução da plataforma durante as próximas Sprints, incluindo o desenvolvimento da aplicação, integração com banco de dados, Inteligência Artificial, WhatsApp e práticas de DevOps.
+Também se espera criar uma estrutura que permita a evolução da plataforma durante as próximas Sprints, incluindo o desenvolvimento da aplicação, integração com banco de dados, Inteligência Artificial, envio de e-mails e práticas de DevOps.
 
 ## 5. Público-alvo
 
@@ -118,7 +118,7 @@ A interface deverá priorizar simplicidade, clareza e facilidade de utilização
 | RF08 | O sistema deverá permitir que o usuário consulte o conteúdo original utilizado como referência. | Implementado (teste real pendente) |
 | RF09 | O sistema deverá informar quando não encontrar informações suficientes na base de conhecimento para responder à pergunta. | Implementado (teste real pendente) |
 | RF10 | O sistema deverá permitir que o usuário solicite informações complementares sobre o assunto pesquisado. | Implementado (teste real pendente) |
-| RF11 | O sistema deverá permitir o envio de conteúdos complementares por meio do WhatsApp quando solicitado pelo usuário. | Implementado (teste real pendente) |
+| RF11 | O sistema deverá permitir o envio de conteúdos complementares por e-mail quando solicitado pelo usuário. | Implementado (teste real pendente) |
 | RF12 | O sistema deverá permitir que o usuário selecione temas para acompanhar. | Não iniciado |
 | RF13 | O sistema deverá permitir o envio de atualizações relacionadas aos temas selecionados pelo usuário. | Não iniciado |
 | RF14 | O sistema deverá possuir uma área administrativa. | Não iniciado |
@@ -161,7 +161,7 @@ O sistema terá inicialmente dois atores principais:
 | UC02 | Receber resposta | O sistema processa a pergunta, consulta a base de conhecimento e apresenta uma resposta acessível. |
 | UC03 | Consultar fonte | O usuário pode visualizar a fonte utilizada para fundamentar a resposta. |
 | UC04 | Solicitar conteúdo complementar | O usuário solicita informações adicionais relacionadas ao assunto consultado. |
-| UC05 | Receber conteúdo pelo WhatsApp | O usuário fornece as informações necessárias para receber conteúdos complementares por WhatsApp. |
+| UC05 | Receber conteúdo por e-mail | O usuário informa nome e e-mail para receber conteúdos complementares. |
 | UC06 | Acompanhar tema | O usuário seleciona um tema para receber futuras atualizações relacionadas a ele. |
 
 ### 8.3. Casos de uso do Administrador
@@ -184,12 +184,12 @@ O Product Backlog representa as principais atividades e funcionalidades planejad
 | PB05 | Construção da base de conhecimento | Organizar os conteúdos utilizados pelo sistema. | Tópicos Avançados | Concluído |
 | PB06 | Implementação do RAG | Desenvolver o mecanismo de recuperação das informações relevantes. | Tópicos Avançados | Em andamento |
 | PB07 | Integração com banco de dados | Integrar a aplicação à estrutura de armazenamento. | Desenvolvimento | Em andamento |
-| PB08 | Integração com WhatsApp | Criar o fluxo para envio de conteúdos complementares e atualizações. | Integração | Em andamento |
-| PB09 | Automação com n8n | Estruturar as automações relacionadas às integrações externas. | Integração / DevOps | Não iniciado |
+| PB08 | Integração com e-mail | Criar o fluxo para envio de conteúdos complementares e atualizações. | Integração | Concluído (teste real pendente) |
+| PB09 | Automação de envios | Automatizar o envio dos conteúdos complementares e das atualizações. | Integração / DevOps | Concluído (envio em segundo plano no backend) |
 | PB10 | Área administrativa | Desenvolver as funcionalidades para manutenção da base e auditoria. | Desenvolvimento | Não iniciado |
 | PB11 | Testes do sistema | Verificar o funcionamento das funcionalidades e integrações. | DevOps Tools | Em andamento |
 | PB12 | Avaliação das respostas da IA | Verificar a consistência das respostas e sua relação com a base de conhecimento. | Tópicos Avançados | Não iniciado |
-| PB13 | Integração geral | Integrar frontend, backend, banco de dados, IA e WhatsApp. | DevOps Tools | Não iniciado |
+| PB13 | Integração geral | Integrar frontend, backend, banco de dados, IA e e-mail. | DevOps Tools | Não iniciado |
 | PB14 | Deploy | Preparar o sistema para disponibilização em ambiente de execução. | DevOps Tools | Não iniciado |
 | PB15 | Documentação | Registrar o desenvolvimento, decisões e funcionamento do projeto. | Fábrica de Software | Em andamento |
 | PB16 | Controle de versões | Organizar o código e acompanhar as alterações realizadas pela equipe. | DevOps Tools | Em andamento |
@@ -252,7 +252,7 @@ A definição das automações de integração contínua e deploy será realizad
 | Controle de versão | Git + GitHub | Versionamento e colaboração (RNF10, RNF11). |
 | Banco de dados | Supabase (PostgreSQL) | Banco gerenciado e gratuito no início, com busca textual em português (ignorando acentos) e controle de acesso por tabela (RNF03). |
 | Inteligência Artificial | Google Gemini (plano gratuito) | Gera respostas em linguagem simples usando só os trechos da cartilha e pesquisa no Google os sites e vídeos complementares, sem custo e sem outras APIs de busca (RNF09). |
-| WhatsApp | Automação no n8n + Evolution API (Docker) | Gratuita e local; o n8n cumpre o item PB09 do backlog (automação com n8n) e a Evolution API conecta um WhatsApp por QR code. |
+| E-mail | Gmail (SMTP) com senha de app | Gratuito, sem instalar nada além do backend; a pessoa só precisa informar nome e e-mail. |
 
 As ferramentas de integração contínua e deploy serão definidas nas próximas Sprints.
 
@@ -270,9 +270,9 @@ Primeira tela do sistema, que atende ao caso de uso UC01 (Realizar pergunta):
 - layout adaptado para celular e computador (RNF01, RNF02);
 - aviso de que as respostas têm caráter informativo.
 
-Na primeira versão, a API respondia que ainda não havia informações suficientes, já no formato final (resposta, fontes e indicação se encontrou). Com isso, a tela não precisou mudar quando a IA foi conectada (ver "Base de conhecimento, IA e WhatsApp" abaixo).
+Na primeira versão, a API respondia que ainda não havia informações suficientes, já no formato final (resposta, fontes e indicação se encontrou). Com isso, a tela não precisou mudar quando a IA foi conectada (ver "Base de conhecimento, IA e e-mail" abaixo).
 
-### Base de conhecimento, IA e WhatsApp
+### Base de conhecimento, IA e e-mail
 
 **Base de conhecimento (PB05):** um script extrai automaticamente as 25 páginas da Cartilha de Direitos e Obrigações no Trabalho do TRT4 e as divide em 217 trechos, um por subtítulo, cada um com o tema, a seção e o link da página original. Os trechos ficam salvos no repositório (`backend/dados/cartilha.json`) e são carregados no Supabase.
 
@@ -282,7 +282,7 @@ Na primeira versão, a API respondia que ainda não havia informações suficien
 | --- | --- |
 | `trechos` | Os trechos da cartilha, com um índice de busca em português que ignora acentos |
 | `perguntas` | As perguntas feitas e as respostas geradas, para auditoria (UC08), sem dados pessoais |
-| `solicitacoes_whatsapp` | Os pedidos de conteúdo pelo WhatsApp: telefone, consentimento, situação do envio e materiais enviados |
+| `solicitacoes_conteudo` | Os pedidos de conteúdo por e-mail: nome, e-mail, consentimento, situação do envio e materiais enviados |
 | `sinonimos` | Palavras do dia a dia e seus equivalentes na cartilha (ex.: "demitido" → "dispensa", "patrão" → "empregador"), editáveis pelo administrador (UC07) |
 
 O acesso às tabelas é bloqueado para o público; só o backend, com a chave de serviço, lê e grava os dados (RNF03).
@@ -296,17 +296,17 @@ O acesso às tabelas é bloqueado para o público; só o backend, com a chave de
 
 Em computadores, a resposta aparece no painel azul, no lugar da órbita de temas; no celular, logo abaixo do campo de pergunta.
 
-**Saiba mais pelo WhatsApp (RF10, RF11, UC04, UC05, PB08):**
+**Saber mais por e-mail (RF10, RF11, UC04, UC05, PB08):**
 
-1. Abaixo da resposta, o botão "Saiba mais pelo WhatsApp" abre uma janela que pede o telefone com DDD e o consentimento para o uso do número, conforme a LGPD (RNF03).
+1. Abaixo da resposta, o convite "Quer saber mais sobre o assunto?" com o botão "Sim" abre uma janela que pede o nome, o e-mail e o consentimento para o uso desses dados, conforme a LGPD (RNF03). Não é preciso ter conta.
 2. O backend registra o pedido e, em segundo plano, a IA pesquisa na web 2 sites confiáveis e 2 vídeos do YouTube sobre o assunto. Só são aceitos links que apareceram de fato na pesquisa.
-3. A automação no n8n envia ao WhatsApp do usuário a resposta, os 2 sites e os 2 vídeos. A tela acompanha o envio e confirma quando ele termina.
+3. O backend envia pelo Gmail um e-mail com a resposta, os 2 sites e os 2 vídeos. A tela acompanha o envio e confirma quando ele termina. Cada e-mail pode fazer até 5 pedidos por hora, para evitar abuso.
 
-**Registro de erros (RNF06, PB21):** falhas na IA, no banco ou no envio do WhatsApp são registradas no log do servidor, e um pedido que falha fica marcado como "erro" no banco, sem ficar pendente para sempre.
+**Registro de erros (RNF06, PB21):** falhas na IA, no banco ou no envio do e-mail são registradas no log do servidor, e um pedido que falha fica marcado como "erro" no banco, sem ficar pendente para sempre.
 
-**Situação:** a cartilha já está carregada no Supabase e a busca foi validada com o banco real, com perguntas como "Quantos dias de ferias eu tenho?" (sem acento), "O que recebo se for demitido sem justa causa?", "Empregada doméstica tem FGTS?" e "Fui humilhado pelo meu chefe". Nesse teste foi encontrado e corrigido um erro na função de busca, que impedia palavras como "estágio" de serem encontradas. A geração da resposta pela IA e o envio pelo WhatsApp foram testados com versões simuladas e aguardam a chave do Gemini e a automação do WhatsApp no n8n (ver `docs/configuracao.md`).
+**Situação:** a cartilha já está carregada no Supabase e a busca foi validada com o banco real, com perguntas como "Quantos dias de ferias eu tenho?" (sem acento), "O que recebo se for demitido sem justa causa?", "Empregada doméstica tem FGTS?" e "Fui humilhado pelo meu chefe". Nesse teste foi encontrado e corrigido um erro na função de busca, que impedia palavras como "estágio" de serem encontradas. A geração da resposta pela IA e o envio por e-mail foram testados com versões simuladas e aguardam a chave do Gemini e a senha de app do Gmail (ver `docs/configuracao.md`).
 
-**Testes automatizados do backend:** 42 testes, cobrindo a busca e a geração da resposta, as fontes exibidas, o caso sem informação, o pedido pelo WhatsApp (consentimento, telefone inválido, falha na pesquisa), a validação de telefones, a filtragem dos links e vídeos, o tamanho da mensagem, a variedade de temas nos trechos buscados e a leitura das respostas e pesquisas do Gemini.
+**Testes automatizados do backend:** 42 testes, cobrindo a busca e a geração da resposta, as fontes exibidas, o caso sem informação, o pedido por e-mail (consentimento, e-mail inválido, limite por hora, falha na pesquisa), a montagem e o envio do e-mail, a filtragem dos links e vídeos, a variedade de temas nos trechos buscados e a leitura das respostas e pesquisas do Gemini.
 
 ### Novo visual
 
@@ -339,6 +339,7 @@ Princípios aplicados: muito espaço em branco, títulos fortes, poucos elemento
 | 31/10/2026 | Novas seções 12 (Tecnologias Definidas) e 13 (Andamento do Desenvolvimento). |
 | 31/10/2026 | Nova seção 14 (Identidade Visual) e descrição do novo visual na seção 13. |
 | 31/10/2026 | Seção 14: paleta alterada para azul-escuro `#030C2C` e dourado `#E8B20F`. |
-| 31/10/2026 | Seções 6, 9, 11, 12 e 13: base de conhecimento no Supabase, respostas com IA e envio de conteúdo pelo WhatsApp. |
+| 31/10/2026 | Seções 6, 9, 11, 12 e 13: base de conhecimento no Supabase, respostas com IA e envio de conteúdo complementar. |
 | 31/10/2026 | Seção 13: cartilha carregada no Supabase, busca validada com o banco real, tabela de sinônimos e limite de trechos por tema. |
 | 31/10/2026 | Seção 12: a IA passou a ser o Google Gemini (plano gratuito), para manter o projeto sem custo (RNF09). |
+| 02/11/2026 | Seções 5, 6, 8, 9, 12 e 13: o conteúdo complementar e as atualizações de temas passam a ser enviados por e-mail (RF11, UC05, PB08, PB09). |

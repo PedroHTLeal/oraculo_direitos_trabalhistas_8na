@@ -5,10 +5,10 @@ import pytest
 from fastapi.testclient import TestClient
 
 from app.config import Configuracao
-from app.dependencias import obter_configuracao, obter_ia, obter_repositorio, obter_whatsapp
+from app.dependencias import obter_configuracao, obter_email, obter_ia, obter_repositorio
 from app.ia import RecusaDaIA
 from app.main import app
-from app.rotas.atualizacoes import whatsapp_opcional
+from app.rotas.atualizacoes import email_opcional
 from app.repositorio import RegistroDuplicado
 from app.seguranca import gerar_hash_senha
 
@@ -79,10 +79,13 @@ class RepositorioFalso:
     def obter_trechos(self, ids):
         return [t for t in TRECHOS if t["id"] in ids]
 
-    def criar_solicitacao(self, pergunta_id, telefone, usuario_id=None):
+    def criar_solicitacao(self, pergunta_id, nome, email):
         solicitacao_id = f"s{len(self.solicitacoes) + 1}"
-        self.solicitacoes[solicitacao_id] = {"id": solicitacao_id, "telefone": telefone, "status": "pendente"}
+        self.solicitacoes[solicitacao_id] = {"id": solicitacao_id, "nome": nome, "email": email.lower(), "status": "pendente"}
         return solicitacao_id
+
+    def contar_solicitacoes_recentes(self, email, desde):
+        return sum(1 for s in self.solicitacoes.values() if s["email"] == email.lower())
 
     def obter_solicitacao(self, solicitacao_id):
         return self.solicitacoes.get(solicitacao_id)
@@ -95,16 +98,13 @@ class RepositorioFalso:
 
     # Usuários e sessões
 
-    def criar_usuario(self, nome, email, telefone, senha_hash, perfil, consentimento_whatsapp=False):
-        if email and self.obter_usuario_por_email(email):
+    def criar_usuario(self, nome, email, senha_hash, perfil, consentimento_email=False):
+        if self.obter_usuario_por_email(email):
             raise RegistroDuplicado("Já existe um usuário com este e-mail.")
-        if telefone and self.obter_usuario_por_telefone(telefone):
-            raise RegistroDuplicado("Já existe uma conta com este telefone.")
         usuario = {
             "id": str(uuid.uuid4()),
             "nome": nome,
-            "email": email.lower() if email else None,
-            "telefone": telefone,
+            "email": email.lower(),
             "senha_hash": senha_hash,
             "perfil": perfil,
             "ativo": True,
@@ -115,9 +115,6 @@ class RepositorioFalso:
 
     def obter_usuario_por_email(self, email):
         return next((u for u in self.usuarios.values() if u["email"] == email.lower()), None)
-
-    def obter_usuario_por_telefone(self, telefone):
-        return next((u for u in self.usuarios.values() if u["telefone"] == telefone), None)
 
     def obter_usuario(self, usuario_id):
         usuario = self.usuarios.get(usuario_id)
@@ -130,13 +127,10 @@ class RepositorioFalso:
         return sum(1 for u in self.usuarios.values() if u["perfil"] == "administrador" and u["ativo"])
 
     def atualizar_usuario(self, usuario_id, campos):
-        email, telefone = campos.get("email"), campos.get("telefone")
+        email = campos.get("email")
         dono = self.obter_usuario_por_email(email) if email else None
         if dono and dono["id"] != usuario_id:
             raise RegistroDuplicado("Já existe um usuário com este e-mail.")
-        dono = self.obter_usuario_por_telefone(telefone) if telefone else None
-        if dono and dono["id"] != usuario_id:
-            raise RegistroDuplicado("Já existe uma conta com este telefone.")
         self.usuarios[usuario_id].update(campos)
         return publico(self.usuarios[usuario_id])
 
@@ -207,16 +201,16 @@ class RepositorioFalso:
     def listar_inscricoes(self, usuario_id):
         return [i for i in self.inscricoes.values() if i["usuario_id"] == usuario_id]
 
-    def criar_inscricao(self, usuario_id, tema_id, telefone):
-        if any(i["tema_id"] == tema_id and i["telefone"] == telefone for i in self.inscricoes.values()):
-            raise RegistroDuplicado("Você já acompanha este tema com este telefone.")
+    def criar_inscricao(self, usuario_id, tema_id, email):
+        if any(i["tema_id"] == tema_id and i["email"] == email for i in self.inscricoes.values()):
+            raise RegistroDuplicado("Você já acompanha este tema.")
         tema = next(t for t in TEMAS if t["id"] == tema_id)
         inscricao = {
             "id": str(uuid.uuid4()),
             "usuario_id": usuario_id,
             "tema_id": tema_id,
             "tema": tema["nome"],
-            "telefone": telefone,
+            "email": email,
         }
         self.inscricoes[inscricao["id"]] = inscricao
         return inscricao
@@ -265,15 +259,15 @@ class RepositorioFalso:
         return self.atualizacoes.pop(atualizacao_id, None) is not None
 
     def listar_inscricoes_ativas(self, tema_id):
-        return [{"id": i["id"], "telefone": i["telefone"]} for i in self.inscricoes.values() if i["tema_id"] == tema_id]
+        return [{"id": i["id"], "email": i["email"]} for i in self.inscricoes.values() if i["tema_id"] == tema_id]
 
     def criar_envios(self, atualizacao_id, inscricoes_ids):
         self.envios += [{"atualizacao_id": atualizacao_id, "inscricao_id": i, "status": "pendente"} for i in inscricoes_ids]
 
     def listar_envios(self, atualizacao_id, status=None):
-        telefones = {i["id"]: i["telefone"] for i in self.inscricoes.values()}
+        emails = {i["id"]: i["email"] for i in self.inscricoes.values()}
         return [
-            {"inscricao_id": e["inscricao_id"], "status": e["status"], "telefone": telefones[e["inscricao_id"]]}
+            {"inscricao_id": e["inscricao_id"], "status": e["status"], "email": emails[e["inscricao_id"]]}
             for e in self.envios
             if e["atualizacao_id"] == atualizacao_id and (not status or e["status"] == status)
         ]
@@ -359,28 +353,28 @@ class IAFalsa:
         return self.materiais
 
 
-class WhatsAppFalso:
+class EmailFalso:
     def __init__(self):
-        self.enviadas = []
+        self.enviados = []
 
-    def enviar(self, telefone, texto):
-        self.enviadas.append((telefone, texto))
+    def enviar(self, destinatario, conteudo):
+        self.enviados.append((destinatario, conteudo))
 
 
 @pytest.fixture
 def falsos():
-    repositorio, ia, whatsapp = RepositorioFalso(), IAFalsa(), WhatsAppFalso()
+    repositorio, ia, email = RepositorioFalso(), IAFalsa(), EmailFalso()
     app.dependency_overrides[obter_repositorio] = lambda: repositorio
     app.dependency_overrides[obter_ia] = lambda: ia
-    app.dependency_overrides[obter_whatsapp] = lambda: whatsapp
-    app.dependency_overrides[whatsapp_opcional] = lambda: whatsapp
+    app.dependency_overrides[obter_email] = lambda: email
+    app.dependency_overrides[email_opcional] = lambda: email
     app.dependency_overrides[obter_configuracao] = lambda: Configuracao(
         supabase_url="https://exemplo.supabase.co",
         supabase_chave_servico="chave",
-        n8n_webhook_url="http://localhost:5678/webhook/oraculo-whatsapp",
-        n8n_token="token-teste",
+        email_remetente="oraculo@gmail.com",
+        email_senha_app="senhadeappteste",
     )
-    yield repositorio, ia, whatsapp
+    yield repositorio, ia, email
     app.dependency_overrides.clear()
 
 
@@ -395,14 +389,9 @@ def entrar(client, falsos):
     repositorio = falsos[0]
 
     def _entrar(perfil="administrador", login=None, senha="senha-segura-123"):
-        # A equipe entra com e-mail; o usuário comum, com o telefone
-        if perfil == "usuario":
-            login = login or f"+55119{uuid.uuid4().int % 10**8:08d}"
-            repositorio.criar_usuario("Usuário", None, login, gerar_hash_senha(senha), perfil, True)
-        else:
-            login = login or f"{perfil}-{uuid.uuid4().hex[:6]}@oraculo.com.br"
-            repositorio.criar_usuario(perfil.title(), login, None, gerar_hash_senha(senha), perfil)
-        token = client.post("/api/auth/login", json={"identificador": login, "senha": senha}).json()["token"]
+        login = login or f"{perfil}-{uuid.uuid4().hex[:6]}@oraculo.com.br"
+        repositorio.criar_usuario(perfil.title(), login, gerar_hash_senha(senha), perfil, perfil == "usuario")
+        token = client.post("/api/auth/login", json={"email": login, "senha": senha}).json()["token"]
         return {"Authorization": f"Bearer {token}"}
 
     return _entrar

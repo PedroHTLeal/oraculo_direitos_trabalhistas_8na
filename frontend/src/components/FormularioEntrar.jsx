@@ -4,14 +4,14 @@ import { regras, validar } from '../validacao'
 import Campo from './Campo'
 
 const ESQUEMA = {
-  identificador: [regras.obrigatorio('WhatsApp ou e-mail')],
+  email: [regras.obrigatorio('e-mail'), regras.email()],
   senha: [regras.obrigatorio('senha')],
 }
 
-// Login por telefone (quem recebe pelo WhatsApp) ou e-mail (equipe do Oráculo)
+// Login com e-mail e senha (usuários e equipe do Oráculo)
 function FormularioEntrar({ aoEntrar, prefixo = 'entrar' }) {
   const { entrar } = useAutenticacao()
-  const [dados, setDados] = useState({ identificador: '', senha: '' })
+  const [dados, setDados] = useState({ email: '', senha: '' })
   const [erros, setErros] = useState({})
   const [erroGeral, setErroGeral] = useState(null)
   const [enviando, setEnviando] = useState(false)
@@ -27,7 +27,7 @@ function FormularioEntrar({ aoEntrar, prefixo = 'entrar' }) {
 
     setEnviando(true)
     try {
-      const usuario = await entrar(dados.identificador.trim(), dados.senha)
+      const usuario = await entrar(dados.email.trim(), dados.senha)
       aoEntrar?.(usuario)
     } catch (falha) {
       setErroGeral(falha.message)
@@ -43,14 +43,14 @@ function FormularioEntrar({ aoEntrar, prefixo = 'entrar' }) {
         </p>
       )}
       <Campo
-        id={`${prefixo}-identificador`}
-        rotulo="WhatsApp ou e-mail"
+        id={`${prefixo}-email`}
+        rotulo="E-mail"
+        type="email"
         autoComplete="username"
-        placeholder="(51) 99999-8888"
-        value={dados.identificador}
-        onChange={mudar('identificador')}
-        erro={erros.identificador}
-        ajuda="Use o WhatsApp do cadastro. A equipe do Oráculo entra com o e-mail."
+        placeholder="nome@exemplo.com"
+        value={dados.email}
+        onChange={mudar('email')}
+        erro={erros.email}
       />
       <Campo
         id={`${prefixo}-senha`}

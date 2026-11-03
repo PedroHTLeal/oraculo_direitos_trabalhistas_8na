@@ -45,7 +45,7 @@ def main():
         )
         print(f"{dados.email} agora é administrador.")
     else:
-        repositorio.criar_usuario(dados.nome, dados.email, None, gerar_hash_senha(dados.senha), "administrador")
+        repositorio.criar_usuario(dados.nome, dados.email, gerar_hash_senha(dados.senha), "administrador")
         print(f"Administrador {dados.email} criado.")
 
 

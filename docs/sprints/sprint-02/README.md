@@ -10,7 +10,7 @@ Transformar o planejamento em estrutura técnica: arquitetura do sistema, diagra
 
 | Item pedido | Entrega | Situação | Onde ver |
 | --- | --- | --- | --- |
-| Arquitetura do sistema | Frontend React → API FastAPI → Supabase (PostgreSQL), Google Gemini e automação do WhatsApp no n8n | Implementada; diagrama em elaboração | [README principal](../../../README.md#como-funciona) |
+| Arquitetura do sistema | Frontend React → API FastAPI → Supabase (PostgreSQL), Google Gemini e envio de e-mails pelo Gmail | Implementada; diagrama em elaboração | [README principal](../../../README.md#como-funciona) |
 | Diagrama de classes | Classes de domínio e de serviço do backend | Em elaboração | — |
 | MER | Entidades: tema, trecho, pergunta, usuário, sessão, inscrição, atualização, envio, solicitação, material, histórico | Em elaboração | — |
 | Modelo relacional | 13 tabelas com chaves primárias e estrangeiras | Implementado no banco; diagrama em elaboração | [Scripts SQL](../../../supabase/) |

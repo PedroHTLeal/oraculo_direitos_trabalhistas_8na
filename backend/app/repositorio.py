@@ -91,13 +91,23 @@ class RepositorioSupabase:
             {"id": t["id"], "secao": t["secao"], "tema": t["temas"]["nome"], "url": t["temas"]["url"]} for t in dados
         ]
 
-    def criar_solicitacao(self, pergunta_id, telefone, usuario_id=None):
-        registro = {"pergunta_id": pergunta_id, "telefone": telefone, "consentimento": True, "usuario_id": usuario_id}
-        return self.cliente.table("solicitacoes_whatsapp").insert(registro).execute().data[0]["id"]
+    def criar_solicitacao(self, pergunta_id, nome, email):
+        registro = {"pergunta_id": pergunta_id, "nome": nome, "email": email.lower(), "consentimento": True}
+        return self.cliente.table("solicitacoes_conteudo").insert(registro).execute().data[0]["id"]
+
+    def contar_solicitacoes_recentes(self, email, desde):
+        resultado = (
+            self.cliente.table("solicitacoes_conteudo")
+            .select("id", count="exact")
+            .eq("email", email.lower())
+            .gte("criado_em", desde)
+            .execute()
+        )
+        return resultado.count or 0
 
     def obter_solicitacao(self, solicitacao_id):
         dados = (
-            self.cliente.table("solicitacoes_whatsapp")
+            self.cliente.table("solicitacoes_conteudo")
             .select("id,status,erro")
             .eq("id", solicitacao_id)
             .execute()
@@ -113,25 +123,24 @@ class RepositorioSupabase:
         ]
         if enviados:
             self.cliente.table("materiais_enviados").insert(enviados).execute()
-        self.cliente.table("solicitacoes_whatsapp").update(
+        self.cliente.table("solicitacoes_conteudo").update(
             {"status": "enviado", "enviado_em": datetime.now(timezone.utc).isoformat()}
         ).eq("id", solicitacao_id).execute()
 
     def registrar_erro_solicitacao(self, solicitacao_id, erro):
-        self.cliente.table("solicitacoes_whatsapp").update({"status": "erro", "erro": erro}).eq(
+        self.cliente.table("solicitacoes_conteudo").update({"status": "erro", "erro": erro}).eq(
             "id", solicitacao_id
         ).execute()
 
     # Usuários e sessões
 
-    def criar_usuario(self, nome, email, telefone, senha_hash, perfil, consentimento_whatsapp=False):
+    def criar_usuario(self, nome, email, senha_hash, perfil, consentimento_email=False):
         registro = {
             "nome": nome,
-            "email": email.lower() if email else None,
-            "telefone": telefone,
+            "email": email.lower(),
             "senha_hash": senha_hash,
             "perfil": perfil,
-            "consentimento_whatsapp": consentimento_whatsapp,
+            "consentimento_email": consentimento_email,
         }
         try:
             dados = self.cliente.table("usuarios").insert(registro).execute().data[0]
@@ -141,10 +150,6 @@ class RepositorioSupabase:
 
     def obter_usuario_por_email(self, email):
         dados = self.cliente.table("usuarios").select("*").eq("email", email.lower()).execute().data
-        return dados[0] if dados else None
-
-    def obter_usuario_por_telefone(self, telefone):
-        dados = self.cliente.table("usuarios").select("*").eq("telefone", telefone).execute().data
         return dados[0] if dados else None
 
     def obter_usuario(self, usuario_id):
@@ -262,7 +267,7 @@ class RepositorioSupabase:
     def listar_inscricoes(self, usuario_id):
         dados = (
             self.cliente.table("inscricoes_tema")
-            .select("id,tema_id,telefone,criado_em,temas(nome)")
+            .select("id,tema_id,email,criado_em,temas(nome)")
             .eq("usuario_id", usuario_id)
             .eq("ativa", True)
             .order("criado_em")
@@ -271,13 +276,13 @@ class RepositorioSupabase:
         )
         return [{**{k: v for k, v in i.items() if k != "temas"}, "tema": i["temas"]["nome"]} for i in dados]
 
-    def criar_inscricao(self, usuario_id, tema_id, telefone):
-        registro = {"usuario_id": usuario_id, "tema_id": tema_id, "telefone": telefone, "consentimento": True}
+    def criar_inscricao(self, usuario_id, tema_id, email):
+        registro = {"usuario_id": usuario_id, "tema_id": tema_id, "email": email, "consentimento": True}
         try:
             inscricao_id = self.cliente.table("inscricoes_tema").insert(registro).execute().data[0]["id"]
         except APIError as erro:
             if erro.code == "23505":
-                raise RegistroDuplicado("Você já acompanha este tema com este telefone.") from erro
+                raise RegistroDuplicado("Você já acompanha este tema.") from erro
             raise
         return next(i for i in self.listar_inscricoes(usuario_id) if i["id"] == inscricao_id)
 
@@ -314,7 +319,7 @@ class RepositorioSupabase:
     def listar_inscricoes_ativas(self, tema_id):
         return (
             self.cliente.table("inscricoes_tema")
-            .select("id,telefone")
+            .select("id,email")
             .eq("tema_id", tema_id)
             .eq("ativa", True)
             .execute()
@@ -330,13 +335,13 @@ class RepositorioSupabase:
     def listar_envios(self, atualizacao_id, status=None):
         consulta = (
             self.cliente.table("envios_atualizacao")
-            .select("inscricao_id,status,enviado_em,inscricoes_tema(telefone)")
+            .select("inscricao_id,status,enviado_em,inscricoes_tema(email)")
             .eq("atualizacao_id", atualizacao_id)
         )
         if status:
             consulta = consulta.eq("status", status)
         return [
-            {"inscricao_id": e["inscricao_id"], "status": e["status"], "telefone": e["inscricoes_tema"]["telefone"]}
+            {"inscricao_id": e["inscricao_id"], "status": e["status"], "email": e["inscricoes_tema"]["email"]}
             for e in consulta.execute().data
         ]
 
@@ -420,7 +425,7 @@ class RepositorioSupabase:
         return perguntas
 
     def solicitacoes_no_periodo(self, inicio=None, fim=None):
-        consulta = self.cliente.table("solicitacoes_whatsapp").select("status,criado_em")
+        consulta = self.cliente.table("solicitacoes_conteudo").select("status,criado_em")
         if inicio:
             consulta = consulta.gte("criado_em", inicio)
         if fim:
@@ -434,7 +439,7 @@ class RepositorioSupabase:
 CAMPOS_ATUALIZACAO = (
     "id,tema_id,titulo,conteudo,url,autor_id,publicado_em,temas(nome),usuarios(nome),envios_atualizacao(status)"
 )
-CAMPOS_USUARIO = "id,nome,email,telefone,perfil,ativo,criado_em"
+CAMPOS_USUARIO = "id,nome,email,perfil,ativo,criado_em"
 CAMPOS_TRECHO = "id,tema_id,secao,ordem,texto,atualizado_em,temas(nome,url)"
 
 
@@ -446,8 +451,6 @@ def _traduzir_duplicidade(erro):
     """Converte a violação de unicidade do banco em uma mensagem para o usuário."""
     if erro.code != "23505":
         return erro
-    if "telefone" in (erro.message or ""):
-        return RegistroDuplicado("Já existe uma conta com este telefone.")
     return RegistroDuplicado("Já existe um usuário com este e-mail.")
 
 

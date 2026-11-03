@@ -15,9 +15,9 @@ class ConfiguracaoAusente(RuntimeError):
 class Configuracao:
     supabase_url: str
     supabase_chave_servico: str
-    # Webhook do fluxo do n8n que envia o WhatsApp e o token combinado com ele
-    n8n_webhook_url: str = ""
-    n8n_token: str = ""
+    # Conta do Gmail que envia os e-mails e a senha de app dela
+    email_remetente: str = ""
+    email_senha_app: str = ""
 
 
 def _ler(nome):
@@ -31,6 +31,7 @@ def carregar_configuracao():
     return Configuracao(
         supabase_url=_ler("SUPABASE_URL"),
         supabase_chave_servico=_ler("SUPABASE_SERVICE_ROLE_KEY"),
-        n8n_webhook_url=os.getenv("N8N_WEBHOOK_URL", "").strip(),
-        n8n_token=os.getenv("N8N_TOKEN", "").strip(),
+        email_remetente=os.getenv("EMAIL_REMETENTE", "").strip(),
+        # O Google mostra a senha de app em blocos separados por espaços
+        email_senha_app=os.getenv("EMAIL_SENHA_APP", "").replace(" ", ""),
     )

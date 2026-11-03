@@ -40,7 +40,7 @@ function ProvedorAutenticacao({ children }) {
       usuario,
       carregando,
       aviso,
-      entrar: (identificador, senha) => abrirSessao(api.entrar(identificador, senha)),
+      entrar: (email, senha) => abrirSessao(api.entrar(email, senha)),
       cadastrar: (dados) => abrirSessao(api.cadastrar(dados)),
       saiuAgora,
       sair: async () => {

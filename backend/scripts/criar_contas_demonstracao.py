@@ -22,11 +22,10 @@ from app.seguranca import gerar_hash_senha  # noqa: E402
 
 ARQUIVO_ENV = Path(__file__).resolve().parent.parent / ".env"
 
-# A equipe entra com e-mail; o usuário comum, com o telefone (número fictício)
 CONTAS = [
-    ("administrador", "Ana Administradora", "admin.demo@oraculo.com.br", None),
-    ("curador", "Carlos Curador", "curador.demo@oraculo.com.br", None),
-    ("usuario", "Maria Trabalhadora", None, "+5511900000001"),
+    ("administrador", "Ana Administradora", "admin.demo@oraculo.com.br"),
+    ("curador", "Carlos Curador", "curador.demo@oraculo.com.br"),
+    ("usuario", "Maria Trabalhadora", "usuario.demo@oraculo.com.br"),
 ]
 
 
@@ -35,20 +34,19 @@ def main():
     repositorio = RepositorioSupabase(config.supabase_url, config.supabase_chave_servico)
     variaveis = dotenv_values(ARQUIVO_ENV)
 
-    for perfil, nome, email, telefone in CONTAS:
+    for perfil, nome, email in CONTAS:
         chave = f"DEMO_{perfil.upper()}"
         senha = variaveis.get(f"{chave}_SENHA") or secrets.token_urlsafe(12)
-        login = email or telefone
-        existente = repositorio.obter_usuario_por_email(email) if email else repositorio.obter_usuario_por_telefone(telefone)
+        existente = repositorio.obter_usuario_por_email(email)
         if existente:
             repositorio.atualizar_usuario(
                 existente["id"], {"perfil": perfil, "ativo": True, "senha_hash": gerar_hash_senha(senha)}
             )
         else:
-            repositorio.criar_usuario(nome, email, telefone, gerar_hash_senha(senha), perfil, consentimento_whatsapp=bool(telefone))
-        set_key(ARQUIVO_ENV, f"{chave}_LOGIN", login, quote_mode="never")
+            repositorio.criar_usuario(nome, email, gerar_hash_senha(senha), perfil, consentimento_email=perfil == "usuario")
+        set_key(ARQUIVO_ENV, f"{chave}_LOGIN", email, quote_mode="never")
         set_key(ARQUIVO_ENV, f"{chave}_SENHA", senha, quote_mode="never")
-        print(f"{perfil}: {login} (senha gravada em backend/.env)")
+        print(f"{perfil}: {email} (senha gravada em backend/.env)")
 
 
 if __name__ == "__main__":

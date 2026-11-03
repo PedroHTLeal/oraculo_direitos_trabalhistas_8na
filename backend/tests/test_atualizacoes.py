@@ -1,6 +1,6 @@
 import pytest
 
-from app.whatsapp import montar_mensagem_atualizacao
+from app.envio_email import montar_email_atualizacao
 
 NOVA = {
     "tema_id": 1,
@@ -10,32 +10,33 @@ NOVA = {
 }
 
 
-def inscrever(client, entrar, tema_id=1, telefone="+5551999990001"):
-    cabecalho = entrar("usuario", login=telefone)
+def inscrever(client, entrar, tema_id=1, email="ana@exemplo.com.br"):
+    cabecalho = entrar("usuario", login=email)
     client.post("/api/inscricoes", json={"tema_id": tema_id}, headers=cabecalho)
     return cabecalho
 
 
 def test_publicar_envia_aos_inscritos_do_tema(client, falsos, entrar):
-    _, _, whatsapp = falsos
-    inscrever(client, entrar, 1, "+5551999990001")
-    inscrever(client, entrar, 1, "+5551999990002")
-    inscrever(client, entrar, 2, "+5551999990003")  # outro tema: não recebe
+    _, _, email = falsos
+    inscrever(client, entrar, 1, "ana@exemplo.com.br")
+    inscrever(client, entrar, 1, "bia@exemplo.com.br")
+    inscrever(client, entrar, 2, "caio@exemplo.com.br")  # outro tema: não recebe
 
     resposta = client.post("/api/atualizacoes", json=NOVA, headers=entrar("curador"))
 
     assert resposta.status_code == 201
-    assert sorted(t for t, _ in whatsapp.enviadas) == ["+5551999990001", "+5551999990002"]
-    assert "Novo prazo para as férias" in whatsapp.enviadas[0][1]
+    assert sorted(d for d, _ in email.enviados) == ["ana@exemplo.com.br", "bia@exemplo.com.br"]
+    assert email.enviados[0][1]["assunto"] == "Oráculo: novidade sobre Férias"
+    assert "Novo prazo para as férias" in email.enviados[0][1]["texto"]
     lista = client.get("/api/atualizacoes", headers=entrar("curador")).json()
     assert lista[0]["envios"] == {"pendente": 0, "enviado": 2, "erro": 0}
 
 
-def test_sem_whatsapp_configurado_publica_e_marca_erro(client, falsos, entrar):
+def test_sem_email_configurado_publica_e_marca_erro(client, falsos, entrar):
     from app.main import app
-    from app.rotas.atualizacoes import whatsapp_opcional
+    from app.rotas.atualizacoes import email_opcional
 
-    app.dependency_overrides[whatsapp_opcional] = lambda: None
+    app.dependency_overrides[email_opcional] = lambda: None
     inscrever(client, entrar)
     cabecalho = entrar("curador")
 
@@ -45,7 +46,7 @@ def test_sem_whatsapp_configurado_publica_e_marca_erro(client, falsos, entrar):
 
 
 def test_reenviar_so_os_envios_com_erro(client, falsos, entrar):
-    repositorio, _, whatsapp = falsos
+    repositorio, _, email = falsos
     inscrever(client, entrar)
     cabecalho = entrar("curador")
     atualizacao = client.post("/api/atualizacoes", json=NOVA, headers=cabecalho).json()
@@ -56,7 +57,7 @@ def test_reenviar_so_os_envios_com_erro(client, falsos, entrar):
 
     repositorio.envios[0]["status"] = "erro"
     assert client.post(f"/api/atualizacoes/{atualizacao['id']}/reenviar", headers=cabecalho).status_code == 200
-    assert len(whatsapp.enviadas) == 2
+    assert len(email.enviados) == 2
     assert repositorio.envios[0]["status"] == "enviado"
 
 
@@ -100,7 +101,8 @@ def test_usuario_ve_as_novidades_dos_temas_que_acompanha(client, falsos, entrar)
     assert [n["titulo"] for n in novidades] == ["Novo prazo para as férias"]
 
 
-def test_mensagem_da_atualizacao():
-    mensagem = montar_mensagem_atualizacao("Férias", "Título", "Conteúdo da novidade", "https://exemplo.com")
-    assert "Novidade sobre Férias" in mensagem
-    assert "Saiba mais: https://exemplo.com" in mensagem
+def test_email_da_atualizacao():
+    email = montar_email_atualizacao("Férias", "Título", "Conteúdo da novidade", "https://exemplo.com")
+    assert email["assunto"] == "Oráculo: novidade sobre Férias"
+    assert "Saiba mais: https://exemplo.com" in email["texto"]
+    assert 'href="https://exemplo.com"' in email["html"]

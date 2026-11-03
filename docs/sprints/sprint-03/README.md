@@ -35,9 +35,9 @@ Prints gerados em 02/11/2026 pelo roteiro automatizado [`capturar_evidencias.py`
 
 ![Login: campos obrigatórios](../../evidencias/02-login-validacao.png)
 
-**Login: telefone, e-mail ou senha incorretos**
+**Login: e-mail ou senha incorretos**
 
-![Login: telefone, e-mail ou senha incorretos](../../evidencias/03-login-senha-errada.png)
+![Login: e-mail ou senha incorretos](../../evidencias/03-login-senha-errada.png)
 
 **Cadastro concluído (conta gravada no banco)**
 
@@ -64,4 +64,4 @@ Prints gerados em 02/11/2026 pelo roteiro automatizado [`capturar_evidencias.py`
 ## Mudanças em relação ao planejado
 
 - O login foi implementado no próprio banco (tabela de usuários e sessões), em vez do Supabase Auth, para que o login, os perfis e as sessões fiquem integrados às tabelas do projeto.
-- A consulta pública continua sem login (RF01); a conta é usada pela equipe e por quem quer receber conteúdo pelo WhatsApp (ver [Sprint 05](../sprint-05/README.md)).
+- A consulta pública continua sem login (RF01); a conta é usada pela equipe e por quem quer acompanhar temas e receber as novidades por e-mail (ver [Sprint 05](../sprint-05/README.md)).
