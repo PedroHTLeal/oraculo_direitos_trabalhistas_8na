@@ -4,6 +4,20 @@ Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o
 
 ---
 
+## 0.10.2 — Registro de decisões e mudanças de escopo
+
+**Data:** 03/11/2026 · **Branch:** `main`
+
+**Objetivo:** mostrar o que foi pensado e testado ao longo do projeto e por que algumas ideias não foram usadas.
+
+**O que foi feito:**
+- Novo documento [`docs/decisoes.md`](docs/decisoes.md): troca do Claude pelo Gemini; WhatsApp pela Twilio, pela API da Meta e pelo n8n (WAHA e Evolution API) até a escolha do e-mail; pesquisa automática de links até os links escolhidos pela equipe; GitHub Pages e Render até a Vercel.
+- Ligado à Sprint 08 (registro das mudanças de escopo), à Sprint 06 e ao índice da documentação.
+
+**Como agrega:** deixa claro o raciocínio da equipe em cada escolha, com o commit de cada momento.
+
+---
+
 ## 0.10.1 — Ajustes de usabilidade na consulta
 
 **Data:** 03/11/2026 · **Branch:** `main`

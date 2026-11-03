@@ -54,8 +54,11 @@ As permissões são verificadas **no servidor**, em cada rota: o menu só escond
 | Cada fonte abria o mesmo texto que já estava na resposta | Cada seção da cartilha aparece uma vez, só com o link **Ver na cartilha** | Evita repetição e leva direto ao conteúdo original |
 | O botão **Receber por e-mail** ficava ativo com o formulário vazio | Só fica disponível com nome, e-mail válido e a autorização da LGPD marcada, com um aviso do que falta | Deixa claro o que precisa ser preenchido e reforça o consentimento (RNF03) |
 
+## Mudanças de escopo
+
+O que foi pensado, testado e trocado (IA, WhatsApp pela Twilio, pela API da Meta e pelo n8n, pesquisa automática de links e publicação), com o motivo de cada decisão, está no [registro de decisões](../../decisoes.md).
+
 ## Pendências
 
 - Revisão de usabilidade com o público-alvo e registro das melhorias.
 - Revisão final das regras de negócio após os testes com os serviços reais.
-- Registro das mudanças de escopo no documento da Sprint.
