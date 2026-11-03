@@ -4,51 +4,19 @@ Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o
 
 ---
 
-## 0.8.1 — Evolution API no lugar do WAHA
+## 0.8.0 — WhatsApp por automação no n8n com a Evolution API
 
 **Data:** 02/11/2026 · **Branch:** `main`
 
-**Objetivo:** conectar o WhatsApp à automação do n8n pela **Evolution API**, escolha da equipe por ser muito usada no Brasil e ter bastante material em português.
-
-**O que foi feito:**
-- `automacao/docker-compose.yml` passa a subir o n8n, a Evolution API e o banco PostgreSQL dela.
-- O fluxo do n8n confere o número (`/chat/whatsappNumbers`) e envia o texto (`/message/sendText`) pela instância `oraculo` da Evolution API.
-- Guia passo a passo da seção 3 refeito para a Evolution API, incluindo o que fazer se o QR code não aparecer.
-
-**Como agrega:** usa uma ferramenta conhecida pela comunidade brasileira, facilitando a manutenção e a apresentação. O Oráculo não mudou: ele continua falando só com o n8n.
-
----
-
-## 0.8.0 — WhatsApp por automação no n8n
-
-**Data:** 02/11/2026 · **Branch:** `main`
-
-**Objetivo:** enviar o WhatsApp por uma automação gratuita e local no **n8n** (decisão da equipe).
+**Objetivo:** enviar o WhatsApp por uma automação gratuita e local no **n8n**, conectada ao WhatsApp pela **Evolution API** (decisão da equipe).
 
 **O que foi feito:**
 - O Oráculo envia o pedido (telefone e mensagem) a um fluxo do n8n, protegido por um token combinado.
-- Pasta `automacao/` com o n8n e o conector WAHA (WhatsApp por QR code) no Docker, o fluxo pronto para importar e o script `iniciar-automacao.bat`.
-- O fluxo confere como o número está registrado no WhatsApp antes de enviar, o que resolve o 9 extra dos celulares brasileiros.
-- Guia passo a passo (Docker, QR code e importação do fluxo); testes do envio pelo n8n e do arquivo do fluxo (104 no total).
+- Pasta `automacao/` com o n8n, a Evolution API e o banco PostgreSQL dela no Docker, o fluxo pronto para importar e o script `iniciar-automacao.bat`.
+- O fluxo confere como o número está registrado no WhatsApp (`/chat/whatsappNumbers`) antes de enviar (`/message/sendText`), o que resolve o 9 extra dos celulares brasileiros.
+- Guia passo a passo (Docker, QR code na Evolution API e importação do fluxo); testes do envio pelo n8n e do arquivo do fluxo (104 no total).
 
-**Como agrega:** cumpre o item PB09 do backlog (automação com n8n) sem custo e sem depender de contas externas para o WhatsApp. Risco registrado: o WAHA usa o WhatsApp Web, que não é oficial; por isso o Oráculo usa um número secundário.
-
----
-
-## 0.7.0 — WhatsApp pela API oficial da Meta
-
-**Data:** 02/11/2026 · **Branch:** `main`
-
-**Objetivo:** enviar o WhatsApp pela **WhatsApp Cloud API**, a API oficial da Meta, mantendo a Twilio como alternativa.
-
-**O que foi feito:**
-- Novo serviço de envio pela WhatsApp Cloud API; o serviço é escolhido no `.env` (`PROVEDOR_WHATSAPP=meta` ou `twilio`).
-- Erros da Meta traduzidos (token vencido, número fora da lista de teste, janela de 24 horas).
-- Para celulares brasileiros, nova tentativa automática sem o 9 extra quando a Meta não reconhece o número.
-- A janela "Quer saber mais?" orienta a mandar um "Oi" ao número do Oráculo antes do primeiro envio.
-- Guia de configuração com o passo a passo da Meta, incluindo um token que não expira; 11 testes novos (108 no total).
-
-**Como agrega:** usa o canal oficial do WhatsApp, gratuito para testes, sem prender o projeto a um único fornecedor (RNF09).
+**Como agrega:** cumpre o item PB09 do backlog (automação com n8n) sem custo, com uma ferramenta conhecida pela comunidade brasileira. Risco registrado: a Evolution API usa o WhatsApp Web, que não é oficial; por isso o Oráculo usa um número secundário.
 
 ---
 
@@ -88,7 +56,7 @@ Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o
 - Uma única chave do Google cobre a geração das respostas e a pesquisa de materiais, simplificando a configuração.
 - Os links enviados continuam vindo só de resultados reais da pesquisa, evitando endereços inventados.
 
-**Pendente:** testar com as chaves do Gemini e da Twilio.
+**Pendente:** testar com a chave do Gemini.
 
 ---
 
@@ -110,7 +78,7 @@ Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o
 - Aproxima a linguagem do público-alvo (pessoas sem familiaridade com termos jurídicos) da linguagem da cartilha.
 - Mostra na prática a importância de testar com o ambiente real: o erro não aparecia nos testes com dados simulados.
 
-**Pendente:** testar a geração das respostas e o envio pelo WhatsApp, que dependem das chaves da Anthropic e da Twilio.
+**Pendente:** testar a geração das respostas e o envio pelo WhatsApp, que dependem das chaves da IA e do WhatsApp.
 
 ---
 
@@ -125,7 +93,7 @@ Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o
 - Estrutura do banco no Supabase: tabelas de trechos, perguntas e pedidos de WhatsApp, busca textual em português que ignora acentos e acesso público bloqueado.
 - Respostas geradas pela IA (Claude) usando somente os trechos encontrados, em linguagem simples, com as fontes conferidas pelo sistema.
 - A resposta aparece no painel azul, no lugar da órbita de temas; no celular, abaixo do campo de pergunta.
-- Botão "Saiba mais pelo WhatsApp": pede o telefone e o consentimento (LGPD); a IA pesquisa 2 sites e 2 vídeos do YouTube, e a Twilio envia tudo para o WhatsApp do usuário.
+- Botão "Saiba mais pelo WhatsApp": pede o telefone e o consentimento (LGPD); a IA pesquisa 2 sites e 2 vídeos do YouTube, e o Oráculo envia tudo para o WhatsApp do usuário.
 - Registro de erros no servidor e situação de cada pedido no banco.
 - Guia de configuração das contas (`docs/configuracao.md`) e modelo do arquivo de chaves (`backend/.env.example`).
 - 35 testes automatizados no backend (antes eram 7).
@@ -137,7 +105,7 @@ Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o
 - Os links e vídeos enviados são só os encontrados de fato na pesquisa, evitando endereços inventados.
 - O consentimento obrigatório, a validação do telefone e o bloqueio de acesso público ao banco atendem ao RNF03 (LGPD).
 
-**Pendente:** o teste com os serviços reais depende da criação das contas no Supabase, na Anthropic e na Twilio.
+**Pendente:** o teste com os serviços reais depende da criação das contas no Supabase e na IA.
 
 ---
 
