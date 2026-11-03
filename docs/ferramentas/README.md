@@ -30,7 +30,7 @@
 Depois de atualizar a documentação de alguma Sprint, rode:
 
 ```bash
-backend\.venv\Scripts\python docserramentas\gerar_relatorio.py
+backend\.venv\Scripts\python docs\\ferramentas\\gerar_relatorio.py
 ```
 
 O PDF fica em `docs/entrega/`. A capa usa o brasão em `logo-cabecalho.png` (retirado do relatório original) e os diagramas são desenhados a partir dos blocos `mermaid` dos documentos (precisa de internet para carregar as fontes e o Mermaid).
