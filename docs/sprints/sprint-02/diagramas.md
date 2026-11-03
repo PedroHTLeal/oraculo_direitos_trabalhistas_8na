@@ -108,21 +108,101 @@ classDiagram
 
 ## 3. Modelo entidade-relacionamento (MER)
 
+Para facilitar a leitura, o modelo está dividido em duas partes: a consulta pública e as contas da equipe e dos usuários. As entidades Tema e Usuário aparecem nas duas.
+
+**Consulta e conteúdo complementar**
+
 ```mermaid
 erDiagram
     TEMA ||--o{ TRECHO : "contém"
-    TEMA ||--o{ INSCRICAO : "é acompanhado em"
-    TEMA ||--o{ ATUALIZACAO : "recebe"
     TEMA ||--o{ MATERIAL_COMPLEMENTAR : "tem"
     PERGUNTA }o--o{ TRECHO : "usa como fonte"
     PERGUNTA ||--o{ SOLICITACAO : "gera"
     SOLICITACAO ||--o{ MATERIAL_ENVIADO : "envia"
+    TEMA {
+        int id PK
+        text nome
+        text url
+    }
+    TRECHO {
+        int id PK
+        int tema_id FK
+        text secao
+        text texto
+    }
+    PERGUNTA {
+        uuid id PK
+        text texto
+        text resposta
+        bool encontrou
+    }
+    SOLICITACAO {
+        uuid id PK
+        uuid pergunta_id FK
+        text nome
+        text email
+        text status
+    }
+    MATERIAL_ENVIADO {
+        int id PK
+        uuid solicitacao_id FK
+        text tipo
+        text url
+    }
+    MATERIAL_COMPLEMENTAR {
+        int id PK
+        int tema_id FK
+        text assunto
+        text tipo
+        text url
+    }
+```
+
+**Contas, acompanhamento de temas e histórico**
+
+```mermaid
+erDiagram
     USUARIO ||--o{ SESSAO : "abre"
     USUARIO ||--o{ INSCRICAO : "faz"
     USUARIO ||--o{ ATUALIZACAO : "publica"
     USUARIO ||--o{ HISTORICO : "realiza"
-    USUARIO ||--o{ TRECHO : "atualiza"
+    TEMA ||--o{ INSCRICAO : "é acompanhado em"
+    TEMA ||--o{ ATUALIZACAO : "recebe"
     ATUALIZACAO }o--o{ INSCRICAO : "é enviada para"
+    USUARIO {
+        uuid id PK
+        text nome
+        text email
+        text perfil
+        bool ativo
+    }
+    SESSAO {
+        text token_hash PK
+        uuid usuario_id FK
+        timestamp expira_em
+    }
+    INSCRICAO {
+        uuid id PK
+        int tema_id FK
+        uuid usuario_id FK
+        text email
+    }
+    ATUALIZACAO {
+        int id PK
+        int tema_id FK
+        uuid autor_id FK
+        text titulo
+    }
+    HISTORICO {
+        int id PK
+        uuid usuario_id FK
+        text acao
+        text descricao
+    }
+    TEMA {
+        int id PK
+        text nome
+    }
 ```
 
 | Entidade | O que representa |

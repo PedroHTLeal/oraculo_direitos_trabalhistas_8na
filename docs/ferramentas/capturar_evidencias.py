@@ -262,6 +262,7 @@ def conferir(r):
     r.ir("/cadastro")
     r.print("34-celular-cadastro")
     r.entrar("curador")
+    p.locator(".indicador").first.wait_for()
     r.print("35-celular-painel")
 
 

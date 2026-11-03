@@ -4,6 +4,20 @@ Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o
 
 ---
 
+## 0.11.0 — Relatório único de entrega (Sprints 01 a 09)
+
+**Data:** 03/11/2026 · **Branch:** `main`
+
+**Objetivo:** reunir todas as Sprints em um único PDF de entrega, no mesmo estilo do relatório da Sprint 01.
+
+**O que foi feito:**
+- [`docs/ferramentas/gerar_relatorio.py`](docs/ferramentas/gerar_relatorio.py) monta capa, índice com páginas, Sprint 01 (seções 1 a 14), Sprints 02 a 09, registro de decisões e histórico, com rodapé e numeração como no original.
+- PDF gerado em [`docs/entrega/`](docs/entrega/) (63 páginas), com os prints refeitos e os diagramas da Sprint 02.
+
+**Como agrega:** a entrega fica pronta e é regenerada com um comando sempre que a documentação muda.
+
+---
+
 ## 0.10.2 — Registro de decisões e mudanças de escopo
 
 **Data:** 03/11/2026 · **Branch:** `main`
