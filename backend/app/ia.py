@@ -9,7 +9,8 @@ logger = logging.getLogger(__name__)
 
 # Apelido que aponta sempre para o modelo Flash mais recente (disponível no plano gratuito)
 MODELO_PADRAO = "gemini-flash-latest"
-# Usado quando o modelo principal está sobrecarregado (erro 503), comum no plano gratuito
+# Usado quando o modelo principal está sobrecarregado (erro 503) ou atingiu o limite diário
+# do plano gratuito (erro 429); cada modelo tem a sua própria cota
 MODELO_RESERVA = "gemini-flash-lite-latest"
 
 INSTRUCOES_RESPOSTA = """Você é o Oráculo dos Direitos Trabalhistas, um assistente que explica \
@@ -69,10 +70,11 @@ class AssistenteIA:
     def _gerar(self, contents, config):
         try:
             return self.cliente.models.generate_content(model=self.modelo, contents=contents, config=config)
-        except errors.ServerError as erro:
-            if erro.code != 503 or self.modelo == MODELO_RESERVA:
+        except errors.APIError as erro:
+            if erro.code not in (429, 503) or self.modelo == MODELO_RESERVA:
                 raise
-            logger.warning("Modelo %s sobrecarregado; usando %s", self.modelo, MODELO_RESERVA)
+            motivo = "sem cota" if erro.code == 429 else "sobrecarregado"
+            logger.warning("Modelo %s %s; usando %s", self.modelo, motivo, MODELO_RESERVA)
             return self.cliente.models.generate_content(model=MODELO_RESERVA, contents=contents, config=config)
 
     def responder(self, pergunta, trechos):

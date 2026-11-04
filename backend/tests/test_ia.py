@@ -47,12 +47,13 @@ def test_responde_em_json_com_os_trechos():
     assert chamada["config"].response_mime_type == "application/json"
 
 
-def test_modelo_sobrecarregado_usa_o_modelo_reserva():
+@pytest.mark.parametrize("codigo, classe", [(503, "ServerError"), (429, "ClientError")])
+def test_modelo_sobrecarregado_ou_sem_cota_usa_o_modelo_reserva(codigo, classe):
     from google.genai import errors
 
     resultado = {"encontrou": True, "resposta": "30 dias.", "trechos_usados": [7]}
-    sobrecarga = errors.ServerError(503, {"error": {"code": 503, "message": "high demand", "status": "UNAVAILABLE"}})
-    cliente = ClienteFalso([sobrecarga, resposta_falsa(json.dumps(resultado))])
+    falha = getattr(errors, classe)(codigo, {"error": {"code": codigo, "message": "indisponível", "status": "X"}})
+    cliente = ClienteFalso([falha, resposta_falsa(json.dumps(resultado))])
 
     assert AssistenteIA(cliente=cliente, modelo="principal").responder("Quantos dias?", []) == resultado
     assert [c["model"] for c in cliente.chamadas] == ["principal", ia.MODELO_RESERVA]
