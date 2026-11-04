@@ -41,8 +41,8 @@ As permissões são verificadas **no servidor**, em cada rota: o menu só escond
 | Requisito | Situação |
 | --- | --- |
 | RF01 a RF03 (consulta sem conta, sugestões, pergunta livre) | Implementados |
-| RF04 a RF09 (RAG, resposta simples, fontes, conteúdo original, sem informação) | Implementados; a geração depende da chave do Gemini |
-| RF10 e RF11 (conteúdo complementar por e-mail) | Implementados; o envio é feito pelo Gmail |
+| RF04 a RF09 (RAG, resposta simples, fontes, conteúdo original, sem informação) | Implementados e testados com a IA real; avaliação das respostas em [avaliacao-ia.md](../../avaliacao-ia.md) |
+| RF10 e RF11 (conteúdo complementar por e-mail) | Implementados e testados com envio real pelo Gmail |
 | RF12 e RF13 (acompanhar temas e receber atualizações) | Implementados (Módulo 2) |
 | RF14 (área administrativa) | Implementado (painel com perfis) |
 

@@ -4,6 +4,7 @@
 | --- | --- |
 | [`capturar_evidencias.py`](capturar_evidencias.py) | Percorre as telas do sistema no navegador (Playwright + Microsoft Edge) com as contas de demonstração e salva um print de cada passo em `docs/evidencias/`. Serve de teste de navegação e de evidência para os relatórios. |
 | [`gerar_relatorio.py`](gerar_relatorio.py) | Gera o relatório único de entrega em PDF (Sprints 01 a 09), no estilo do relatório da Sprint 01, juntando o relatório, as páginas das Sprints, os diagramas e o registro de decisões. Saída em `docs/entrega/`. |
+| [`avaliar_respostas.py`](avaliar_respostas.py) | Avalia as respostas da IA com 15 perguntas de referência no sistema real (sem gravar no banco) e grava o resultado em `docs/avaliacao-ia.md` (PB12). |
 
 ## Como usar
 

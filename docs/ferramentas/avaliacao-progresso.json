@@ -1,0 +1,128 @@
+{
+ "Quantos dias de férias eu tenho direito?": {
+  "pergunta": "Quantos dias de férias eu tenho direito?",
+  "esperado": "Férias",
+  "encontrou": true,
+  "temas": "Férias",
+  "segundos": 0,
+  "criterios": {
+   "Respondeu quando devia": true,
+   "Fonte do tema certo": true,
+   "Sem fontes inventadas": true,
+   "Resposta curta": true
+  },
+  "aprovado": true
+ },
+ "Posso vender parte das minhas férias?": {
+  "pergunta": "Posso vender parte das minhas férias?",
+  "esperado": "Férias",
+  "encontrou": true,
+  "temas": "Férias",
+  "segundos": 0,
+  "criterios": {
+   "Respondeu quando devia": true,
+   "Fonte do tema certo": true,
+   "Sem fontes inventadas": true,
+   "Resposta curta": true
+  },
+  "aprovado": true
+ },
+ "Quando o 13º salário deve ser pago?": {
+  "pergunta": "Quando o 13º salário deve ser pago?",
+  "esperado": "Salário e Remuneração",
+  "encontrou": true,
+  "temas": "Salário e Remuneração",
+  "segundos": 0,
+  "criterios": {
+   "Respondeu quando devia": true,
+   "Fonte do tema certo": true,
+   "Sem fontes inventadas": true,
+   "Resposta curta": true
+  },
+  "aprovado": true
+ },
+ "Quem trabalhou só alguns meses recebe 13º?": {
+  "pergunta": "Quem trabalhou só alguns meses recebe 13º?",
+  "esperado": "Rescisão (término), Salário e Remuneração",
+  "encontrou": true,
+  "temas": "Salário e Remuneração",
+  "segundos": 0,
+  "criterios": {
+   "Respondeu quando devia": true,
+   "Fonte do tema certo": true,
+   "Sem fontes inventadas": true,
+   "Resposta curta": true
+  },
+  "aprovado": true
+ },
+ "Qual é a jornada máxima de trabalho por dia?": {
+  "pergunta": "Qual é a jornada máxima de trabalho por dia?",
+  "esperado": "Jornada de Trabalho",
+  "encontrou": true,
+  "temas": "Jornada de Trabalho, Salário e Remuneração",
+  "segundos": 0,
+  "criterios": {
+   "Respondeu quando devia": true,
+   "Fonte do tema certo": true,
+   "Sem fontes inventadas": true,
+   "Resposta curta": true
+  },
+  "aprovado": true
+ },
+ "Como funciona o pagamento de horas extras?": {
+  "pergunta": "Como funciona o pagamento de horas extras?",
+  "esperado": "Jornada de Trabalho, Salário e Remuneração",
+  "encontrou": true,
+  "temas": "Jornada de Trabalho, Salário e Remuneração",
+  "segundos": 0,
+  "criterios": {
+   "Respondeu quando devia": true,
+   "Fonte do tema certo": true,
+   "Sem fontes inventadas": true,
+   "Resposta curta": true
+  },
+  "aprovado": true
+ },
+ "O que recebo se for demitido sem justa causa?": {
+  "pergunta": "O que recebo se for demitido sem justa causa?",
+  "esperado": "Rescisão (término)",
+  "encontrou": true,
+  "temas": "Rescisão (término)",
+  "segundos": 0,
+  "criterios": {
+   "Respondeu quando devia": true,
+   "Fonte do tema certo": true,
+   "Sem fontes inventadas": true,
+   "Resposta curta": true
+  },
+  "aprovado": true
+ },
+ "Quanto tempo de aviso prévio eu preciso cumprir?": {
+  "pergunta": "Quanto tempo de aviso prévio eu preciso cumprir?",
+  "esperado": "Rescisão (término)",
+  "encontrou": true,
+  "temas": "Rescisão (término)",
+  "segundos": 0,
+  "criterios": {
+   "Respondeu quando devia": true,
+   "Fonte do tema certo": true,
+   "Sem fontes inventadas": true,
+   "Resposta curta": true
+  },
+  "aprovado": true
+ },
+ "Estagiário tem direito a férias?": {
+  "pergunta": "Estagiário tem direito a férias?",
+  "esperado": "Contrato de Estágio",
+  "encontrou": true,
+  "temas": "Contrato de Estágio",
+  "segundos": 0,
+  "criterios": {
+   "Respondeu quando devia": true,
+   "Fonte do tema certo": true,
+   "Sem fontes inventadas": true,
+   "Resposta curta": true
+  },
+  "aprovado": true
+ }
+}

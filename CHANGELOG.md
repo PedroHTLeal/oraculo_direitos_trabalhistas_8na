@@ -4,6 +4,22 @@ Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o
 
 ---
 
+## 0.12.0 — Integração contínua, avaliação da IA e requisitos atualizados
+
+**Data:** 04/11/2026 · **Branch:** `main`
+
+**Objetivo:** concluir os itens que faltavam no backlog (PB12 e PB19) e deixar o relatório com a situação real dos requisitos.
+
+**O que foi feito:**
+- [`.github/workflows/testes.yml`](.github/workflows/testes.yml): a cada envio ao GitHub, roda os 88 testes do backend e confere e compila o frontend (PB19, RNF12, RNF13).
+- [`docs/ferramentas/avaliar_respostas.py`](docs/ferramentas/avaliar_respostas.py) e [`docs/avaliacao-ia.md`](docs/avaliacao-ia.md): avaliação das respostas da IA com 15 perguntas de referência (PB12, RNF08); 9 de 15 já avaliadas e aprovadas, e as demais ficam para quando a cota diária do plano gratuito renovar (o roteiro continua de onde parou).
+- Relatório da Sprint 01: RF04 a RF14 e o backlog atualizados após os testes reais; integração contínua e publicação nas tecnologias.
+- Sprint 09: caso CT27 (pergunta fora da cartilha, RF09).
+
+**Como agrega:** todo envio passa a ser testado automaticamente, e a qualidade das respostas da IA fica medida e documentada.
+
+---
+
 ## 0.11.0 — Relatório único de entrega (Sprints 01 a 09)
 
 **Data:** 03/11/2026 · **Branch:** `main`

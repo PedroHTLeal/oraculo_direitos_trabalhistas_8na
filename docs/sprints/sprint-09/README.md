@@ -12,6 +12,8 @@ Testes funcionais, correção de bugs, testes de validação, testes de navegaç
 | --- | --- | --- |
 | **Automatizados (backend)** | 88 testes com `pytest` (rodar `pytest` em `backend/`), com versões simuladas do banco, da IA e do e-mail | 88 de 88 passando |
 | **Funcionais, de validação e de navegação** | Roteiro [`capturar_evidencias.py`](../../ferramentas/capturar_evidencias.py), que usa o navegador Edge, o sistema rodando localmente e o **banco real** no Supabase. Cada passo verifica o que deve aparecer na tela e salva um print | 35 de 35 passos aprovados (03/11/2026) |
+| **Integração contínua** | [GitHub Actions](../../../.github/workflows/testes.yml): a cada envio ao GitHub, roda os testes do backend e confere e compila o frontend | Automático a cada envio |
+| **Avaliação das respostas da IA** | [`avaliar_respostas.py`](../../ferramentas/avaliar_respostas.py): 15 perguntas de referência com a IA real | Ver [avaliação](../../avaliacao-ia.md) |
 | **Persistência** | O roteiro roda em duas fases; entre elas o sistema é encerrado e aberto de novo | Dados mantidos |
 
 ## Casos de teste (sistema real, 02 e 03/11/2026)
@@ -44,6 +46,7 @@ Testes funcionais, correção de bugs, testes de validação, testes de navegaç
 | CT24 | Consulta, cadastro e painel no celular | Todos | Telas adaptadas, sem rolagem lateral | Conforme esperado | [print](../../evidencias/35-celular-painel.png) |
 | CT25 | Perguntar "Quantos dias de férias eu tenho direito?" com a IA real | Visitante | Resposta da cartilha em cerca de 15 s, com fontes e o convite "Quer saber mais?" | Conforme esperado (03/11/2026) | — |
 | CT26 | "Saber mais" com nome e e-mail reais | Visitante | E-mail recebido com a resposta, 2 sites (Jusbrasil e cartilha do TRT4) e 2 vídeos (CEISC e Contas Online); pedido marcado como "enviado" no banco | Conforme esperado (03/11/2026) | — |
+| CT27 | Perguntar "Qual é a capital da França?" e uma pergunta sobre imposto de renda de empresas no exterior | Visitante | Aviso de que a cartilha não trata do assunto, sem fontes e sem o convite "Quer saber mais?" (RF09) | Conforme esperado (04/11/2026) | — |
 
 ## Bugs encontrados e corrigidos
 

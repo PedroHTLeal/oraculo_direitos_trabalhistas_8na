@@ -111,17 +111,17 @@ A interface deverá priorizar simplicidade, clareza e facilidade de utilização
 | RF01 | O sistema deverá permitir o acesso às funcionalidades básicas sem a necessidade de criação de uma conta. | Atendido |
 | RF02 | O sistema deverá apresentar perguntas e temas sugeridos na página inicial. | Atendido |
 | RF03 | O sistema deverá permitir que o usuário digite uma pergunta livremente. | Atendido |
-| RF04 | O sistema deverá utilizar uma abordagem RAG para buscar informações relevantes na base de conhecimento. | Implementado (teste real pendente) |
-| RF05 | O sistema deverá gerar respostas utilizando as informações recuperadas da base de conhecimento. | Implementado (teste real pendente) |
-| RF06 | O sistema deverá apresentar as respostas em linguagem acessível ao usuário. | Implementado (teste real pendente) |
-| RF07 | O sistema deverá informar a fonte utilizada para a resposta. | Implementado (teste real pendente) |
-| RF08 | O sistema deverá permitir que o usuário consulte o conteúdo original utilizado como referência. | Implementado (teste real pendente) |
-| RF09 | O sistema deverá informar quando não encontrar informações suficientes na base de conhecimento para responder à pergunta. | Implementado (teste real pendente) |
-| RF10 | O sistema deverá permitir que o usuário solicite informações complementares sobre o assunto pesquisado. | Implementado (teste real pendente) |
-| RF11 | O sistema deverá permitir o envio de conteúdos complementares por e-mail quando solicitado pelo usuário. | Implementado (teste real pendente) |
-| RF12 | O sistema deverá permitir que o usuário selecione temas para acompanhar. | Não iniciado |
-| RF13 | O sistema deverá permitir o envio de atualizações relacionadas aos temas selecionados pelo usuário. | Não iniciado |
-| RF14 | O sistema deverá possuir uma área administrativa. | Não iniciado |
+| RF04 | O sistema deverá utilizar uma abordagem RAG para buscar informações relevantes na base de conhecimento. | Atendido |
+| RF05 | O sistema deverá gerar respostas utilizando as informações recuperadas da base de conhecimento. | Atendido |
+| RF06 | O sistema deverá apresentar as respostas em linguagem acessível ao usuário. | Atendido |
+| RF07 | O sistema deverá informar a fonte utilizada para a resposta. | Atendido |
+| RF08 | O sistema deverá permitir que o usuário consulte o conteúdo original utilizado como referência. | Atendido |
+| RF09 | O sistema deverá informar quando não encontrar informações suficientes na base de conhecimento para responder à pergunta. | Atendido |
+| RF10 | O sistema deverá permitir que o usuário solicite informações complementares sobre o assunto pesquisado. | Atendido |
+| RF11 | O sistema deverá permitir o envio de conteúdos complementares por e-mail quando solicitado pelo usuário. | Atendido |
+| RF12 | O sistema deverá permitir que o usuário selecione temas para acompanhar. | Atendido |
+| RF13 | O sistema deverá permitir o envio de atualizações relacionadas aos temas selecionados pelo usuário. | Atendido |
+| RF14 | O sistema deverá possuir uma área administrativa. | Atendido |
 
 ## 7. Requisitos Não Funcionais
 
@@ -142,7 +142,7 @@ A interface deverá priorizar simplicidade, clareza e facilidade de utilização
 | RNF13 | Sempre que tecnicamente viável, etapas de integração, testes e disponibilização deverão ser automatizadas. |
 | RNF14 | O sistema deverá possuir um processo organizado de implantação e atualização de suas versões. |
 
-Observação: as tecnologias da aplicação já foram definidas (seção 12). As ferramentas específicas de integração contínua, deploy e monitoramento ainda serão definidas durante as próximas Sprints.
+Observação: as ferramentas que atendem a esses requisitos estão na seção 12: testes automatizados (pytest e ESLint), integração contínua no GitHub Actions (RNF12, RNF13) e publicação automática na Vercel a cada envio ao GitHub (RNF07, RNF14).
 
 ## 8. Casos de Uso
 
@@ -179,25 +179,25 @@ O Product Backlog representa as principais atividades e funcionalidades planejad
 | --- | --- | --- | --- | --- |
 | PB01 | Levantamento de requisitos | Definir e documentar as necessidades do sistema. | Fábrica de Software | Concluído |
 | PB02 | Modelagem do banco de dados | Estruturar as informações que serão armazenadas pelo sistema. | Desenvolvimento | Concluído |
-| PB03 | Desenvolvimento do backend | Criar a estrutura responsável pelo processamento das requisições. | Desenvolvimento | Em andamento |
-| PB04 | Desenvolvimento do frontend | Criar a interface de interação com o usuário. | Desenvolvimento | Em andamento |
+| PB03 | Desenvolvimento do backend | Criar a estrutura responsável pelo processamento das requisições. | Desenvolvimento | Concluído |
+| PB04 | Desenvolvimento do frontend | Criar a interface de interação com o usuário. | Desenvolvimento | Concluído |
 | PB05 | Construção da base de conhecimento | Organizar os conteúdos utilizados pelo sistema. | Tópicos Avançados | Concluído |
-| PB06 | Implementação do RAG | Desenvolver o mecanismo de recuperação das informações relevantes. | Tópicos Avançados | Em andamento |
-| PB07 | Integração com banco de dados | Integrar a aplicação à estrutura de armazenamento. | Desenvolvimento | Em andamento |
-| PB08 | Integração com e-mail | Criar o fluxo para envio de conteúdos complementares e atualizações. | Integração | Concluído (teste real pendente) |
+| PB06 | Implementação do RAG | Desenvolver o mecanismo de recuperação das informações relevantes. | Tópicos Avançados | Concluído |
+| PB07 | Integração com banco de dados | Integrar a aplicação à estrutura de armazenamento. | Desenvolvimento | Concluído |
+| PB08 | Integração com e-mail | Criar o fluxo para envio de conteúdos complementares e atualizações. | Integração | Concluído |
 | PB09 | Automação de envios | Automatizar o envio dos conteúdos complementares e das atualizações. | Integração / DevOps | Concluído (envio em segundo plano no backend) |
-| PB10 | Área administrativa | Desenvolver as funcionalidades para manutenção da base e auditoria. | Desenvolvimento | Não iniciado |
-| PB11 | Testes do sistema | Verificar o funcionamento das funcionalidades e integrações. | DevOps Tools | Em andamento |
-| PB12 | Avaliação das respostas da IA | Verificar a consistência das respostas e sua relação com a base de conhecimento. | Tópicos Avançados | Não iniciado |
-| PB13 | Integração geral | Integrar frontend, backend, banco de dados, IA e e-mail. | DevOps Tools | Não iniciado |
-| PB14 | Deploy | Preparar o sistema para disponibilização em ambiente de execução. | DevOps Tools | Não iniciado |
-| PB15 | Documentação | Registrar o desenvolvimento, decisões e funcionamento do projeto. | Fábrica de Software | Em andamento |
-| PB16 | Controle de versões | Organizar o código e acompanhar as alterações realizadas pela equipe. | DevOps Tools | Em andamento |
-| PB17 | Organização do repositório | Definir uma estrutura adequada para branches, commits e arquivos do projeto. | DevOps Tools | Em andamento |
-| PB18 | Automação de testes | Estruturar a execução automatizada de testes durante o desenvolvimento. | DevOps Tools | Em andamento |
-| PB19 | Integração contínua | Automatizar a validação das alterações realizadas no projeto. | DevOps Tools | Não iniciado |
-| PB20 | Deploy automatizado | Estruturar o processo de disponibilização de novas versões da aplicação. | DevOps Tools | Não iniciado |
-| PB21 | Monitoramento e logs | Registrar informações importantes para identificação de erros e acompanhamento do sistema. | DevOps Tools | Em andamento |
+| PB10 | Área administrativa | Desenvolver as funcionalidades para manutenção da base e auditoria. | Desenvolvimento | Concluído (painel por perfil) |
+| PB11 | Testes do sistema | Verificar o funcionamento das funcionalidades e integrações. | DevOps Tools | Concluído (Sprint 09) |
+| PB12 | Avaliação das respostas da IA | Verificar a consistência das respostas e sua relação com a base de conhecimento. | Tópicos Avançados | Em andamento (9 de 15 perguntas avaliadas, todas aprovadas) |
+| PB13 | Integração geral | Integrar frontend, backend, banco de dados, IA e e-mail. | DevOps Tools | Concluído |
+| PB14 | Deploy | Preparar o sistema para disponibilização em ambiente de execução. | DevOps Tools | Concluído (Vercel) |
+| PB15 | Documentação | Registrar o desenvolvimento, decisões e funcionamento do projeto. | Fábrica de Software | Concluído |
+| PB16 | Controle de versões | Organizar o código e acompanhar as alterações realizadas pela equipe. | DevOps Tools | Concluído |
+| PB17 | Organização do repositório | Definir uma estrutura adequada para branches, commits e arquivos do projeto. | DevOps Tools | Concluído |
+| PB18 | Automação de testes | Estruturar a execução automatizada de testes durante o desenvolvimento. | DevOps Tools | Concluído (pytest) |
+| PB19 | Integração contínua | Automatizar a validação das alterações realizadas no projeto. | DevOps Tools | Concluído (GitHub Actions) |
+| PB20 | Deploy automatizado | Estruturar o processo de disponibilização de novas versões da aplicação. | DevOps Tools | Concluído (Vercel, a cada envio) |
+| PB21 | Monitoramento e logs | Registrar informações importantes para identificação de erros e acompanhamento do sistema. | DevOps Tools | Concluído (logs e histórico) |
 
 ## 10. Cronograma Inicial
 
@@ -213,6 +213,8 @@ O desenvolvimento será realizado de forma incremental, utilizando Sprints para 
 | Sprint 06 | Testes e preparação da entrega; avaliação das respostas; deploy, monitoramento e versão final |
 
 Observação: o cronograma é inicial e poderá ser ajustado conforme o andamento do projeto e as orientações realizadas durante as próximas Sprints.
+
+Na execução, o projeto seguiu as Sprints 01 a 09 definidas pela disciplina; o que foi entregue em cada uma está nas páginas das Sprints, a seguir neste relatório.
 
 ## 11. Repositório GitHub
 
@@ -253,8 +255,8 @@ A definição das automações de integração contínua e deploy será realizad
 | Banco de dados | Supabase (PostgreSQL) | Banco gerenciado e gratuito no início, com busca textual em português (ignorando acentos) e controle de acesso por tabela (RNF03). |
 | Inteligência Artificial | Google Gemini (plano gratuito) | Gera respostas em linguagem simples usando só os trechos da cartilha, sem custo (RNF09). |
 | E-mail | Gmail (SMTP) com senha de app | Gratuito, sem instalar nada além do backend; a pessoa só precisa informar nome e e-mail. |
-
-As ferramentas de integração contínua e deploy serão definidas nas próximas Sprints.
+| Integração contínua | GitHub Actions | Roda os testes do backend e confere o frontend a cada envio ao GitHub, sem custo (PB19). |
+| Publicação | Vercel (plano gratuito) | Publica o site e o backend juntos e atualiza a cada envio ao `main` (PB14, PB20). |
 
 ## 13. Andamento do Desenvolvimento
 
@@ -304,9 +306,9 @@ Em computadores, a resposta aparece no painel azul, no lugar da órbita de temas
 
 **Registro de erros (RNF06, PB21):** falhas na IA, no banco ou no envio do e-mail são registradas no log do servidor, e um pedido que falha fica marcado como "erro" no banco, sem ficar pendente para sempre.
 
-**Situação:** a cartilha já está carregada no Supabase e a busca foi validada com o banco real, com perguntas como "Quantos dias de ferias eu tenho?" (sem acento), "O que recebo se for demitido sem justa causa?", "Empregada doméstica tem FGTS?" e "Fui humilhado pelo meu chefe". Nesse teste foi encontrado e corrigido um erro na função de busca, que impedia palavras como "estágio" de serem encontradas. A geração da resposta pela IA e o envio por e-mail foram testados com versões simuladas e aguardam a chave do Gemini e a senha de app do Gmail (ver `docs/configuracao.md`).
+**Situação:** a cartilha já está carregada no Supabase e a busca foi validada com o banco real, com perguntas como "Quantos dias de ferias eu tenho?" (sem acento), "O que recebo se for demitido sem justa causa?", "Empregada doméstica tem FGTS?" e "Fui humilhado pelo meu chefe". Nesse teste foi encontrado e corrigido um erro na função de busca, que impedia palavras como "estágio" de serem encontradas. A geração da resposta pela IA e o envio por e-mail também foram testados no sistema real (casos CT25 a CT27 da Sprint 09), e a qualidade das respostas foi avaliada com perguntas de referência (PB12).
 
-**Testes automatizados do backend:** 42 testes, cobrindo a busca e a geração da resposta, as fontes exibidas, o caso sem informação, o pedido por e-mail (consentimento, e-mail inválido, limite por hora, falha na pesquisa), a montagem e o envio do e-mail, a filtragem dos links e vídeos, a variedade de temas nos trechos buscados e a leitura das respostas e pesquisas do Gemini.
+**Testes automatizados do backend:** 88 testes, cobrindo a busca e a geração da resposta, as fontes exibidas, o caso sem informação, o login e os perfis, o CRUD da base, o acompanhamento de temas, o pedido por e-mail (consentimento, e-mail inválido, limite por hora, falha no envio), a escolha dos sites e vídeos, o dashboard, os relatórios e o histórico. Eles rodam sozinhos no GitHub Actions a cada envio.
 
 ### Novo visual
 
@@ -343,3 +345,4 @@ Princípios aplicados: muito espaço em branco, títulos fortes, poucos elemento
 | 31/10/2026 | Seção 13: cartilha carregada no Supabase, busca validada com o banco real, tabela de sinônimos e limite de trechos por tema. |
 | 31/10/2026 | Seção 12: a IA passou a ser o Google Gemini (plano gratuito), para manter o projeto sem custo (RNF09). |
 | 02/11/2026 | Seções 5, 6, 8, 9, 12 e 13: o conteúdo complementar e as atualizações de temas passam a ser enviados por e-mail (RF11, UC05, PB08, PB09). |
+| 04/11/2026 | Seções 6, 7, 9, 10, 12 e 13: situação dos requisitos e do backlog atualizada após os testes reais; integração contínua (GitHub Actions) e publicação (Vercel) incluídas nas tecnologias. |

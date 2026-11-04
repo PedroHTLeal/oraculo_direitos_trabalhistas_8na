@@ -113,10 +113,14 @@ def capitulos(pasta_imagens):
             conteudo += converter("## Diagramas técnicos\n" + diagramas, leia.parent / "diagramas.md", pasta_imagens)
         partes.append((titulo, f'<h1 class="capitulo">{html.escape(titulo)}</h1>{conteudo}', "sprint"))
 
-    decisoes = DOCS / "decisoes.md"
-    texto = ler(decisoes)
-    titulo = texto.splitlines()[0].removeprefix("# ").strip()
-    partes.append((titulo, f'<h1 class="capitulo">{html.escape(titulo)}</h1>' + converter("\n".join(texto.splitlines()[1:]), decisoes, pasta_imagens), "sprint"))
+    # Documentos gerais, depois das Sprints
+    for documento in (DOCS / "avaliacao-ia.md", DOCS / "decisoes.md"):
+        if not documento.exists():
+            continue
+        texto = ler(documento)
+        titulo = texto.splitlines()[0].removeprefix("# ").strip()
+        conteudo = converter("\n".join(texto.splitlines()[1:]), documento, pasta_imagens)
+        partes.append((titulo, f'<h1 class="capitulo">{html.escape(titulo)}</h1>{conteudo}', "sprint"))
 
     partes.append(("Histórico de alterações do relatório", '<h1 class="capitulo">Histórico de alterações do relatório</h1>' + converter(historico, relatorio, pasta_imagens), "sprint"))
     return partes
