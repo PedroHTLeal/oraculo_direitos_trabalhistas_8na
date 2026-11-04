@@ -285,7 +285,7 @@ Na primeira versão, a API respondia que ainda não havia informações suficien
 | `trechos` | Os trechos da cartilha, com um índice de busca em português que ignora acentos |
 | `perguntas` | As perguntas feitas e as respostas geradas, para auditoria (UC08), sem dados pessoais |
 | `solicitacoes_conteudo` | Os pedidos de conteúdo por e-mail: nome, e-mail, consentimento, situação do envio e materiais enviados |
-| `sinonimos` | Palavras do dia a dia e seus equivalentes na cartilha (ex.: "demitido" → "dispensa", "patrão" → "empregador"), editáveis pelo administrador (UC07) |
+| `sinonimos` | Palavras do dia a dia e seus equivalentes na cartilha (ex.: "demitido" → "dispensa", "patrão" → "empregador"), editáveis pela equipe no painel, na tela Sinônimos da busca (UC07) |
 
 O acesso às tabelas é bloqueado para o público; só o backend, com a chave de serviço, lê e grava os dados (RNF03).
 

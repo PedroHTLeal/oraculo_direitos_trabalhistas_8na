@@ -4,6 +4,21 @@ Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o
 
 ---
 
+## 0.13.0 — Telas de sinônimos e de sites e vídeos no painel
+
+**Data:** 04/11/2026 · **Branch:** `main`
+
+**Objetivo:** deixar a equipe manter pelo painel, sem abrir o Supabase, os sinônimos da busca e os links do "Saber mais" (UC07).
+
+**O que foi feito:**
+- Telas **Sinônimos da busca** (procurar, incluir, editar, excluir) e **Sites e vídeos** (links agrupados por assunto, com tema, palavras-chave, tipo e ordem), para curadores e administradores.
+- Rotas `/api/sinonimos` e `/api/materiais` com validações (vídeos só do YouTube, palavras sem acento, sem repetição) e registro no histórico.
+- 6 testes novos (95 no total); prints e casos de teste CT28 e CT29.
+
+**Como agrega:** a equipe pode cadastrar os links das próximas perguntas sozinha, e o relatório passa a refletir o que diz o UC07 (sinônimos editáveis pela equipe).
+
+---
+
 ## 0.12.0 — Integração contínua, avaliação da IA e requisitos atualizados
 
 **Data:** 04/11/2026 · **Branch:** `main`

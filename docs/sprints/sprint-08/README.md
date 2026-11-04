@@ -15,6 +15,7 @@ Todas as funcionalidades previstas implementadas, controle de permissões revisa
 | Acompanhar temas e ver novidades | — | Sim | — | — |
 | Dashboard e relatório de perguntas | — | — | Sim | Sim |
 | Base de conhecimento (CRUD) | — | — | Sim | Sim |
+| Sinônimos da busca e sites e vídeos do Saber mais | — | — | Sim | Sim |
 | Publicar atualizações | — | — | Sim | Sim |
 | Excluir atualizações | — | — | Só as próprias | Todas |
 | Histórico de operações | — | — | — | Sim |

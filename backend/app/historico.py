@@ -23,6 +23,8 @@ ENTIDADES = {
     "atualizacao": "Atualizações",
     "inscricao": "Temas acompanhados",
     "pergunta": "Consulta",
+    "sinonimo": "Sinônimos da busca",
+    "material": "Sites e vídeos do Saber mais",
 }
 
 

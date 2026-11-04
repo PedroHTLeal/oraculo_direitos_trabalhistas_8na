@@ -7,10 +7,12 @@ import Atualizacoes from './paginas/painel/Atualizacoes'
 import BaseConhecimento from './paginas/painel/BaseConhecimento'
 import Dashboard from './paginas/painel/Dashboard'
 import FormularioTrecho from './paginas/painel/FormularioTrecho'
+import Materiais from './paginas/painel/Materiais'
 import MeusTemas from './paginas/painel/MeusTemas'
 import Historico from './paginas/painel/Historico'
 import Painel, { InicioPainel, RotaProtegida } from './paginas/painel/Painel'
 import RelatorioPerguntas from './paginas/painel/RelatorioPerguntas'
+import Sinonimos from './paginas/painel/Sinonimos'
 import Usuarios from './paginas/painel/Usuarios'
 
 const EQUIPE_DE_CONTEUDO = ['administrador', 'curador']
@@ -39,6 +41,22 @@ function App() {
             element={
               <RotaProtegida perfis={EQUIPE_DE_CONTEUDO}>
                 <BaseConhecimento />
+              </RotaProtegida>
+            }
+          />
+          <Route
+            path="sinonimos"
+            element={
+              <RotaProtegida perfis={EQUIPE_DE_CONTEUDO}>
+                <Sinonimos />
+              </RotaProtegida>
+            }
+          />
+          <Route
+            path="materiais"
+            element={
+              <RotaProtegida perfis={EQUIPE_DE_CONTEUDO}>
+                <Materiais />
               </RotaProtegida>
             }
           />

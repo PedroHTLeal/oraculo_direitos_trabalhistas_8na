@@ -1003,3 +1003,18 @@ p.modal-aviso {
     animation: none;
   }
 }
+
+/* Sites e vídeos do Saber mais: um grupo por assunto */
+.grupo-materiais {
+  margin-top: 1.75rem;
+}
+
+.grupo-materiais h2 {
+  margin: 0 0 0.25rem;
+  font-size: 1.15rem;
+}
+
+.filtro-sinonimos {
+  max-width: 24rem;
+  margin-top: 1.5rem;
+}

@@ -16,7 +16,7 @@ A equipe (administradores e curadores) mantém os trechos da cartilha que a IA u
 
 | Item pedido | Entrega | Exemplos |
 | --- | --- | --- |
-| Módulo funcional | CRUD da base de conhecimento ligado ao banco | Tela **Base de conhecimento** |
+| Módulo funcional | CRUD da base de conhecimento ligado ao banco, com os sinônimos da busca e os sites e vídeos do "Saber mais" | Telas **Base de conhecimento**, **Sinônimos da busca** e **Sites e vídeos** |
 | Persistência | Dados no Supabase (PostgreSQL); o roteiro de evidências reinicia o sistema e confere que o trecho continua salvo | [`docs/ferramentas/capturar_evidencias.py`](../../ferramentas/capturar_evidencias.py) |
 | Validações | No navegador (antes de enviar) e no servidor (regras iguais) | Subtítulo de 2 a 200 caracteres; texto de 10 a 5000; tema existente; e-mail válido; senha com no mínimo 8 caracteres |
 | Mensagens de erro | Erros técnicos viram frases em português, junto do campo | "Preencha o campo subtítulo.", "Escolha um tema válido.", "Sem conexão com o servidor..." |
@@ -34,6 +34,18 @@ A equipe (administradores e curadores) mantém os trechos da cartilha que a IA u
 ## Evidências
 
 Prints gerados em 02/11/2026 pelo roteiro automatizado [`capturar_evidencias.py`](../../ferramentas/capturar_evidencias.py), com o sistema rodando localmente e o banco real no Supabase. Todos os prints estão em [`docs/evidencias/`](../../evidencias/).
+
+**Sinônimos da busca: palavras do dia a dia traduzidas para os termos da cartilha**
+
+![Sinônimos da busca](../../evidencias/36-sinonimos.png)
+
+**Sites e vídeos do "Saber mais", agrupados por assunto**
+
+![Sites e vídeos do Saber mais](../../evidencias/37-sites-e-videos.png)
+
+**Validação do cadastro de um link**
+
+![Validação do cadastro de um link](../../evidencias/38-sites-e-videos-validacao.png)
 
 **Consulta com filtro por tema e pesquisa no texto**
 

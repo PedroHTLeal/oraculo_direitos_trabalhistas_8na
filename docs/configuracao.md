@@ -77,7 +77,7 @@ Os sites e vídeos enviados por e-mail são **escolhidos pela equipe**, sem pesq
 - **Pergunta de um assunto cadastrado:** vão os sites e vídeos da equipe; se faltar um site, entra a página da cartilha do TRT4 sobre o tema.
 - **Outros assuntos:** vão a página da cartilha do TRT4 sobre o tema, o texto oficial da lei (CLT ou a lei própria do tema, no site do Planalto) e uma busca pronta no YouTube.
 
-Para incluir um assunto, abra o Supabase em **Table Editor › materiais_complementares › Insert row**, ou copie um dos `insert` do [`007_materiais_complementares.sql`](../supabase/007_materiais_complementares.sql) e troque os dados.
+Para incluir ou alterar um assunto, entre no painel como curador ou administrador e abra **Sites e vídeos › + Novo link**. Os sinônimos da busca (palavras do dia a dia traduzidas para os termos da cartilha) ficam em **Sinônimos da busca**.
 
 ## 5. Conferir
 

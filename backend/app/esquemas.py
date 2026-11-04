@@ -172,3 +172,38 @@ class Atualizacao(BaseModel):
     autor: str | None = None
     publicado_em: str
     envios: dict[str, int]
+
+
+# Sinônimos da busca e sites e vídeos do "Saber mais"
+
+
+class DadosSinonimo(Entrada):
+    termo: str = Field(min_length=2, max_length=60)
+    equivalentes: str = Field(min_length=2, max_length=200)
+
+
+class Sinonimo(BaseModel):
+    termo: str
+    equivalentes: str
+
+
+class DadosMaterial(Entrada):
+    tema_id: int
+    assunto: str = Field(min_length=2, max_length=80)
+    palavras_chave: list[str] = Field(min_length=1, max_length=10)
+    tipo: Literal["site", "video"]
+    titulo: str = Field(min_length=3, max_length=200)
+    url: str = Field(max_length=500, pattern=r"^https?://\S+$")
+    ordem: int = Field(default=1, ge=1, le=9)
+
+
+class Material(BaseModel):
+    id: int
+    tema_id: int
+    tema: str | None = None
+    assunto: str
+    palavras_chave: list[str]
+    tipo: str
+    titulo: str
+    url: str
+    ordem: int

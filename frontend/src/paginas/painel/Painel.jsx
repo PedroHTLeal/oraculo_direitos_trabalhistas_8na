@@ -7,6 +7,8 @@ const EQUIPE = ['administrador', 'curador']
 const MENU = [
   { para: '/painel/dashboard', rotulo: 'Dashboard', perfis: EQUIPE },
   { para: '/painel/base', rotulo: 'Base de conhecimento', perfis: EQUIPE },
+  { para: '/painel/sinonimos', rotulo: 'Sinônimos da busca', perfis: EQUIPE },
+  { para: '/painel/materiais', rotulo: 'Sites e vídeos', perfis: EQUIPE },
   { para: '/painel/atualizacoes', rotulo: 'Atualizações', perfis: EQUIPE },
   { para: '/painel/relatorios', rotulo: 'Relatório de perguntas', perfis: EQUIPE },
   { para: '/painel/historico', rotulo: 'Histórico de operações', perfis: ['administrador'] },

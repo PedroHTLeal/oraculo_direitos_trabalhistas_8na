@@ -110,6 +110,25 @@ export const salvarTrecho = (id, dados) =>
 export const excluirTrecho = (id) => requisitar(`/api/base/trechos/${id}`, { metodo: 'DELETE' })
 
 
+// Sinônimos da busca e sites e vídeos do "Saber mais"
+
+export const listarSinonimos = () => requisitar('/api/sinonimos')
+
+export const salvarSinonimo = (termoAtual, dados) =>
+  requisitar(termoAtual ? `/api/sinonimos/${encodeURIComponent(termoAtual)}` : '/api/sinonimos', {
+    metodo: termoAtual ? 'PUT' : 'POST',
+    corpo: dados,
+  })
+
+export const excluirSinonimo = (termo) => requisitar(`/api/sinonimos/${encodeURIComponent(termo)}`, { metodo: 'DELETE' })
+
+export const listarMateriais = () => requisitar('/api/materiais')
+
+export const salvarMaterial = (id, dados) =>
+  requisitar(id ? `/api/materiais/${id}` : '/api/materiais', { metodo: id ? 'PUT' : 'POST', corpo: dados })
+
+export const excluirMaterial = (id) => requisitar(`/api/materiais/${id}`, { metodo: 'DELETE' })
+
 // Usuários
 
 export const listarUsuarios = () => requisitar('/api/usuarios')

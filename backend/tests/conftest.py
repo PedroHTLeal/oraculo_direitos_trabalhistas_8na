@@ -57,7 +57,8 @@ class RepositorioFalso:
         self.atualizacoes = {}
         self.envios = []
         self.historico = []
-        self.materiais = list(MATERIAIS)
+        self.materiais = [dict(m) for m in MATERIAIS]
+        self.sinonimos = {"patrao": "empregador"}
         self.base = {
             1: {"id": 1, "tema_id": 1, "secao": "Visão geral", "ordem": 1, "texto": "Todo trabalhador tem direito a 30 dias de férias."},
             2: {"id": 2, "tema_id": 2, "secao": "Direitos do estagiário", "ordem": 1, "texto": "O estagiário tem direito a recesso remunerado."},
@@ -87,6 +88,50 @@ class RepositorioFalso:
 
     def listar_materiais(self):
         return self.materiais
+
+    def obter_material(self, material_id):
+        return next((m for m in self.materiais if m.get("id") == material_id), None)
+
+    def criar_material(self, dados):
+        if any(m["assunto"] == dados["assunto"] and m["url"] == dados["url"] for m in self.materiais):
+            raise RegistroDuplicado("Já existe")
+        material = {**dados, "id": max((m.get("id", 0) for m in self.materiais), default=0) + 1}
+        material["tema"] = next(t["nome"] for t in TEMAS if t["id"] == dados["tema_id"])
+        self.materiais.append(material)
+        return material
+
+    def atualizar_material(self, material_id, dados):
+        material = self.obter_material(material_id)
+        if not material:
+            return None
+        material.update(dados, tema=next(t["nome"] for t in TEMAS if t["id"] == dados["tema_id"]))
+        return material
+
+    def excluir_material(self, material_id):
+        antes = len(self.materiais)
+        self.materiais = [m for m in self.materiais if m.get("id") != material_id]
+        return len(self.materiais) < antes
+
+    def listar_sinonimos(self):
+        return [{"termo": t, "equivalentes": e} for t, e in sorted(self.sinonimos.items())]
+
+    def criar_sinonimo(self, termo, equivalentes):
+        if termo in self.sinonimos:
+            raise RegistroDuplicado("Já existe")
+        self.sinonimos[termo] = equivalentes
+        return {"termo": termo, "equivalentes": equivalentes}
+
+    def atualizar_sinonimo(self, termo, novo_termo, equivalentes):
+        if termo not in self.sinonimos:
+            return None
+        if novo_termo != termo and novo_termo in self.sinonimos:
+            raise RegistroDuplicado("Já existe")
+        del self.sinonimos[termo]
+        self.sinonimos[novo_termo] = equivalentes
+        return {"termo": novo_termo, "equivalentes": equivalentes}
+
+    def excluir_sinonimo(self, termo):
+        return self.sinonimos.pop(termo, None) is not None
 
     def criar_solicitacao(self, pergunta_id, nome, email):
         solicitacao_id = f"s{len(self.solicitacoes) + 1}"

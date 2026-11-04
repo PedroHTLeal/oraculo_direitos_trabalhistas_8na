@@ -47,6 +47,8 @@ Testes funcionais, correção de bugs, testes de validação, testes de navegaç
 | CT25 | Perguntar "Quantos dias de férias eu tenho direito?" com a IA real | Visitante | Resposta da cartilha em cerca de 15 s, com fontes e o convite "Quer saber mais?" | Conforme esperado (03/11/2026) | — |
 | CT26 | "Saber mais" com nome e e-mail reais | Visitante | E-mail recebido com a resposta, 2 sites (Jusbrasil e cartilha do TRT4) e 2 vídeos (CEISC e Contas Online); pedido marcado como "enviado" no banco | Conforme esperado (03/11/2026) | — |
 | CT27 | Perguntar "Qual é a capital da França?" e uma pergunta sobre imposto de renda de empresas no exterior | Visitante | Aviso de que a cartilha não trata do assunto, sem fontes e sem o convite "Quer saber mais?" (RF09) | Conforme esperado (04/11/2026) | — |
+| CT28 | Cadastrar e excluir um sinônimo e um link do Saber mais no banco real | Curador | Inclusão e exclusão salvas, com registro no histórico | Conforme esperado (04/11/2026) | [print](../../evidencias/36-sinonimos.png) |
+| CT29 | Salvar um link sem preencher os campos | Curador | Uma mensagem junto de cada campo obrigatório | Conforme esperado (04/11/2026) | [print](../../evidencias/38-sites-e-videos-validacao.png) |
 
 ## Bugs encontrados e corrigidos
 

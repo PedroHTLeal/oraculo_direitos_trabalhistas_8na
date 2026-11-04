@@ -7,7 +7,16 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from app.config import ConfiguracaoAusente
-from app.rotas import atualizacoes, autenticacao, base_conhecimento, consulta, inscricoes, relatorios, usuarios
+from app.rotas import (
+    atualizacoes,
+    autenticacao,
+    base_conhecimento,
+    consulta,
+    conteudo_complementar,
+    inscricoes,
+    relatorios,
+    usuarios,
+)
 
 # Registro de erros (RNF06)
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
@@ -15,7 +24,7 @@ logger = logging.getLogger("oraculo")
 
 app = FastAPI(title="Oráculo dos Direitos Trabalhistas")
 
-for modulo in (consulta, autenticacao, usuarios, base_conhecimento, inscricoes, atualizacoes, relatorios):
+for modulo in (consulta, autenticacao, usuarios, base_conhecimento, conteudo_complementar, inscricoes, atualizacoes, relatorios):
     app.include_router(modulo.rotas)
 
 
@@ -52,6 +61,12 @@ NOMES_DOS_CAMPOS = {
     "titulo": "título",
     "conteudo": "conteúdo",
     "url": "link",
+    "termo": "palavra",
+    "equivalentes": "palavras da cartilha",
+    "assunto": "assunto",
+    "palavras_chave": "palavras-chave",
+    "tipo": "tipo",
+    "ordem": "ordem",
 }
 
 

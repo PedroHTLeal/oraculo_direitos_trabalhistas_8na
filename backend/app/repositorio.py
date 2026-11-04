@@ -92,13 +92,64 @@ class RepositorioSupabase:
         ]
 
     def listar_materiais(self):
-        return (
+        dados = (
             self.cliente.table("materiais_complementares")
-            .select("assunto,palavras_chave,tipo,titulo,url,ordem")
+            .select(CAMPOS_MATERIAL)
+            .order("assunto")
+            .order("tipo")
             .order("ordem")
             .execute()
             .data
         )
+        return [_achatar_material(m) for m in dados]
+
+    def obter_material(self, material_id):
+        dados = self.cliente.table("materiais_complementares").select(CAMPOS_MATERIAL).eq("id", material_id).execute().data
+        return _achatar_material(dados[0]) if dados else None
+
+    def criar_material(self, dados):
+        try:
+            material_id = self.cliente.table("materiais_complementares").insert(dados).execute().data[0]["id"]
+        except APIError as erro:
+            raise _traduzir_duplicidade(erro) from erro
+        return self.obter_material(material_id)
+
+    def atualizar_material(self, material_id, dados):
+        try:
+            atualizados = self.cliente.table("materiais_complementares").update(dados).eq("id", material_id).execute().data
+        except APIError as erro:
+            raise _traduzir_duplicidade(erro) from erro
+        return self.obter_material(material_id) if atualizados else None
+
+    def excluir_material(self, material_id):
+        return bool(self.cliente.table("materiais_complementares").delete().eq("id", material_id).execute().data)
+
+    # Sinônimos da busca
+
+    def listar_sinonimos(self):
+        return self.cliente.table("sinonimos").select("termo,equivalentes").order("termo").execute().data
+
+    def criar_sinonimo(self, termo, equivalentes):
+        try:
+            return self.cliente.table("sinonimos").insert({"termo": termo, "equivalentes": equivalentes}).execute().data[0]
+        except APIError as erro:
+            raise _traduzir_duplicidade(erro) from erro
+
+    def atualizar_sinonimo(self, termo, novo_termo, equivalentes):
+        try:
+            dados = (
+                self.cliente.table("sinonimos")
+                .update({"termo": novo_termo, "equivalentes": equivalentes})
+                .eq("termo", termo)
+                .execute()
+                .data
+            )
+        except APIError as erro:
+            raise _traduzir_duplicidade(erro) from erro
+        return dados[0] if dados else None
+
+    def excluir_sinonimo(self, termo):
+        return bool(self.cliente.table("sinonimos").delete().eq("termo", termo).execute().data)
 
     def criar_solicitacao(self, pergunta_id, nome, email):
         registro = {"pergunta_id": pergunta_id, "nome": nome, "email": email.lower(), "consentimento": True}
@@ -449,6 +500,7 @@ CAMPOS_ATUALIZACAO = (
     "id,tema_id,titulo,conteudo,url,autor_id,publicado_em,temas(nome),usuarios(nome),envios_atualizacao(status)"
 )
 CAMPOS_USUARIO = "id,nome,email,perfil,ativo,criado_em"
+CAMPOS_MATERIAL = "id,tema_id,assunto,palavras_chave,tipo,titulo,url,ordem,temas(nome)"
 CAMPOS_TRECHO = "id,tema_id,secao,ordem,texto,atualizado_em,temas(nome,url)"
 
 
@@ -461,6 +513,11 @@ def _traduzir_duplicidade(erro):
     if erro.code != "23505":
         return erro
     return RegistroDuplicado("Já existe um usuário com este e-mail.")
+
+
+def _achatar_material(material):
+    tema = material.pop("temas", None) or {}
+    return {**material, "tema": tema.get("nome")}
 
 
 def _termo_seguro(texto):
