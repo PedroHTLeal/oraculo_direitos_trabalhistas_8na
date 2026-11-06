@@ -20,7 +20,7 @@ Esta pasta reúne tudo o que foi pedido e entregue em cada Sprint das disciplina
 | [06](sprints/sprint-06/README.md) | Módulo 3 e integração | Concluída | Consulta com IA (RAG), integração entre os módulos e ajustes de interface |
 | [07](sprints/sprint-07/README.md) | Dashboard e relatórios | Concluída | Dashboard, relatórios, pesquisas, filtros, CSV e histórico de operações |
 | [08](sprints/sprint-08/README.md) | Consolidação | Em andamento | Matriz de permissões por perfil e situação dos requisitos |
-| [09](sprints/sprint-09/README.md) | Verificação e documentação | Concluída | 88 testes automatizados, 26 casos de teste no sistema real, 6 bugs corrigidos |
+| [09](sprints/sprint-09/README.md) | Verificação e documentação | Concluída | 103 testes automatizados, 29 casos de teste no sistema real, 7 bugs corrigidos, avaliação da IA com 15 de 15 aprovadas |
 
 ## Os três módulos do sistema
 

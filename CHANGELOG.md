@@ -4,6 +4,22 @@ Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o
 
 ---
 
+## 0.15.0 — Busca com mais peso para as palavras raras
+
+**Data:** 06/11/2026 · **Branch:** `main`
+
+**Objetivo:** corrigir o ponto encontrado na avaliação da IA: a pergunta "Diarista tem carteira assinada?" não encontrava o trecho certo da cartilha.
+
+**O que foi feito:**
+- [`backend/app/ranqueamento.py`](backend/app/ranqueamento.py): o banco traz até 60 trechos candidatos e o sistema os reordena dando mais peso às palavras raras na cartilha (IDF) e às que aparecem no tema ou no subtítulo.
+- Os pesos e os sinônimos ficam guardados em memória e são recalculados quando a equipe muda a cartilha ou os sinônimos.
+- 5 testes novos (103 no total); nas 12 perguntas de referência, nenhuma piorou, a da diarista subiu do 32º para o 1º lugar e a do estagiário, do 4º para o 1º.
+- Avaliação da IA: 15 de 15 perguntas aprovadas; bug B07 registrado na Sprint 09.
+
+**Como agrega:** respostas mais certeiras para perguntas com palavras específicas, sem mudar o banco de dados e sem custo.
+
+---
+
 ## 0.14.0 — Paralelismo e novo integrante
 
 **Data:** 06/11/2026 · **Branch:** `main`

@@ -140,10 +140,11 @@ def escrever(resultados):
         "o sistema usa o modelo reserva (com cota própria), e cada resposta pode levar de 10 a 25 segundos (RNF05).",
         "- O sistema também descarta, antes de mostrar a resposta, qualquer trecho citado que não tenha vindo da busca.",
         "- Perguntas fora da cartilha, como \"Qual é a capital da França?\", também foram testadas no sistema real no caso CT27 da Sprint 09.",
-        "- **Ponto de melhoria encontrado:** a cartilha responde \"Diarista tem carteira assinada?\" (seção Tipos de salário: até 2 dias por semana "
-        "para a mesma família é diarista), mas a busca coloca esse trecho só na 32ª posição, porque palavras comuns da pergunta (\"carteira\", "
-        "\"assinada\") pesam mais que a palavra rara \"diarista\". Como a IA recebe só os 6 primeiros trechos, ela respondeu que a cartilha não trata do assunto. "
-        "A correção prevista é dar mais peso às palavras raras na ordenação da busca.",
+        "- **Melhoria feita a partir da avaliação:** na primeira rodada, \"Diarista tem carteira assinada?\" falhou. A cartilha responde (seção "
+        "Tipos de salário: até 2 dias por semana para a mesma família é diarista), mas a busca colocava esse trecho só na 32ª posição, porque "
+        "palavras comuns (\"carteira\", \"assinada\") pesavam mais que a palavra rara \"diarista\". A busca passou a dar mais peso às palavras "
+        "raras da cartilha ([`backend/app/ranqueamento.py`](../backend/app/ranqueamento.py)): o trecho certo subiu para o 1º lugar, \"Estagiário tem "
+        "direito a férias?\" subiu do 4º para o 1º, e a pergunta passou na nova rodada.",
         "",
     ]
     SAIDA.write_text("\n".join(linhas), encoding="utf-8")

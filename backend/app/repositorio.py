@@ -1,14 +1,20 @@
 import functools
 import logging
+import time
 from datetime import datetime, timezone
 
 import httpx
 from postgrest.exceptions import APIError
 from supabase import create_client
 
+from app.ranqueamento import Corpus, reordenar
+
 logger = logging.getLogger(__name__)
 
-CANDIDATOS = 20
+# Trechos trazidos pela busca do banco antes da reordenação por palavras raras
+CANDIDATOS = 60
+# Por quanto tempo (s) a frequência das palavras e os sinônimos ficam guardados em memória
+VALIDADE_REFERENCIA = 600
 MAXIMO_POR_TEMA = 3
 TENTATIVAS = 3
 
@@ -55,10 +61,20 @@ class RepositorioSupabase:
 
     def __init__(self, url, chave_servico):
         self.cliente = create_client(url, chave_servico)
+        self._referencia = None  # (momento, corpus da cartilha, sinônimos)
 
     def buscar_trechos(self, consulta, limite=6):
+        # O banco encontra os candidatos; a reordenação dá mais peso às palavras raras da pergunta
         resultado = self.cliente.rpc("buscar_trechos", {"consulta": consulta, "limite": CANDIDATOS}).execute()
-        return diversificar(resultado.data, limite)
+        corpus, sinonimos = self._dados_de_referencia()
+        return diversificar(reordenar(consulta, resultado.data, corpus, sinonimos), limite)
+
+    def _dados_de_referencia(self):
+        if not self._referencia or time.monotonic() - self._referencia[0] > VALIDADE_REFERENCIA:
+            dados = self.cliente.table("trechos").select("secao,texto,temas(nome)").execute().data
+            trechos = [{"tema": t["temas"]["nome"], "secao": t["secao"], "texto": t["texto"]} for t in dados]
+            self._referencia = (time.monotonic(), Corpus(trechos), self.listar_sinonimos())
+        return self._referencia[1], self._referencia[2]
 
     def salvar_pergunta(self, texto, resposta, encontrou, trechos_ids):
         registro = {"texto": texto, "resposta": resposta, "encontrou": encontrou}
@@ -130,12 +146,14 @@ class RepositorioSupabase:
         return self.cliente.table("sinonimos").select("termo,equivalentes").order("termo").execute().data
 
     def criar_sinonimo(self, termo, equivalentes):
+        self._referencia = None
         try:
             return self.cliente.table("sinonimos").insert({"termo": termo, "equivalentes": equivalentes}).execute().data[0]
         except APIError as erro:
             raise _traduzir_duplicidade(erro) from erro
 
     def atualizar_sinonimo(self, termo, novo_termo, equivalentes):
+        self._referencia = None
         try:
             dados = (
                 self.cliente.table("sinonimos")
@@ -149,6 +167,7 @@ class RepositorioSupabase:
         return dados[0] if dados else None
 
     def excluir_sinonimo(self, termo):
+        self._referencia = None
         return bool(self.cliente.table("sinonimos").delete().eq("termo", termo).execute().data)
 
     def criar_solicitacao(self, pergunta_id, nome, email):
@@ -284,6 +303,7 @@ class RepositorioSupabase:
         return _achatar_trecho(dados[0]) if dados else None
 
     def criar_trecho(self, tema_id, secao, texto, usuario_id):
+        self._referencia = None
         # O novo trecho entra no fim do tema
         ultimo = (
             self.cliente.table("trechos")
@@ -305,11 +325,13 @@ class RepositorioSupabase:
         return self.obter_trecho(trecho_id)
 
     def atualizar_trecho(self, trecho_id, tema_id, secao, texto, usuario_id):
+        self._referencia = None
         campos = {"tema_id": tema_id, "secao": secao, "texto": texto, "atualizado_por": usuario_id}
         dados = self.cliente.table("trechos").update(campos).eq("id", trecho_id).execute().data
         return self.obter_trecho(trecho_id) if dados else None
 
     def excluir_trecho(self, trecho_id):
+        self._referencia = None
         return bool(self.cliente.table("trechos").delete().eq("id", trecho_id).execute().data)
 
     def listar_perguntas(self, limite=50):

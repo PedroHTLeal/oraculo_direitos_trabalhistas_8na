@@ -10,7 +10,7 @@ Testes funcionais, correção de bugs, testes de validação, testes de navegaç
 
 | Tipo | Ferramenta | Resultado |
 | --- | --- | --- |
-| **Automatizados (backend)** | 88 testes com `pytest` (rodar `pytest` em `backend/`), com versões simuladas do banco, da IA e do e-mail | 88 de 88 passando |
+| **Automatizados (backend)** | 103 testes com `pytest` (rodar `pytest` em `backend/`), com versões simuladas do banco, da IA e do e-mail | 103 de 103 passando |
 | **Funcionais, de validação e de navegação** | Roteiro [`capturar_evidencias.py`](../../ferramentas/capturar_evidencias.py), que usa o navegador Edge, o sistema rodando localmente e o **banco real** no Supabase. Cada passo verifica o que deve aparecer na tela e salva um print | 35 de 35 passos aprovados (03/11/2026) |
 | **Integração contínua** | [GitHub Actions](../../../.github/workflows/testes.yml): a cada envio ao GitHub, roda os testes do backend e confere e compila o frontend | Automático a cada envio |
 | **Paralelismo** | [`test_paralelo.py`](../../../backend/tests/test_paralelo.py): uma barreira só libera quando as tarefas rodam juntas; envio das novidades e dashboard em paralelo ([documento](../../paralelismo.md)) | Dashboard 2,3 vezes mais rápido no banco real |
@@ -61,6 +61,7 @@ Testes funcionais, correção de bugs, testes de validação, testes de navegaç
 | B04 | Filtro de período do dashboard sempre recusado | Testes automatizados | Validação própria do período |
 | B05 | A dica do gráfico cobria a legenda | Revisão dos prints | Dica posicionada sobre a barra ([`d916d51`](https://github.com/PedroHTLeal/oraculo_direitos_trabalhistas_8na/commit/d916d51)) |
 | B06 | Depois de sair, a próxima pessoa que entrava era levada para a página da pessoa anterior | Roteiro de navegação | O endereço de retorno não é guardado quando a pessoa clica em Sair ([`ad724c3`](https://github.com/PedroHTLeal/oraculo_direitos_trabalhistas_8na/commit/ad724c3)) |
+| B07 | A busca deixava o trecho sobre diaristas em 32º lugar para "Diarista tem carteira assinada?", e a IA respondia que a cartilha não tratava do assunto | Avaliação das respostas da IA | Reordenação com mais peso para as palavras raras ([`ranqueamento.py`](../../../backend/app/ranqueamento.py)); o trecho subiu para o 1º lugar |
 
 ## Pendências e como serão resolvidas
 

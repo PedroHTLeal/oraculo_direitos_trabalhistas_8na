@@ -153,20 +153,6 @@
   },
   "aprovado": true
  },
- "Diarista tem carteira assinada?": {
-  "pergunta": "Diarista tem carteira assinada?",
-  "esperado": "Contratações e modalidades, Relação de Emprego, Salário e Remuneração",
-  "encontrou": false,
-  "temas": "—",
-  "segundos": 39.59368348121643,
-  "criterios": {
-   "Respondeu quando devia": false,
-   "Fonte do tema certo": false,
-   "Sem fontes inventadas": true,
-   "Resposta curta": true
-  },
-  "aprovado": false
- },
  "Qual é a capital da França?": {
   "pergunta": "Qual é a capital da França?",
   "esperado": "Fora da cartilha",
@@ -201,6 +187,20 @@
   "encontrou": false,
   "temas": "—",
   "segundos": 7.030531167984009,
+  "criterios": {
+   "Respondeu quando devia": true,
+   "Fonte do tema certo": true,
+   "Sem fontes inventadas": true,
+   "Resposta curta": true
+  },
+  "aprovado": true
+ },
+ "Diarista tem carteira assinada?": {
+  "pergunta": "Diarista tem carteira assinada?",
+  "esperado": "Contratações e modalidades, Relação de Emprego, Salário e Remuneração",
+  "encontrou": true,
+  "temas": "Salário e Remuneração",
+  "segundos": 6.319346904754639,
   "criterios": {
    "Respondeu quando devia": true,
    "Fonte do tema certo": true,

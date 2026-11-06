@@ -190,7 +190,7 @@ O Product Backlog representa as principais atividades e funcionalidades planejad
 | PB09 | Automação de envios | Automatizar o envio dos conteúdos complementares e das atualizações. | Integração / DevOps | Concluído (envio em segundo plano no backend) |
 | PB10 | Área administrativa | Desenvolver as funcionalidades para manutenção da base e auditoria. | Desenvolvimento | Concluído (painel por perfil) |
 | PB11 | Testes do sistema | Verificar o funcionamento das funcionalidades e integrações. | DevOps Tools | Concluído (Sprint 09) |
-| PB12 | Avaliação das respostas da IA | Verificar a consistência das respostas e sua relação com a base de conhecimento. | Tópicos Avançados | Concluído (14 de 15 perguntas aprovadas; melhoria na busca registrada) |
+| PB12 | Avaliação das respostas da IA | Verificar a consistência das respostas e sua relação com a base de conhecimento. | Tópicos Avançados | Concluído (15 de 15 perguntas aprovadas) |
 | PB13 | Integração geral | Integrar frontend, backend, banco de dados, IA e e-mail. | DevOps Tools | Concluído |
 | PB14 | Deploy | Preparar o sistema para disponibilização em ambiente de execução. | DevOps Tools | Concluído (Vercel) |
 | PB15 | Documentação | Registrar o desenvolvimento, decisões e funcionamento do projeto. | Fábrica de Software | Concluído |
@@ -294,7 +294,7 @@ O acesso às tabelas é bloqueado para o público; só o backend, com a chave de
 
 **Como a resposta é gerada (RAG, PB06):**
 
-1. A pergunta é usada para buscar no Supabase os 6 trechos mais relevantes. A busca ignora acentos, acrescenta os sinônimos das palavras do dia a dia, dá mais peso a palavras no tema e no subtítulo e limita a 3 trechos por tema, para a IA ver mais de um assunto quando a pergunta envolve vários (ex.: "estagiário tem direito a férias?").
+1. A pergunta é usada para buscar no Supabase os 6 trechos mais relevantes. A busca ignora acentos, acrescenta os sinônimos das palavras do dia a dia, dá mais peso a palavras no tema e no subtítulo e às palavras raras na cartilha (por exemplo, "diarista" pesa mais que "carteira") e limita a 3 trechos por tema, para a IA ver mais de um assunto quando a pergunta envolve vários (ex.: "estagiário tem direito a férias?").
 2. A IA recebe somente esses trechos e escreve uma resposta curta e simples (RF05, RF06), indicando quais trechos usou.
 3. O sistema confere se os trechos citados vieram mesmo da busca e os mostra como fonte, com o texto original e o link para a cartilha (RF07, RF08).
 4. Se nenhum trecho for encontrado, ou se a IA concluir que eles não respondem à pergunta, a tela informa que não há informação suficiente (RF09).
@@ -350,3 +350,4 @@ Princípios aplicados: muito espaço em branco, títulos fortes, poucos elemento
 | 02/11/2026 | Seções 5, 6, 8, 9, 12 e 13: o conteúdo complementar e as atualizações de temas passam a ser enviados por e-mail (RF11, UC05, PB08, PB09). |
 | 04/11/2026 | Seções 6, 7, 9, 10, 12 e 13: situação dos requisitos e do backlog atualizada após os testes reais; integração contínua (GitHub Actions) e publicação (Vercel) incluídas nas tecnologias. |
 | 06/11/2026 | Seção 1: Gerson Martinho Mesquita Neto (01604283) incluído entre os integrantes. Seção 12: paralelismo aplicado no envio das novidades e no dashboard (ver documento de paralelismo). |
+| 06/11/2026 | Seção 13: a busca passou a dar mais peso às palavras raras da cartilha, melhoria encontrada na avaliação das respostas da IA (PB12). |
