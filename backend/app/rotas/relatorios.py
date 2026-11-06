@@ -13,6 +13,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query, Response
 
 from app.dependencias import equipe_de_conteudo, obter_repositorio, somente_administrador
 from app.historico import ACOES, ENTIDADES
+from app.paralelo import executar_em_paralelo
 
 rotas = APIRouter(prefix="/api", tags=["Dashboard e relatórios"])
 
@@ -88,13 +89,22 @@ def indicadores(
     if dias not in PERIODOS:
         raise HTTPException(status_code=422, detail="Escolha um período válido: 7, 30, 90 ou 365 dias.")
     inicio = (datetime.now(FUSO) - timedelta(days=dias)).isoformat()
-    perguntas = repositorio.perguntas_no_periodo(inicio=inicio)
+    # Paralelismo: as cinco consultas são independentes e vão ao banco ao mesmo tempo
+    perguntas, solicitacoes, resumo, todos_usuarios, todas_atualizacoes = executar_em_paralelo(
+        [
+            lambda: repositorio.perguntas_no_periodo(inicio=inicio),
+            lambda: repositorio.solicitacoes_no_periodo(inicio=inicio),
+            repositorio.resumo_inscricoes,
+            repositorio.listar_usuarios,
+            repositorio.listar_atualizacoes,
+        ]
+    )
     respondidas = sum(1 for p in perguntas if p["encontrou"])
     temas = Counter(tema for p in perguntas for tema in p["temas"])
-    pedidos = Counter(s["status"] for s in repositorio.solicitacoes_no_periodo(inicio=inicio))
-    inscricoes = Counter(i["temas"]["nome"] for i in repositorio.resumo_inscricoes())
-    usuarios = Counter(u["perfil"] for u in repositorio.listar_usuarios() if u["ativo"])
-    atualizacoes = [a for a in repositorio.listar_atualizacoes() if a["publicado_em"] >= inicio]
+    pedidos = Counter(s["status"] for s in solicitacoes)
+    inscricoes = Counter(i["temas"]["nome"] for i in resumo)
+    usuarios = Counter(u["perfil"] for u in todos_usuarios if u["ativo"])
+    atualizacoes = [a for a in todas_atualizacoes if a["publicado_em"] >= inicio]
 
     return {
         "dias": dias,

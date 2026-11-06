@@ -46,7 +46,8 @@ CASOS = [
     ("Estagiário tem direito a férias?", {"Contrato de Estágio"}),
     ("Qual é a carga horária máxima de um estágio?", {"Contrato de Estágio"}),
     ("Empregada doméstica tem direito a FGTS?", {"Fundo de Garantia", "Relação de Emprego", "Contratações e modalidades"}),
-    ("Diarista tem carteira assinada?", {"Relação de Emprego", "Contratações e modalidades"}),
+    # A cartilha trata de diaristas na seção "Tipos de salário" (Salário e Remuneração)
+    ("Diarista tem carteira assinada?", {"Salário e Remuneração", "Relação de Emprego", "Contratações e modalidades"}),
     ("Qual é a capital da França?", set()),
     ("Qual é a melhor receita de bolo de cenoura?", set()),
     ("Como declarar o imposto de renda de uma empresa no exterior?", set()),
@@ -139,6 +140,10 @@ def escrever(resultados):
         "o sistema usa o modelo reserva (com cota própria), e cada resposta pode levar de 10 a 25 segundos (RNF05).",
         "- O sistema também descarta, antes de mostrar a resposta, qualquer trecho citado que não tenha vindo da busca.",
         "- Perguntas fora da cartilha, como \"Qual é a capital da França?\", também foram testadas no sistema real no caso CT27 da Sprint 09.",
+        "- **Ponto de melhoria encontrado:** a cartilha responde \"Diarista tem carteira assinada?\" (seção Tipos de salário: até 2 dias por semana "
+        "para a mesma família é diarista), mas a busca coloca esse trecho só na 32ª posição, porque palavras comuns da pergunta (\"carteira\", "
+        "\"assinada\") pesam mais que a palavra rara \"diarista\". Como a IA recebe só os 6 primeiros trechos, ela respondeu que a cartilha não trata do assunto. "
+        "A correção prevista é dar mais peso às palavras raras na ordenação da busca.",
         "",
     ]
     SAIDA.write_text("\n".join(linhas), encoding="utf-8")

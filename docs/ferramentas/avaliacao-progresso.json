@@ -124,5 +124,89 @@
    "Resposta curta": true
   },
   "aprovado": true
+ },
+ "Qual é a carga horária máxima de um estágio?": {
+  "pergunta": "Qual é a carga horária máxima de um estágio?",
+  "esperado": "Contrato de Estágio",
+  "encontrou": true,
+  "temas": "Contrato de Estágio",
+  "segundos": 2.7613914012908936,
+  "criterios": {
+   "Respondeu quando devia": true,
+   "Fonte do tema certo": true,
+   "Sem fontes inventadas": true,
+   "Resposta curta": true
+  },
+  "aprovado": true
+ },
+ "Empregada doméstica tem direito a FGTS?": {
+  "pergunta": "Empregada doméstica tem direito a FGTS?",
+  "esperado": "Contratações e modalidades, Fundo de Garantia, Relação de Emprego",
+  "encontrou": true,
+  "temas": "Fundo de Garantia",
+  "segundos": 261.64814472198486,
+  "criterios": {
+   "Respondeu quando devia": true,
+   "Fonte do tema certo": true,
+   "Sem fontes inventadas": true,
+   "Resposta curta": true
+  },
+  "aprovado": true
+ },
+ "Diarista tem carteira assinada?": {
+  "pergunta": "Diarista tem carteira assinada?",
+  "esperado": "Contratações e modalidades, Relação de Emprego, Salário e Remuneração",
+  "encontrou": false,
+  "temas": "—",
+  "segundos": 39.59368348121643,
+  "criterios": {
+   "Respondeu quando devia": false,
+   "Fonte do tema certo": false,
+   "Sem fontes inventadas": true,
+   "Resposta curta": true
+  },
+  "aprovado": false
+ },
+ "Qual é a capital da França?": {
+  "pergunta": "Qual é a capital da França?",
+  "esperado": "Fora da cartilha",
+  "encontrou": false,
+  "temas": "—",
+  "segundos": 12.674559831619263,
+  "criterios": {
+   "Respondeu quando devia": true,
+   "Fonte do tema certo": true,
+   "Sem fontes inventadas": true,
+   "Resposta curta": true
+  },
+  "aprovado": true
+ },
+ "Qual é a melhor receita de bolo de cenoura?": {
+  "pergunta": "Qual é a melhor receita de bolo de cenoura?",
+  "esperado": "Fora da cartilha",
+  "encontrou": false,
+  "temas": "—",
+  "segundos": 21.106932401657104,
+  "criterios": {
+   "Respondeu quando devia": true,
+   "Fonte do tema certo": true,
+   "Sem fontes inventadas": true,
+   "Resposta curta": true
+  },
+  "aprovado": true
+ },
+ "Como declarar o imposto de renda de uma empresa no exterior?": {
+  "pergunta": "Como declarar o imposto de renda de uma empresa no exterior?",
+  "esperado": "Fora da cartilha",
+  "encontrou": false,
+  "temas": "—",
+  "segundos": 7.030531167984009,
+  "criterios": {
+   "Respondeu quando devia": true,
+   "Fonte do tema certo": true,
+   "Sem fontes inventadas": true,
+   "Resposta curta": true
+  },
+  "aprovado": true
  }
 }

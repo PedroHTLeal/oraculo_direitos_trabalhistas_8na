@@ -118,3 +118,4 @@ backend\.venv\Scripts\python backend\scripts\criar_administrador.py
 **Kaleido Void Studios**
 
 - Pedro Henrique Tenório Leal
+- Gerson Martinho Mesquita Neto

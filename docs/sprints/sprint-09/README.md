@@ -13,6 +13,7 @@ Testes funcionais, correção de bugs, testes de validação, testes de navegaç
 | **Automatizados (backend)** | 88 testes com `pytest` (rodar `pytest` em `backend/`), com versões simuladas do banco, da IA e do e-mail | 88 de 88 passando |
 | **Funcionais, de validação e de navegação** | Roteiro [`capturar_evidencias.py`](../../ferramentas/capturar_evidencias.py), que usa o navegador Edge, o sistema rodando localmente e o **banco real** no Supabase. Cada passo verifica o que deve aparecer na tela e salva um print | 35 de 35 passos aprovados (03/11/2026) |
 | **Integração contínua** | [GitHub Actions](../../../.github/workflows/testes.yml): a cada envio ao GitHub, roda os testes do backend e confere e compila o frontend | Automático a cada envio |
+| **Paralelismo** | [`test_paralelo.py`](../../../backend/tests/test_paralelo.py): uma barreira só libera quando as tarefas rodam juntas; envio das novidades e dashboard em paralelo ([documento](../../paralelismo.md)) | Dashboard 2,3 vezes mais rápido no banco real |
 | **Avaliação das respostas da IA** | [`avaliar_respostas.py`](../../ferramentas/avaliar_respostas.py): 15 perguntas de referência com a IA real | Ver [avaliação](../../avaliacao-ia.md) |
 | **Persistência** | O roteiro roda em duas fases; entre elas o sistema é encerrado e aberto de novo | Dados mantidos |
 

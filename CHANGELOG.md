@@ -4,6 +4,25 @@ Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o
 
 ---
 
+## 0.14.0 — Paralelismo e novo integrante
+
+**Data:** 06/11/2026 · **Branch:** `main`
+
+**Objetivo:** confirmar e reforçar o uso de paralelismo no software, a pedido da orientadora, e incluir o novo integrante da equipe.
+
+**O que foi feito:**
+- [`backend/app/paralelo.py`](backend/app/paralelo.py): execução de tarefas em paralelo com threads.
+- Envio das novidades dos temas com até 4 e-mails ao mesmo tempo; dashboard com as 5 consultas ao banco em paralelo (0,99 s → 0,43 s no banco real).
+- Testes com barreira que comprovam a execução simultânea (98 testes no total).
+- Documento [`docs/paralelismo.md`](docs/paralelismo.md) para a conversa com o orientador, também incluído no PDF de entrega.
+- Gerson Martinho Mesquita Neto (01604283) incluído na equipe.
+- Avaliação da IA concluída: 14 de 15 perguntas aprovadas. A que falhou ("Diarista tem carteira assinada?") mostrou um ponto de melhoria na ordenação da busca, registrado em [`docs/avaliacao-ia.md`](docs/avaliacao-ia.md).
+- Sprint 06 concluída: a orientadora dispensou a Pré-Banca depois da apresentação do projeto nesta semana; a conversa com o outro orientador sobre paralelismo fica registrada como pendência na Sprint 08.
+
+**Como agrega:** o painel fica mais rápido, as novidades chegam antes a todos os inscritos e o conceito de paralelismo fica documentado e comprovado por testes.
+
+---
+
 ## 0.13.0 — Telas de sinônimos e de sites e vídeos no painel
 
 **Data:** 04/11/2026 · **Branch:** `main`

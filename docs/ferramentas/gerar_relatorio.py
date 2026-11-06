@@ -114,7 +114,7 @@ def capitulos(pasta_imagens):
         partes.append((titulo, f'<h1 class="capitulo">{html.escape(titulo)}</h1>{conteudo}', "sprint"))
 
     # Documentos gerais, depois das Sprints
-    for documento in (DOCS / "avaliacao-ia.md", DOCS / "decisoes.md"):
+    for documento in (DOCS / "paralelismo.md", DOCS / "avaliacao-ia.md", DOCS / "decisoes.md"):
         if not documento.exists():
             continue
         texto = ler(documento)

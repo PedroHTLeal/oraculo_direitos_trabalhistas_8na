@@ -36,7 +36,9 @@ Preparado pela equipe Kaleido Void Studios
 - **Disciplinas:** Fábrica de Software, Tópicos Avançados e DevOps Tools
 - **Projeto:** Oráculo dos Direitos Trabalhistas
 - **Repositório:** https://github.com/PedroHTLeal/oraculo_direitos_trabalhistas_8na
-- **Integrantes:** Pedro Henrique Tenório Leal - 01591056 - 8NA
+- **Integrantes:**
+  - Pedro Henrique Tenório Leal - 01591056 - 8NA
+  - Gerson Martinho Mesquita Neto - 01604283 - 8NA
 
 ## 2. Escolha do Tema
 
@@ -188,7 +190,7 @@ O Product Backlog representa as principais atividades e funcionalidades planejad
 | PB09 | Automação de envios | Automatizar o envio dos conteúdos complementares e das atualizações. | Integração / DevOps | Concluído (envio em segundo plano no backend) |
 | PB10 | Área administrativa | Desenvolver as funcionalidades para manutenção da base e auditoria. | Desenvolvimento | Concluído (painel por perfil) |
 | PB11 | Testes do sistema | Verificar o funcionamento das funcionalidades e integrações. | DevOps Tools | Concluído (Sprint 09) |
-| PB12 | Avaliação das respostas da IA | Verificar a consistência das respostas e sua relação com a base de conhecimento. | Tópicos Avançados | Em andamento (9 de 15 perguntas avaliadas, todas aprovadas) |
+| PB12 | Avaliação das respostas da IA | Verificar a consistência das respostas e sua relação com a base de conhecimento. | Tópicos Avançados | Concluído (14 de 15 perguntas aprovadas; melhoria na busca registrada) |
 | PB13 | Integração geral | Integrar frontend, backend, banco de dados, IA e e-mail. | DevOps Tools | Concluído |
 | PB14 | Deploy | Preparar o sistema para disponibilização em ambiente de execução. | DevOps Tools | Concluído (Vercel) |
 | PB15 | Documentação | Registrar o desenvolvimento, decisões e funcionamento do projeto. | Fábrica de Software | Concluído |
@@ -255,6 +257,7 @@ A definição das automações de integração contínua e deploy será realizad
 | Banco de dados | Supabase (PostgreSQL) | Banco gerenciado e gratuito no início, com busca textual em português (ignorando acentos) e controle de acesso por tabela (RNF03). |
 | Inteligência Artificial | Google Gemini (plano gratuito) | Gera respostas em linguagem simples usando só os trechos da cartilha, sem custo (RNF09). |
 | E-mail | Gmail (SMTP) com senha de app | Gratuito, sem instalar nada além do backend; a pessoa só precisa informar nome e e-mail. |
+| Paralelismo | Threads em Python (`concurrent.futures`) | As tarefas esperam a rede (banco e Gmail); em paralelo, o envio das novidades e o dashboard ficam mais rápidos ([documento](../../paralelismo.md)). |
 | Integração contínua | GitHub Actions | Roda os testes do backend e confere o frontend a cada envio ao GitHub, sem custo (PB19). |
 | Publicação | Vercel (plano gratuito) | Publica o site e o backend juntos e atualiza a cada envio ao `main` (PB14, PB20). |
 
@@ -346,3 +349,4 @@ Princípios aplicados: muito espaço em branco, títulos fortes, poucos elemento
 | 31/10/2026 | Seção 12: a IA passou a ser o Google Gemini (plano gratuito), para manter o projeto sem custo (RNF09). |
 | 02/11/2026 | Seções 5, 6, 8, 9, 12 e 13: o conteúdo complementar e as atualizações de temas passam a ser enviados por e-mail (RF11, UC05, PB08, PB09). |
 | 04/11/2026 | Seções 6, 7, 9, 10, 12 e 13: situação dos requisitos e do backlog atualizada após os testes reais; integração contínua (GitHub Actions) e publicação (Vercel) incluídas nas tecnologias. |
+| 06/11/2026 | Seção 1: Gerson Martinho Mesquita Neto (01604283) incluído entre os integrantes. Seção 12: paralelismo aplicado no envio das novidades e no dashboard (ver documento de paralelismo). |

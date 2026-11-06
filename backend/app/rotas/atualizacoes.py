@@ -12,12 +12,16 @@ from app.config import ConfiguracaoAusente
 from app.dependencias import equipe_de_conteudo, obter_email, obter_repositorio, usuario_atual
 from app.esquemas import Atualizacao, NovaAtualizacao
 from app.historico import registrar
+from app.paralelo import executar_em_paralelo
 from app.rotas.base_conhecimento import validar_tema
 from app.segundo_plano import agendar
 from app.envio_email import montar_email_atualizacao
 
 logger = logging.getLogger("oraculo")
 rotas = APIRouter(prefix="/api", tags=["Atualizações"])
+
+# E-mails enviados ao mesmo tempo; um número baixo evita que o Gmail recuse por excesso de conexões
+ENVIOS_SIMULTANEOS = 4
 
 
 def email_opcional():
@@ -32,7 +36,8 @@ def enviar_atualizacao(atualizacao, envios, repositorio, enviador):
     mensagem = montar_email_atualizacao(
         atualizacao["tema"], atualizacao["titulo"], atualizacao["conteudo"], atualizacao["url"]
     )
-    for envio in envios:
+
+    def enviar_para(envio):
         try:
             if not enviador:
                 raise ConfiguracaoAusente("E-mail não configurado")
@@ -41,6 +46,9 @@ def enviar_atualizacao(atualizacao, envios, repositorio, enviador):
         except Exception:
             logger.exception("Falha ao enviar a atualização %s", atualizacao["id"])
             repositorio.registrar_envio(atualizacao["id"], envio["inscricao_id"], "erro")
+
+    # Paralelismo: cada inscrito recebe o seu e-mail em uma thread; uma falha não atrasa nem impede as outras
+    executar_em_paralelo([lambda envio=envio: enviar_para(envio) for envio in envios], limite=ENVIOS_SIMULTANEOS)
 
 
 @rotas.get("/atualizacoes", response_model=list[Atualizacao])
