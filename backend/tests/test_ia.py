@@ -56,7 +56,7 @@ def test_modelo_sobrecarregado_ou_sem_cota_usa_o_modelo_reserva(codigo, classe):
     cliente = ClienteFalso([falha, resposta_falsa(json.dumps(resultado))])
 
     assert AssistenteIA(cliente=cliente, modelo="principal").responder("Quantos dias?", []) == resultado
-    assert [c["model"] for c in cliente.chamadas] == ["principal", ia.MODELO_RESERVA]
+    assert [c["model"] for c in cliente.chamadas] == ["principal", ia.MODELOS_RESERVA[0]]
 
 
 @pytest.mark.parametrize(
@@ -71,3 +71,26 @@ def test_resposta_bloqueada_vira_recusa(resposta):
     with pytest.raises(RecusaDaIA):
         assistente.responder("pergunta", [])
 
+
+
+def test_passa_por_toda_a_fila_de_modelos_reserva():
+    from google.genai import errors
+
+    resultado = {"encontrou": True, "resposta": "30 dias.", "trechos_usados": [7]}
+    ocupado = errors.ServerError(503, {"error": {"code": 503, "message": "ocupado", "status": "UNAVAILABLE"}})
+    sem_cota = errors.ClientError(429, {"error": {"code": 429, "message": "sem cota", "status": "RESOURCE_EXHAUSTED"}})
+    cliente = ClienteFalso([ocupado, sem_cota, ocupado, resposta_falsa(json.dumps(resultado))])
+
+    assert AssistenteIA(cliente=cliente, modelo="principal").responder("Quantos dias?", []) == resultado
+    assert [c["model"] for c in cliente.chamadas] == ["principal", *ia.MODELOS_RESERVA]
+
+
+def test_todos_os_modelos_ocupados_devolve_o_erro():
+    from google.genai import errors
+
+    ocupado = errors.ServerError(503, {"error": {"code": 503, "message": "ocupado", "status": "UNAVAILABLE"}})
+    cliente = ClienteFalso([ocupado] * 4)
+
+    with pytest.raises(errors.ServerError):
+        AssistenteIA(cliente=cliente, modelo="principal").responder("Quantos dias?", [])
+    assert len(cliente.chamadas) == 4

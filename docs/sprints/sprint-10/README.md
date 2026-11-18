@@ -73,7 +73,7 @@ Prints gerados em 18/11/2026 pelo roteiro automatizado [`capturar_evidencias.py`
 | Depois de sair, a próxima pessoa caía na página da anterior (B06) | O endereço de retorno não é guardado ao clicar em Sair |
 | Trecho certo fora do alcance da IA em perguntas com palavras raras (B07) | Mais peso para palavras raras na ordenação da busca |
 | WhatsApp não entregava as mensagens | Conteúdo complementar e novidades passaram a ser enviados por e-mail ([decisões](../../decisoes.md)) |
-| A IA às vezes falhava nos horários de pico do plano gratuito | Modelo reserva quando o principal está sobrecarregado, com erro ou sem cota, em no máximo 40 s |
+| A IA às vezes falhava nos horários de pico do plano gratuito | Fila de 3 modelos reserva (cada um com cota e carga próprias) quando o principal está sobrecarregado, com erro ou sem cota, sempre dentro do limite de 60 s da Vercel |
 | Links do "Saber mais" inventados pela pesquisa automática | Links escolhidos e conferidos pela equipe, com tela própria no painel |
 | O banco gratuito do Supabase pausa depois de 7 dias sem uso | Banco reativado e conferido nesta Sprint; rotina automática no GitHub Actions o mantém ativo, e a reativação está documentada |
 

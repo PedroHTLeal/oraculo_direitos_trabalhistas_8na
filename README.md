@@ -36,7 +36,7 @@ Fluxo da consulta: a pessoa faz a pergunta; o backend busca os trechos mais rele
 | Backend | Python 3.12, [FastAPI](https://fastapi.tiangolo.com/) (API documentada com OpenAPI/Swagger) |
 | Frontend | React 18 com [Vite](https://vite.dev/) |
 | Banco de dados | [Supabase](https://supabase.com/) (PostgreSQL), busca textual em português sem acentos |
-| Inteligência Artificial | [Google Gemini](https://ai.google.dev/) (plano gratuito), com modelo reserva quando o principal está sobrecarregado ou sem cota |
+| Inteligência Artificial | [Google Gemini](https://ai.google.dev/) (plano gratuito), com uma fila de 3 modelos reserva quando o principal está sobrecarregado ou sem cota |
 | E-mail | Gmail (SMTP) com senha de app |
 | Paralelismo | Threads em Python no envio das novidades e no dashboard ([detalhes](docs/paralelismo.md)) |
 | Testes e qualidade | pytest (103 testes), ESLint, roteiro de testes no navegador com Playwright |

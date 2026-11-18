@@ -4,6 +4,21 @@ Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o
 
 ---
 
+## 1.0.0-rc.2 — Fila de modelos reserva da IA
+
+**Data:** 18/11/2026 · **Branch:** `main` · **Tag:** `v1.0.0-rc.2`
+
+**Objetivo:** corrigir o erro "A inteligência artificial está muito ocupada agora", visto pela equipe no site publicado quando o modelo principal e o reserva estavam indisponíveis ao mesmo tempo.
+
+**O que foi feito:**
+- No lugar de um único modelo reserva, uma fila de três (`gemini-flash-lite-latest`, `gemini-3.1-flash-lite` e `gemini-3-flash-preview`), testados com a chave do projeto; cada modelo do plano gratuito tem cota e carga próprias.
+- Cada modelo tem até 15 s, e o sistema para de tentar em 45 s, dentro do limite de 60 s da Vercel.
+- 2 testes novos (108 no total); a pergunta "Até quantos dias de atestado posso ficar sem entrar no INSS?" foi respondida corretamente.
+
+**Como agrega:** a consulta continua respondendo mesmo quando vários modelos do plano gratuito estão ocupados.
+
+---
+
 ## 1.0.0-rc.1 — Release Candidate (Sprint 10)
 
 **Data:** 18/11/2026 · **Branch:** `main` · **Tag:** `v1.0.0-rc.1`
