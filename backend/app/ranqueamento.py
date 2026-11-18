@@ -22,7 +22,7 @@ PALAVRAS_VAZIAS = {
     "qual", "quais", "quando", "como", "onde", "quem", "quanto", "quanta", "quantos", "quantas", "meu", "minha", "meus",
     "minhas", "seu", "sua", "seus", "suas", "isso", "esse", "essa", "este", "esta", "mais", "muito", "sobre", "dos",
     "das", "nos", "nas", "pelo", "pela", "tambem", "ainda", "voce", "deve", "fazer", "foi", "sim", "nao", "direito",
-    "direitos", "trabalho",
+    "direitos", "trabalho", "ate", "sem", "ficar", "fico", "entrar", "estar", "estou", "preciso", "quero",
 }
 
 
