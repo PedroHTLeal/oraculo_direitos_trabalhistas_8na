@@ -10,7 +10,7 @@ Uma versão candidata à entrega final (Release Candidate): sistema estável, in
 
 | | |
 | --- | --- |
-| **Versão** | 1.0.0-rc.1 |
+| **Versão** | 1.0.0-rc.2 (a rc.1 recebeu a fila de modelos reserva da IA) |
 | **Sistema publicado** | https://oraculo-direitos-trabalhistas-8na.vercel.app (a equipe entra em `/entrar`) |
 | **Repositório (README)** | https://github.com/PedroHTLeal/oraculo_direitos_trabalhistas_8na |
 | **Documentação da API** | [docs/api.md](../../api.md) e Swagger em https://oraculo-direitos-trabalhistas-8na.vercel.app/api/docs |
