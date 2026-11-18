@@ -9,9 +9,10 @@ logger = logging.getLogger(__name__)
 
 # Apelido que aponta sempre para o modelo Flash mais recente (disponível no plano gratuito)
 MODELO_PADRAO = "gemini-flash-latest"
-# Usado quando o modelo principal está sobrecarregado (erro 503) ou atingiu o limite diário
+# Usado quando o modelo principal está indisponível (erros 5xx) ou atingiu o limite diário
 # do plano gratuito (erro 429); cada modelo tem a sua própria cota
 MODELO_RESERVA = "gemini-flash-lite-latest"
+TEMPO_LIMITE_MS = 20000  # por modelo: principal e reserva somam no máximo 40 s
 
 INSTRUCOES_RESPOSTA = """Você é o Oráculo dos Direitos Trabalhistas, um assistente que explica \
 direitos e obrigações no trabalho para pessoas sem conhecimento jurídico: trabalhadores \
@@ -63,17 +64,21 @@ def _texto(resposta):
 
 class AssistenteIA:
     def __init__(self, cliente=None, modelo=None):
-        # A chave é lida da variável GEMINI_API_KEY
-        self.cliente = cliente or genai.Client()
+        # A chave é lida da variável GEMINI_API_KEY. Poucas tentativas e tempo limite curto: se o modelo
+        # principal estiver sobrecarregado, o reserva assume logo, dentro do limite de 60 s da Vercel
+        self.cliente = cliente or genai.Client(
+            http_options=types.HttpOptions(timeout=TEMPO_LIMITE_MS, retry_options=types.HttpRetryOptions(attempts=1))
+        )
         self.modelo = modelo or os.getenv("GEMINI_MODELO", "").strip() or MODELO_PADRAO
 
     def _gerar(self, contents, config):
         try:
             return self.cliente.models.generate_content(model=self.modelo, contents=contents, config=config)
         except errors.APIError as erro:
-            if erro.code not in (429, 503) or self.modelo == MODELO_RESERVA:
+            # Sem cota (429) ou qualquer falha do lado do Google (5xx: sobrecarga, tempo esgotado...)
+            if not (erro.code == 429 or erro.code >= 500) or self.modelo == MODELO_RESERVA:
                 raise
-            motivo = "sem cota" if erro.code == 429 else "sobrecarregado"
+            motivo = "sem cota" if erro.code == 429 else f"indisponível ({erro.code})"
             logger.warning("Modelo %s %s; usando %s", self.modelo, motivo, MODELO_RESERVA)
             return self.cliente.models.generate_content(model=MODELO_RESERVA, contents=contents, config=config)
 

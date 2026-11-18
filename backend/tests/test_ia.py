@@ -47,7 +47,7 @@ def test_responde_em_json_com_os_trechos():
     assert chamada["config"].response_mime_type == "application/json"
 
 
-@pytest.mark.parametrize("codigo, classe", [(503, "ServerError"), (429, "ClientError")])
+@pytest.mark.parametrize("codigo, classe", [(503, "ServerError"), (504, "ServerError"), (429, "ClientError")])
 def test_modelo_sobrecarregado_ou_sem_cota_usa_o_modelo_reserva(codigo, classe):
     from google.genai import errors
 
