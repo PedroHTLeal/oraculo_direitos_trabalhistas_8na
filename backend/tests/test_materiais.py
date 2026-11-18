@@ -29,11 +29,12 @@ def test_assunto_cadastrado_usa_os_links_da_equipe_e_completa_com_a_cartilha():
     assert [v["url"] for v in materiais["videos"]] == ["https://www.youtube.com/watch?v=1", "https://www.youtube.com/watch?v=2"]
 
 
-def test_assunto_sem_links_envia_cartilha_lei_e_busca_no_youtube():
+def test_assunto_sem_links_envia_cartilha_lei_e_busca_de_videos():
     materiais = montar_materiais("Quanto é a hora extra?", "Jornada de Trabalho", "https://trt4/jornada", CADASTRADOS)
 
     assert [s["url"] for s in materiais["sites"]] == ["https://trt4/jornada", CLT[1]]
-    assert materiais["videos"][0]["url"].startswith("https://www.youtube.com/results?search_query=Jornada")
+    # Busca de vídeos com a própria pergunta, no Google Vídeos (abre no navegador, também no celular)
+    assert materiais["videos"][0]["url"] == "https://www.google.com/search?tbm=vid&q=Quanto+%C3%A9+a+hora+extra%3F"
 
 
 def test_tema_com_lei_propria():

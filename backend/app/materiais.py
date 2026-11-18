@@ -26,6 +26,10 @@ LEIS = {
 }
 
 
+def busca_de_videos(pergunta):
+    return "https://www.google.com/search?tbm=vid&q=" + urllib.parse.quote_plus(pergunta.strip())
+
+
 def normalizar(texto):
     """Minúsculas e sem acentos ("13º Salário" vira "13o salario")."""
     sem_acento = unicodedata.normalize("NFKD", texto or "").encode("ascii", "ignore").decode()
@@ -59,11 +63,8 @@ def montar_materiais(pergunta, tema, url_cartilha, cadastrados):
     sites += [c for c in complementos if c["url"] not in vistos]
 
     if not videos:
-        # Sem vídeos escolhidos para o assunto: indica uma busca pronta no YouTube
-        videos = [
-            {
-                "titulo": f"Vídeos sobre {tema} no YouTube",
-                "url": "https://www.youtube.com/results?search_query=" + urllib.parse.quote_plus(f"{tema} direitos trabalhistas"),
-            }
-        ]
+        # Sem vídeos escolhidos para o assunto: uma busca de vídeos pronta com a própria pergunta.
+        # É feita no Google Vídeos porque o aplicativo do YouTube no celular ignora links de busca
+        # e abre a página inicial; o Google abre no navegador e mostra os vídeos (quase todos do YouTube).
+        videos = [{"titulo": "Vídeos sobre a sua pergunta (busca no Google Vídeos)", "url": busca_de_videos(pergunta)}]
     return {"sites": sites[:QUANTIDADE], "videos": videos[:QUANTIDADE]}

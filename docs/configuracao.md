@@ -76,7 +76,7 @@ O Oráculo envia por e-mail a resposta, os 2 sites e os 2 vídeos do "Saber mais
 Os sites e vídeos enviados por e-mail são **escolhidos pela equipe**, sem pesquisa automática. Eles ficam na tabela `materiais_complementares` do Supabase, por assunto, cada um com as palavras-chave que o identificam na pergunta (por exemplo, `ferias` ou `13` e `decimo terceiro`, sempre sem acento e em minúsculas).
 
 - **Pergunta de um assunto cadastrado:** vão os sites e vídeos da equipe; se faltar um site, entra a página da cartilha do TRT4 sobre o tema.
-- **Outros assuntos:** vão a página da cartilha do TRT4 sobre o tema, o texto oficial da lei (CLT ou a lei própria do tema, no site do Planalto) e uma busca pronta no YouTube.
+- **Outros assuntos:** vão a página da cartilha do TRT4 sobre o tema, o texto oficial da lei (CLT ou a lei própria do tema, no site do Planalto) e uma busca de vídeos pronta com a própria pergunta (Google Vídeos).
 
 Para incluir ou alterar um assunto, entre no painel como curador ou administrador e abra **Sites e vídeos › + Novo link**. Os sinônimos da busca (palavras do dia a dia traduzidas para os termos da cartilha) ficam em **Sinônimos da busca**.
 

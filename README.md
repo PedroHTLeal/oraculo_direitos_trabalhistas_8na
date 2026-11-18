@@ -6,7 +6,7 @@ Projeto da turma **8NA** de Ciência da Computação, desenvolvido para as disci
 
 | | |
 | --- | --- |
-| **Versão** | 1.0.0-rc.2 (Release Candidate) |
+| **Versão** | 1.0.0-rc.3 (Release Candidate) |
 | **Sistema publicado** | https://oraculo-direitos-trabalhistas-8na.vercel.app |
 | **Documentação da API** | [docs/api.md](docs/api.md) e Swagger em https://oraculo-direitos-trabalhistas-8na.vercel.app/api/docs |
 | **Documentação por Sprint** | [docs/](docs/README.md), com o relatório único em PDF em [docs/entrega/](docs/entrega/) |

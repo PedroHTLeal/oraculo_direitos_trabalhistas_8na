@@ -4,6 +4,21 @@ Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o
 
 ---
 
+## 1.0.0-rc.3 — Link de vídeos do e-mail que funciona no celular
+
+**Data:** 18/11/2026 · **Branch:** `main`
+
+**Objetivo:** corrigir o link "Vídeos sobre o assunto" do e-mail, que abria a página inicial do YouTube.
+
+**O que foi feito:**
+- Para assuntos sem vídeos escolhidos pela equipe, o e-mail trazia uma busca no YouTube; no celular, o aplicativo do YouTube intercepta o link, ignora a busca e abre a página inicial.
+- O link passou a ser uma busca no Google Vídeos com a própria pergunta (mais certeira que o nome do tema), que abre no navegador e mostra os vídeos, quase todos do YouTube.
+- Teste atualizado (108 testes); guia de configuração, relatório, decisões e Sprint 10 atualizados.
+
+**Como agrega:** quem pede mais conteúdo chega direto aos vídeos sobre a dúvida, também pelo celular.
+
+---
+
 ## 1.0.0-rc.2 — Fila de modelos reserva da IA
 
 **Data:** 18/11/2026 · **Branch:** `main` · **Tag:** `v1.0.0-rc.2`

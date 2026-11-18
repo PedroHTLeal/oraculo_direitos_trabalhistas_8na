@@ -66,7 +66,7 @@ A proposta da Sprint 01 previa enviar o "Saber mais" (resposta, 2 sites e 2 víd
 - **Alternativas testadas e descartadas:**
   - pedir ao Gemini que sugerisse páginas oficiais sem pesquisar: das 6 sugeridas, **nenhuma existia** (endereços inventados pela IA);
   - ler páginas de resultados de buscadores: um deles bloqueia acesso automático, e esse tipo de leitura quebra quando o site muda.
-- **Decisão (02/11/2026, [`24fee80`](https://github.com/PedroHTLeal/oraculo_direitos_trabalhistas_8na/commit/24fee80)):** a equipe escolhe e confere os links de cada assunto, que ficam na tabela `materiais_complementares` ([`007_materiais_complementares.sql`](../supabase/007_materiais_complementares.sql)). Para assuntos ainda sem links, vão a página da cartilha do TRT4, o texto oficial da lei e uma busca pronta no YouTube.
+- **Decisão (02/11/2026, [`24fee80`](https://github.com/PedroHTLeal/oraculo_direitos_trabalhistas_8na/commit/24fee80)):** a equipe escolhe e confere os links de cada assunto, que ficam na tabela `materiais_complementares` ([`007_materiais_complementares.sql`](../supabase/007_materiais_complementares.sql)). Para assuntos ainda sem links, vão a página da cartilha do TRT4, o texto oficial da lei e uma busca de vídeos pronta com a própria pergunta (Google Vídeos).
 - **Ganhos:** endereços sempre reais e conferidos, envio mais rápido e sem depender de cota de API.
 
 ## 4. Publicação na internet

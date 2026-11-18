@@ -10,7 +10,7 @@ Uma versão candidata à entrega final (Release Candidate): sistema estável, in
 
 | | |
 | --- | --- |
-| **Versão** | 1.0.0-rc.2 (a rc.1 recebeu a fila de modelos reserva da IA) |
+| **Versão** | 1.0.0-rc.3 (depois da rc.1: fila de modelos reserva da IA e link de vídeos do e-mail corrigido) |
 | **Sistema publicado** | https://oraculo-direitos-trabalhistas-8na.vercel.app (a equipe entra em `/entrar`) |
 | **Repositório (README)** | https://github.com/PedroHTLeal/oraculo_direitos_trabalhistas_8na |
 | **Documentação da API** | [docs/api.md](../../api.md) e Swagger em https://oraculo-direitos-trabalhistas-8na.vercel.app/api/docs |
@@ -75,6 +75,7 @@ Prints gerados em 18/11/2026 pelo roteiro automatizado [`capturar_evidencias.py`
 | WhatsApp não entregava as mensagens | Conteúdo complementar e novidades passaram a ser enviados por e-mail ([decisões](../../decisoes.md)) |
 | A IA às vezes falhava nos horários de pico do plano gratuito | Fila de 3 modelos reserva (cada um com cota e carga próprias) quando o principal está sobrecarregado, com erro ou sem cota, sempre dentro do limite de 60 s da Vercel |
 | Links do "Saber mais" inventados pela pesquisa automática | Links escolhidos e conferidos pela equipe, com tela própria no painel |
+| O link de vídeos do e-mail abria a página inicial do YouTube no celular (o aplicativo ignora links de busca) | Para assuntos sem vídeos cadastrados, o e-mail traz uma busca de vídeos no Google com a própria pergunta, que abre no navegador |
 | O banco gratuito do Supabase pausa depois de 7 dias sem uso | Banco reativado e conferido nesta Sprint; rotina automática no GitHub Actions o mantém ativo, e a reativação está documentada |
 
 O registro completo, com data e objetivo de cada ajuste, está no [CHANGELOG](../../../CHANGELOG.md).
