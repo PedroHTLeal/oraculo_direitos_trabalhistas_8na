@@ -6,9 +6,10 @@ Projeto da turma **8NA** de Ciência da Computação, desenvolvido para as disci
 
 | | |
 | --- | --- |
-| **Versão** | 1.0.0-rc.4 (Release Candidate) |
+| **Versão** | 1.0.0-rc.5 (Release Candidate) |
 | **Sistema publicado** | https://oraculo-direitos-trabalhistas-8na.vercel.app |
 | **Documentação da API** | [docs/api.md](docs/api.md) e Swagger em https://oraculo-direitos-trabalhistas-8na.vercel.app/api/docs |
+| **Manuais** | [Manual do Usuário](docs/manual-do-usuario.md) e [Manual Técnico](docs/manual-tecnico.md) |
 | **Documentação por Sprint** | [docs/](docs/README.md), com o relatório único em PDF em [docs/entrega/](docs/entrega/) |
 
 ## Objetivo
@@ -39,7 +40,7 @@ Fluxo da consulta: a pessoa faz a pergunta; o backend busca os trechos mais rele
 | Inteligência Artificial | [Google Gemini](https://ai.google.dev/) (plano gratuito), com uma fila de 3 modelos reserva quando o principal está sobrecarregado ou sem cota |
 | E-mail | Gmail (SMTP) com senha de app |
 | Paralelismo | Threads em Python no envio das novidades e no dashboard ([detalhes](docs/paralelismo.md)) |
-| Testes e qualidade | pytest (103 testes), ESLint, roteiro de testes no navegador com Playwright |
+| Testes e qualidade | pytest (111 testes), ruff, ESLint, roteiro de testes no navegador com Playwright |
 | Integração contínua | GitHub Actions: testes e compilação a cada envio ao GitHub, e uma rotina a cada 2 dias que mantém o banco ativo |
 | Publicação | [Vercel](https://vercel.com/) (plano gratuito), atualizada a cada envio ao `main` |
 
@@ -116,12 +117,12 @@ pytest
 ```
 backend/          API em Python (FastAPI)
   app/            rotas, regras de negócio, IA, busca, e-mail e acesso ao banco
-  tests/          103 testes automatizados (pytest)
+  tests/          111 testes automatizados (pytest)
   scripts/        carregar a cartilha, criar o administrador e contas de demonstração
 frontend/         Interface em React (consulta pública e painel da equipe)
 supabase/         Estrutura do banco, em scripts numerados (001 a 008)
 api/              Entrada do backend na Vercel (com vercel.json na raiz)
-docs/             Documentação: Sprints, API, banco, configuração, publicação e ferramentas
+docs/             Documentação: manuais, Sprints, API, banco, configuração, publicação e ferramentas
 .github/          GitHub Actions: testes a cada envio e rotina que mantém o banco ativo
 iniciar.bat       Executa o sistema completo no Windows (iniciar.sh no Linux/macOS)
 ```

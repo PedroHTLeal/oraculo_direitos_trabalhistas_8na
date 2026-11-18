@@ -4,7 +4,7 @@ Cada dependência é criada uma vez e pode ser substituída por uma versão fals
 """
 
 import os
-from datetime import datetime, timezone
+from datetime import datetime, UTC
 from functools import lru_cache
 
 from fastapi import Depends, HTTPException
@@ -60,7 +60,7 @@ def obter_token(credenciais: HTTPAuthorizationCredentials | None = Depends(_bear
 
 def usuario_atual(token=Depends(obter_token), repositorio=Depends(obter_repositorio)):
     sessao = repositorio.obter_sessao(hash_token(token))
-    if not sessao or datetime.fromisoformat(sessao["expira_em"]) < datetime.now(timezone.utc):
+    if not sessao or datetime.fromisoformat(sessao["expira_em"]) < datetime.now(UTC):
         raise HTTPException(status_code=401, detail="Sua sessão expirou. Faça login novamente.")
     usuario = sessao["usuario"]
     if not usuario["ativo"]:

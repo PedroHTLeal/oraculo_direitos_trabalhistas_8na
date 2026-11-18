@@ -128,13 +128,6 @@ class PaginaTrechos(BaseModel):
     por_pagina: int
 
 
-class PerguntaRegistrada(BaseModel):
-    id: str
-    texto: str
-    encontrou: bool
-    criado_em: str
-
-
 # Acompanhamento de temas (perfil usuário)
 
 

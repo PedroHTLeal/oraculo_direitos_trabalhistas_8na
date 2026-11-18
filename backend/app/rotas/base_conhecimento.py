@@ -1,4 +1,4 @@
-"""CRUD da base de conhecimento (UC07) e auditoria das perguntas (UC08).
+"""CRUD da base de conhecimento (UC07). A auditoria das perguntas (UC08) fica no relatório de perguntas.
 
 Acesso: administradores e curadores.
 """
@@ -6,7 +6,7 @@ Acesso: administradores e curadores.
 from fastapi import APIRouter, Depends, HTTPException, Query, Response
 
 from app.dependencias import equipe_de_conteudo, obter_repositorio
-from app.esquemas import DadosTrecho, PaginaTrechos, PerguntaRegistrada, Tema, Trecho
+from app.esquemas import DadosTrecho, PaginaTrechos, Tema, Trecho
 from app.historico import registrar
 
 rotas = APIRouter(prefix="/api", tags=["Base de conhecimento"])
@@ -74,9 +74,3 @@ def excluir_trecho(trecho_id: int, usuario=Depends(equipe_de_conteudo), reposito
         raise HTTPException(status_code=404, detail="Trecho não encontrado.")
     registrar(repositorio, usuario, "excluir", "trecho", trecho_id, f'Excluiu "{trecho["secao"]}" de {trecho["tema"]}')
     return Response(status_code=204)
-
-
-@rotas.get("/base/perguntas", response_model=list[PerguntaRegistrada])
-def listar_perguntas(_=Depends(equipe_de_conteudo), repositorio=Depends(obter_repositorio)):
-    # Auditoria (UC08): mostra só o texto e o resultado, sem dados pessoais
-    return repositorio.listar_perguntas()

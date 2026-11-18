@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta, UTC
 
 import pytest
 from fastapi.testclient import TestClient
@@ -162,7 +162,7 @@ class RepositorioFalso:
             "senha_hash": senha_hash,
             "perfil": perfil,
             "ativo": True,
-            "criado_em": datetime.now(timezone.utc).isoformat(),
+            "criado_em": datetime.now(UTC).isoformat(),
         }
         self.usuarios[usuario["id"]] = usuario
         return publico(usuario)
@@ -244,12 +244,6 @@ class RepositorioFalso:
     def excluir_trecho(self, trecho_id):
         return self.base.pop(trecho_id, None) is not None
 
-    def listar_perguntas(self, limite=50):
-        return [
-            {"id": p["id"], "texto": p["texto"], "encontrou": p["encontrou"], "criado_em": "2026-10-31T12:00:00+00:00"}
-            for p in self.perguntas.values()
-        ]
-
     # Inscrições
 
     def listar_inscricoes(self, usuario_id):
@@ -288,7 +282,7 @@ class RepositorioFalso:
             "conteudo": conteudo,
             "url": url,
             "autor_id": autor_id,
-            "publicado_em": datetime.now(timezone.utc).isoformat(),
+            "publicado_em": datetime.now(UTC).isoformat(),
         }
         return self.obter_atualizacao(atualizacao_id)
 
@@ -347,7 +341,7 @@ class RepositorioFalso:
                 "entidade": entidade,
                 "entidade_id": str(entidade_id),
                 "descricao": descricao,
-                "criado_em": datetime.now(timezone.utc).isoformat(),
+                "criado_em": datetime.now(UTC).isoformat(),
             }
         )
 
@@ -365,7 +359,7 @@ class RepositorioFalso:
     def perguntas_no_periodo(self, inicio=None, fim=None, encontrou=None, busca=None, tema_id=None, limite=1000):
         resultado = []
         for p in self.perguntas.values():
-            criado_em = p.get("criado_em") or datetime.now(timezone.utc).isoformat()
+            criado_em = p.get("criado_em") or datetime.now(UTC).isoformat()
             temas = sorted({t["tema"] for t in TRECHOS if t["id"] in p["trechos_ids"]})
             if inicio and criado_em < inicio or fim and criado_em >= fim:
                 continue
@@ -379,7 +373,7 @@ class RepositorioFalso:
         return resultado
 
     def solicitacoes_no_periodo(self, inicio=None, fim=None):
-        return [{"status": s["status"], "criado_em": datetime.now(timezone.utc).isoformat()} for s in self.solicitacoes.values()]
+        return [{"status": s["status"], "criado_em": datetime.now(UTC).isoformat()} for s in self.solicitacoes.values()]
 
     def resumo_inscricoes(self):
         return [{"tema_id": i["tema_id"], "temas": {"nome": i["tema"]}} for i in self.inscricoes.values()]
@@ -453,6 +447,6 @@ def entrar(client, falsos):
 
 
 def expirar_sessoes(repositorio):
-    passado = (datetime.now(timezone.utc) - timedelta(minutes=1)).isoformat()
+    passado = (datetime.now(UTC) - timedelta(minutes=1)).isoformat()
     for sessao in repositorio.sessoes.values():
         sessao["expira_em"] = passado

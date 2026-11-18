@@ -1,4 +1,3 @@
-import pytest
 
 from app.ia import formatar_trechos
 from app.repositorio import diversificar

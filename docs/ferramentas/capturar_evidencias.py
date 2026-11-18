@@ -78,7 +78,7 @@ def criar(r):
     # A IA do plano gratuito pode levar alguns segundos e, nos picos, ficar ocupada: tenta até 4 vezes
     sim = p.locator(".vitrine-resposta").get_by_role("button", name="Sim", exact=True)
     aviso_ia = p.get_by_text("A inteligência artificial está muito ocupada")
-    for tentativa in range(4):
+    for _tentativa in range(4):
         p.get_by_role("button", name="Perguntar").click()
         sim.or_(aviso_ia).first.wait_for(timeout=90000)
         if sim.is_visible():

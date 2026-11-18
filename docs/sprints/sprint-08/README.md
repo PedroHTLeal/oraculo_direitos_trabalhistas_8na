@@ -1,6 +1,6 @@
 # Sprint 08 — Consolidação: permissões, usabilidade e regras de negócio
 
-**Situação:** Em andamento · [← Voltar ao índice](../../README.md)
+**Situação:** Concluída (as pendências abaixo seguem nas Sprints 10 e 11) · [← Voltar ao índice](../../README.md)
 
 ## O que a Sprint pediu
 
@@ -63,4 +63,4 @@ O que foi pensado, testado e trocado (IA, WhatsApp pela Twilio, pela API da Meta
 
 - **Conversa com o outro orientador sobre paralelismo:** pedida pela orientadora para confirmar que o conceito está aplicado. O material para a conversa está em [paralelismo.md](../../paralelismo.md).
 - Revisão de usabilidade com o público-alvo e registro das melhorias.
-- Revisão final das regras de negócio após os testes com os serviços reais.
+- Revisão final das regras de negócio: **concluída na Sprint 11**; as regras estão consolidadas no [Manual Técnico](../../manual-tecnico.md#10-regras-de-negócio).

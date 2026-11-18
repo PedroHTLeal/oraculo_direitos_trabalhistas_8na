@@ -27,3 +27,10 @@ docs/evidencias/estado.json
 
 # Vercel
 .vercel
+
+# Configuração local do assistente de desenvolvimento
+.claude/
+
+# Caches das ferramentas
+.ruff_cache/
+.pytest_cache/

@@ -2,7 +2,7 @@
 Não exige login (RF01)."""
 
 import logging
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta, UTC
 
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
 from google.genai import errors as erros_gemini
@@ -44,12 +44,12 @@ def perguntar(pergunta: Pergunta, repositorio=Depends(obter_repositorio), ia=Dep
             resultado = ia.responder(pergunta.texto, trechos)
         except RecusaDaIA:
             resultado = {"encontrou": False, "resposta": RESPOSTA_SEM_INFORMACAO, "trechos_usados": []}
-        except erros_gemini.APIError:
+        except erros_gemini.APIError as erro:
             logger.exception("Falha ao gerar resposta com a IA")
             raise HTTPException(
                 status_code=502,
                 detail="A inteligência artificial está muito ocupada agora. Tente de novo em alguns segundos.",
-            )
+            ) from erro
 
     # A IA só pode citar trechos que foram realmente encontrados na busca
     por_id = {t["id"]: t for t in trechos}
@@ -86,7 +86,7 @@ def saiba_mais(
     if not pergunta:
         raise HTTPException(status_code=404, detail="Pergunta não encontrada.")
 
-    uma_hora_atras = (datetime.now(timezone.utc) - timedelta(hours=1)).isoformat()
+    uma_hora_atras = (datetime.now(UTC) - timedelta(hours=1)).isoformat()
     if repositorio.contar_solicitacoes_recentes(pedido.email, uma_hora_atras) >= LIMITE_PEDIDOS_POR_HORA:
         raise HTTPException(status_code=429, detail="Você fez muitos pedidos na última hora. Tente de novo mais tarde.")
 

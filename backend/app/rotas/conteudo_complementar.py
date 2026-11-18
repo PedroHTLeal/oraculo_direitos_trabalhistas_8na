@@ -35,8 +35,8 @@ def criar_sinonimo(dados: DadosSinonimo, usuario=Depends(equipe_de_conteudo), re
     termo, equivalentes = limpar_palavras(dados.termo), limpar_palavras(dados.equivalentes)
     try:
         sinonimo = repositorio.criar_sinonimo(termo, equivalentes)
-    except RegistroDuplicado:
-        raise HTTPException(status_code=409, detail=f'A palavra "{termo}" já está cadastrada.')
+    except RegistroDuplicado as erro:
+        raise HTTPException(status_code=409, detail=f'A palavra "{termo}" já está cadastrada.') from erro
     registrar(repositorio, usuario, "criar", "sinonimo", termo, f'Incluiu o sinônimo "{termo}" → "{equivalentes}"')
     return sinonimo
 
@@ -48,8 +48,8 @@ def alterar_sinonimo(
     novo_termo, equivalentes = limpar_palavras(dados.termo), limpar_palavras(dados.equivalentes)
     try:
         sinonimo = repositorio.atualizar_sinonimo(termo, novo_termo, equivalentes)
-    except RegistroDuplicado:
-        raise HTTPException(status_code=409, detail=f'A palavra "{novo_termo}" já está cadastrada.')
+    except RegistroDuplicado as erro:
+        raise HTTPException(status_code=409, detail=f'A palavra "{novo_termo}" já está cadastrada.') from erro
     if not sinonimo:
         raise HTTPException(status_code=404, detail="Sinônimo não encontrado.")
     registrar(repositorio, usuario, "alterar", "sinonimo", novo_termo, f'Alterou o sinônimo "{novo_termo}" → "{equivalentes}"')
@@ -86,8 +86,8 @@ def listar_materiais(_=Depends(equipe_de_conteudo), repositorio=Depends(obter_re
 def criar_material(dados: DadosMaterial, usuario=Depends(equipe_de_conteudo), repositorio=Depends(obter_repositorio)):
     try:
         material = repositorio.criar_material(preparar_material(dados, repositorio))
-    except RegistroDuplicado:
-        raise HTTPException(status_code=409, detail="Este link já está cadastrado neste assunto.")
+    except RegistroDuplicado as erro:
+        raise HTTPException(status_code=409, detail="Este link já está cadastrado neste assunto.") from erro
     registrar(repositorio, usuario, "criar", "material", material["id"], f'Incluiu "{dados.titulo}" em {dados.assunto}')
     return material
 
@@ -98,8 +98,8 @@ def alterar_material(
 ):
     try:
         material = repositorio.atualizar_material(material_id, preparar_material(dados, repositorio))
-    except RegistroDuplicado:
-        raise HTTPException(status_code=409, detail="Este link já está cadastrado neste assunto.")
+    except RegistroDuplicado as erro:
+        raise HTTPException(status_code=409, detail="Este link já está cadastrado neste assunto.") from erro
     if not material:
         raise HTTPException(status_code=404, detail="Material não encontrado.")
     registrar(repositorio, usuario, "alterar", "material", material_id, f'Alterou "{dados.titulo}" em {dados.assunto}')

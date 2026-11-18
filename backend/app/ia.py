@@ -78,7 +78,7 @@ class AssistenteIA:
     def _gerar(self, contents, config):
         inicio = time.monotonic()
         fila = [self.modelo] + [m for m in MODELOS_RESERVA if m != self.modelo]
-        for posicao, modelo in enumerate(fila):
+        for posicao, modelo in enumerate(fila):  # noqa: RET503 (o último modelo da fila relança o erro)
             try:
                 return self.cliente.models.generate_content(model=modelo, contents=contents, config=config)
             except errors.APIError as erro:

@@ -30,7 +30,7 @@ def criar(dados: NovoUsuario, administrador=Depends(somente_administrador), repo
     try:
         usuario = repositorio.criar_usuario(dados.nome, dados.email, gerar_hash_senha(dados.senha), dados.perfil)
     except RegistroDuplicado as erro:
-        raise HTTPException(status_code=409, detail=str(erro))
+        raise HTTPException(status_code=409, detail=str(erro)) from erro
     descricao = f"Cadastrou {dados.nome} ({NOMES_DOS_PERFIS[dados.perfil]})"
     registrar(repositorio, administrador, "criar", "usuario", usuario["id"], descricao)
     return usuario
@@ -62,7 +62,7 @@ def alterar(
     try:
         usuario = repositorio.atualizar_usuario(usuario_id, campos)
     except RegistroDuplicado as erro:
-        raise HTTPException(status_code=409, detail=str(erro))
+        raise HTTPException(status_code=409, detail=str(erro)) from erro
 
     # Desativar ou trocar a senha encerra as sessões abertas desse usuário
     if campos.get("ativo") is False or "senha_hash" in campos:

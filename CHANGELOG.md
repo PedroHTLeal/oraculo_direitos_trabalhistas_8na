@@ -4,6 +4,22 @@ Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o
 
 ---
 
+## 1.0.0-rc.5 — Preparação para entrega (Sprint 11)
+
+**Data:** 18/11/2026 · **Branch:** `main` · **Tag:** `v1.0.0-rc.5`
+
+**Objetivo:** organizar e finalizar a documentação e o código para a entrega e a apresentação final.
+
+**O que foi feito:**
+- [Manual do Usuário](docs/manual-do-usuario.md) com o passo a passo de cada tela e 18 imagens, e [Manual Técnico](docs/manual-tecnico.md) com arquitetura, módulos, instalação, variáveis, IA, regras de negócio e manutenção.
+- Revisão do código: ruff configurado e rodando no GitHub Actions; exceções passam a guardar a causa original; rota antiga sem uso removida (38 rotas); React Router atualizado (3 falhas de segurança altas corrigidas); nenhuma chave em uso no repositório nem no histórico.
+- GitHub organizado: PDF original da Sprint 01 movido para a pasta da Sprint; configuração local do assistente fora do repositório; caches no `.gitignore`.
+- Documentação final revisada (Sprint 08 encerrada, índice e README atualizados) e relatório com as Sprints 01 a 11.
+
+**Como agrega:** qualquer pessoa consegue usar, instalar e manter o sistema só com o repositório.
+
+---
+
 ## 1.0.0-rc.4 — Vídeos do YouTube sobre a pergunta no e-mail
 
 **Data:** 18/11/2026 · **Branch:** `main`

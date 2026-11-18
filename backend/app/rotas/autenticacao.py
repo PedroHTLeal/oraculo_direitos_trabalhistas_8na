@@ -34,7 +34,7 @@ def cadastrar(dados: Cadastro, repositorio=Depends(obter_repositorio)):
             dados.nome, dados.email, gerar_hash_senha(dados.senha), "usuario", consentimento_email=True
         )
     except RegistroDuplicado as erro:
-        raise HTTPException(status_code=409, detail=f"{erro} Se a conta é sua, use a opção Entrar.")
+        raise HTTPException(status_code=409, detail=f"{erro} Se a conta é sua, use a opção Entrar.") from erro
     registrar(repositorio, usuario, "cadastro", "conta", usuario["id"], "Criou a conta")
     return abrir_sessao(repositorio, usuario)
 

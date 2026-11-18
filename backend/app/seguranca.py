@@ -9,7 +9,7 @@ import base64
 import hashlib
 import hmac
 import secrets
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta, UTC
 
 PARAMETROS_SCRYPT = {"n": 2**14, "r": 8, "p": 1}
 DURACAO_SESSAO = timedelta(hours=8)
@@ -49,4 +49,4 @@ def hash_token(token):
 
 
 def expiracao_sessao():
-    return datetime.now(timezone.utc) + DURACAO_SESSAO
+    return datetime.now(UTC) + DURACAO_SESSAO

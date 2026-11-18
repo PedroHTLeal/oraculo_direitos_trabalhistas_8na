@@ -23,7 +23,7 @@ def criar(dados: NovaInscricao, usuario=Depends(usuario_atual), repositorio=Depe
     try:
         inscricao = repositorio.criar_inscricao(usuario["id"], dados.tema_id, usuario["email"])
     except RegistroDuplicado as erro:
-        raise HTTPException(status_code=409, detail=str(erro))
+        raise HTTPException(status_code=409, detail=str(erro)) from erro
     registrar(repositorio, usuario, "criar", "inscricao", inscricao["id"], f"Passou a acompanhar {inscricao['tema']}")
     return inscricao
 

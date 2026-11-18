@@ -1,7 +1,7 @@
 import functools
 import logging
 import time
-from datetime import datetime, timezone
+from datetime import datetime, UTC
 
 import httpx
 from postgrest.exceptions import APIError
@@ -25,7 +25,7 @@ ERROS_DE_CONEXAO = (httpx.RemoteProtocolError, httpx.ConnectError, httpx.ReadErr
 def _repetir_se_a_conexao_cair(metodo):
     @functools.wraps(metodo)
     def executar(*args, **kwargs):
-        for tentativa in range(1, TENTATIVAS + 1):
+        for tentativa in range(1, TENTATIVAS + 1):  # noqa: RET503 (a última tentativa relança o erro)
             try:
                 return metodo(*args, **kwargs)
             except ERROS_DE_CONEXAO:
@@ -203,7 +203,7 @@ class RepositorioSupabase:
         if enviados:
             self.cliente.table("materiais_enviados").insert(enviados).execute()
         self.cliente.table("solicitacoes_conteudo").update(
-            {"status": "enviado", "enviado_em": datetime.now(timezone.utc).isoformat()}
+            {"status": "enviado", "enviado_em": datetime.now(UTC).isoformat()}
         ).eq("id", solicitacao_id).execute()
 
     def registrar_erro_solicitacao(self, solicitacao_id, erro):
@@ -249,7 +249,7 @@ class RepositorioSupabase:
         return resultado.count
 
     def atualizar_usuario(self, usuario_id, campos):
-        campos = {**campos, "atualizado_em": datetime.now(timezone.utc).isoformat()}
+        campos = {**campos, "atualizado_em": datetime.now(UTC).isoformat()}
         if "email" in campos:
             campos["email"] = campos["email"].lower()
         try:
@@ -333,16 +333,6 @@ class RepositorioSupabase:
     def excluir_trecho(self, trecho_id):
         self._referencia = None
         return bool(self.cliente.table("trechos").delete().eq("id", trecho_id).execute().data)
-
-    def listar_perguntas(self, limite=50):
-        return (
-            self.cliente.table("perguntas")
-            .select("id,texto,encontrou,criado_em")
-            .order("criado_em", desc=True)
-            .limit(limite)
-            .execute()
-            .data
-        )
 
     # Acompanhamento de temas (perfil usuário)
 
@@ -430,7 +420,7 @@ class RepositorioSupabase:
     def registrar_envio(self, atualizacao_id, inscricao_id, status):
         campos = {"status": status}
         if status == "enviado":
-            campos["enviado_em"] = datetime.now(timezone.utc).isoformat()
+            campos["enviado_em"] = datetime.now(UTC).isoformat()
         self.cliente.table("envios_atualizacao").update(campos).eq("atualizacao_id", atualizacao_id).eq(
             "inscricao_id", inscricao_id
         ).execute()

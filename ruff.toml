@@ -1,0 +1,9 @@
+# Verificação de estilo e erros comuns do código Python (rodada no GitHub Actions)
+target-version = "py312"
+line-length = 130
+
+[lint]
+# Pyflakes (erros), bugbear (armadilhas comuns), pyupgrade, simplificações e retornos
+select = ["F", "E9", "B", "UP", "SIM", "RET"]
+# Depends(...) nos parâmetros é o padrão do FastAPI para injeção de dependências
+ignore = ["B008"]

@@ -1,6 +1,6 @@
 # Documentação da API
 
-**Versão:** 1.0.0-rc.4 (Release Candidate) · **Base:** `https://oraculo-direitos-trabalhistas-8na.vercel.app` · **Documentação interativa (Swagger):** [https://oraculo-direitos-trabalhistas-8na.vercel.app/api/docs](https://oraculo-direitos-trabalhistas-8na.vercel.app/api/docs)
+**Versão:** 1.0.0-rc.5 (Release Candidate) · **Base:** `https://oraculo-direitos-trabalhistas-8na.vercel.app` · **Documentação interativa (Swagger):** [https://oraculo-direitos-trabalhistas-8na.vercel.app/api/docs](https://oraculo-direitos-trabalhistas-8na.vercel.app/api/docs)
 
 Gerada a partir da especificação OpenAPI do backend por [`docs/ferramentas/gerar_doc_api.py`](ferramentas/gerar_doc_api.py). No Swagger é possível testar cada rota pelo navegador (botão *Authorize* para usar o token).
 
@@ -36,7 +36,6 @@ os erros de validação (422) trazem também `erros`, uma mensagem por campo.
 | `GET` | `/api/base/trechos/{trecho_id}` | Ver trecho | Curador ou administrador |
 | `PUT` | `/api/base/trechos/{trecho_id}` | Alterar trecho | Curador ou administrador |
 | `DELETE` | `/api/base/trechos/{trecho_id}` | Excluir trecho | Curador ou administrador |
-| `GET` | `/api/base/perguntas` | Perguntas recentes | Curador ou administrador |
 | `GET` | `/api/sinonimos` | Listar sinônimos | Curador ou administrador |
 | `POST` | `/api/sinonimos` | Incluir sinônimo | Curador ou administrador |
 | `PUT` | `/api/sinonimos/{termo}` | Alterar sinônimo | Curador ou administrador |
@@ -329,14 +328,6 @@ Remove o trecho da base.
 
 **Respostas:** `204` Sem conteúdo
 
-### Perguntas recentes
-
-`GET /api/base/perguntas` · **Acesso:** Curador ou administrador
-
-Auditoria das perguntas, sem dados pessoais (UC08).
-
-**Respostas:** `200` OK: lista de `PerguntaRegistrada`
-
 ## Conteúdo complementar
 
 Sinônimos da busca e sites e vídeos enviados no "Saber mais".
@@ -600,7 +591,7 @@ Período de 7, 30, 90 ou 365 dias.
 
 `GET /api/relatorios/perguntas` · **Acesso:** Curador ou administrador
 
-Filtros por período, tema, resultado e texto; `formato=csv` exporta.
+Auditoria das perguntas, sem dados pessoais (UC08): filtros por período, tema, resultado e texto; `formato=csv` exporta.
 
 **Parâmetros**
 

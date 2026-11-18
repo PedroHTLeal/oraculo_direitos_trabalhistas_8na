@@ -124,7 +124,7 @@ def escrever(resultados):
         "| Pergunta | Tema esperado | Respondeu? | Temas das fontes | Critérios |",
         "| --- | --- | --- | --- | --- |",
     ]
-    for (pergunta, temas), r in zip(CASOS, resultados):
+    for (pergunta, temas), r in zip(CASOS, resultados, strict=False):
         if not r:
             esperado = ", ".join(sorted(temas)) or "Fora da cartilha"
             linhas.append(f"| {pergunta} | {esperado} | — | — | Pendente (limite diário do plano gratuito) |")

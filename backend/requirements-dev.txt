@@ -9,3 +9,5 @@ pillow==11.3.0
 playwright==1.64.1
 markdown==3.7
 pymupdf==1.26.5
+# Verificação de estilo e erros comuns do código (ruff.toml)
+ruff==0.8.4

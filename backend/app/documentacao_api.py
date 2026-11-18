@@ -65,7 +65,6 @@ ROTAS = {
     ("POST", "/api/base/trechos"): ("Incluir trecho", "Novo trecho, já usado pela IA nas respostas (UC07).", EQUIPE),
     ("PUT", "/api/base/trechos/{trecho_id}"): ("Alterar trecho", "Altera tema, subtítulo ou texto.", EQUIPE),
     ("DELETE", "/api/base/trechos/{trecho_id}"): ("Excluir trecho", "Remove o trecho da base.", EQUIPE),
-    ("GET", "/api/base/perguntas"): ("Perguntas recentes", "Auditoria das perguntas, sem dados pessoais (UC08).", EQUIPE),
     ("GET", "/api/sinonimos"): ("Listar sinônimos", "Palavras do dia a dia e os termos da cartilha que a busca usa no lugar.", EQUIPE),
     ("POST", "/api/sinonimos"): ("Incluir sinônimo", "Grava sem acentos e em minúsculas.", EQUIPE),
     ("PUT", "/api/sinonimos/{termo}"): ("Alterar sinônimo", "Altera a palavra ou os termos equivalentes.", EQUIPE),
@@ -93,7 +92,7 @@ ROTAS = {
     ("GET", "/api/painel/indicadores"): ("Indicadores do dashboard", "Período de 7, 30, 90 ou 365 dias.", EQUIPE),
     ("GET", "/api/relatorios/perguntas"): (
         "Relatório de perguntas",
-        "Filtros por período, tema, resultado e texto; `formato=csv` exporta.",
+        "Auditoria das perguntas, sem dados pessoais (UC08): filtros por período, tema, resultado e texto; `formato=csv` exporta.",
         EQUIPE,
     ),
     ("GET", "/api/relatorios/historico"): (

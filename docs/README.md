@@ -19,9 +19,10 @@ Esta pasta reúne tudo o que foi pedido e entregue em cada Sprint das disciplina
 | [05](sprints/sprint-05/README.md) | Módulo 2: acompanhamento de temas | Concluída | Conta com e-mail, temas acompanhados, atualizações por e-mail, regras de negócio e bugs corrigidos |
 | [06](sprints/sprint-06/README.md) | Módulo 3 e integração | Concluída | Consulta com IA (RAG), integração entre os módulos e ajustes de interface |
 | [07](sprints/sprint-07/README.md) | Dashboard e relatórios | Concluída | Dashboard, relatórios, pesquisas, filtros, CSV e histórico de operações |
-| [08](sprints/sprint-08/README.md) | Consolidação | Em andamento | Matriz de permissões por perfil e situação dos requisitos |
+| [08](sprints/sprint-08/README.md) | Consolidação | Concluída | Matriz de permissões por perfil e situação dos requisitos |
 | [09](sprints/sprint-09/README.md) | Verificação e documentação | Concluída | 103 testes automatizados, 29 casos de teste no sistema real, 7 bugs corrigidos, avaliação da IA com 15 de 15 aprovadas |
-| [10](sprints/sprint-10/README.md) | Versão Release Candidate | Concluída | Versão 1.0.0-rc.1 publicada, API documentada, banco final, README completo e evidências do sistema real |
+| [10](sprints/sprint-10/README.md) | Versão Release Candidate | Concluída | Versão Release Candidate publicada (1.0.0-rc.1 a rc.4), API documentada, banco final, README completo e evidências do sistema real |
+| [11](sprints/sprint-11/README.md) | Preparação para entrega | Concluída | Manual do Usuário, Manual Técnico, revisão do código, documentação final e GitHub organizado |
 
 ## Os três módulos do sistema
 
@@ -38,13 +39,15 @@ Esta pasta reúne tudo o que foi pedido e entregue em cada Sprint das disciplina
 | [Guia de configuração](configuracao.md) | Como configurar o Supabase, o Google Gemini e o envio de e-mails pelo Gmail (passo a passo) |
 | [Guia de publicação](publicacao.md) | Como publicar o Oráculo na internet de graça pela Vercel (passo a passo) |
 | [Avaliação das respostas da IA](avaliacao-ia.md) | Perguntas de referência feitas à IA real e se cada resposta atendeu aos critérios (PB12) |
+| [Manual do Usuário](manual-do-usuario.md) | Como usar cada tela e funcionalidade, com imagens, para quem não participou do desenvolvimento |
+| [Manual Técnico](manual-tecnico.md) | Arquitetura, tecnologias, módulos, instalação, execução, variáveis, IA, regras de negócio e manutenção |
 | [Documentação da API](api.md) | Todas as rotas, métodos, parâmetros, dados de entrada, respostas, acesso e exemplos (também no Swagger em `/api/docs`) |
 | [Banco de dados](banco-de-dados.md) | Estrutura final: scripts, tabelas, chaves, regras e segurança |
 | [Paralelismo e concorrência](paralelismo.md) | Onde o sistema executa tarefas em paralelo, com testes e medição (para a conversa com o orientador) |
 | [Registro de decisões](decisoes.md) | O que foi pensado, testado e trocado durante o projeto (como o WhatsApp) e por quê |
-| [Relatório de entrega (PDF)](entrega/) | Documento único com as Sprints 01 a 10, no estilo do relatório da Sprint 01 |
+| [Relatório de entrega (PDF)](entrega/) | Documento único com as Sprints 01 a 11, no estilo do relatório da Sprint 01 |
 | [Histórico de versões](../CHANGELOG.md) | Cada versão enviada ao GitHub: data, objetivo, o que mudou e como agrega |
-| [Scripts do banco](../supabase/) | Estrutura do banco, na ordem em que deve ser executada (001 a 005) |
+| [Scripts do banco](../supabase/) | Estrutura do banco, na ordem em que deve ser executada (001 a 008) |
 | [Evidências](evidencias/) | Prints e arquivos exportados nos testes com o sistema real |
-| [Ferramentas](ferramentas/) | Roteiro automatizado que testa as telas e gera as evidências |
+| [Ferramentas](ferramentas/) | Roteiro de testes das telas, avaliação da IA e geração da documentação da API e do PDF de entrega |
 | [README do projeto](../README.md) | Visão geral, tecnologias e como executar |

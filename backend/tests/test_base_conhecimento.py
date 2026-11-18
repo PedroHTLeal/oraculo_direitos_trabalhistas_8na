@@ -60,14 +60,5 @@ def test_trecho_inexistente(client, falsos, entrar):
     assert client.delete("/api/base/trechos/999", headers=cabecalho).status_code == 404
 
 
-def test_auditoria_de_perguntas(client, falsos, entrar):
-    client.post("/api/perguntas", json={"texto": "Quantos dias de férias?"})
-
-    perguntas = client.get("/api/base/perguntas", headers=entrar("curador")).json()
-
-    assert perguntas[0]["texto"] == "Quantos dias de férias?"
-    assert set(perguntas[0]) == {"id", "texto", "encontrou", "criado_em"}
-
-
 def test_lista_de_temas_e_publica(client, falsos):
     assert [t["nome"] for t in client.get("/api/temas").json()] == ["Férias", "Contrato de Estágio"]
