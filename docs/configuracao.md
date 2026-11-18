@@ -22,6 +22,7 @@ Guarda a cartilha do TRT4, as perguntas feitas, as contas e os pedidos de conte�
    5. [`005_historico_de_operacoes.sql`](../supabase/005_historico_de_operacoes.sql)
    6. [`006_contato_por_email.sql`](../supabase/006_contato_por_email.sql)
    7. [`007_materiais_complementares.sql`](../supabase/007_materiais_complementares.sql)
+   8. [`008_versao_final.sql`](../supabase/008_versao_final.sql)
 4. Em **Project Settings > API**, copie para o `backend/.env`:
    - **Project URL** → `SUPABASE_URL`
    - **service_role** (em *Project API keys*) → `SUPABASE_SERVICE_ROLE_KEY`

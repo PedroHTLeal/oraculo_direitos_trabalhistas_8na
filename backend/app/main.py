@@ -6,6 +6,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
+from app import documentacao_api
 from app.config import ConfiguracaoAusente
 from app.rotas import (
     atualizacoes,
@@ -22,7 +23,16 @@ from app.rotas import (
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
 logger = logging.getLogger("oraculo")
 
-app = FastAPI(title="Oráculo dos Direitos Trabalhistas")
+# Documentação da API (Swagger) em /api/docs; fica sob /api para funcionar também na Vercel
+app = FastAPI(
+    title="Oráculo dos Direitos Trabalhistas",
+    description=documentacao_api.DESCRICAO,
+    version="1.0.0-rc.1",
+    openapi_tags=documentacao_api.TEMAS,
+    docs_url="/api/docs",
+    redoc_url=None,
+    openapi_url="/api/openapi.json",
+)
 
 for modulo in (consulta, autenticacao, usuarios, base_conhecimento, conteudo_complementar, inscricoes, atualizacoes, relatorios):
     app.include_router(modulo.rotas)
@@ -111,3 +121,7 @@ if SITE.is_dir():
             return FileResponse(arquivo)
         # As demais rotas (/entrar, /painel...) são resolvidas pelo React
         return FileResponse(SITE / "index.html")
+
+
+# Resumo, descrição e acesso de cada rota no Swagger (depois de todas as rotas registradas)
+documentacao_api.aplicar(app)

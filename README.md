@@ -1,121 +1,137 @@
 # Oráculo dos Direitos Trabalhistas
 
-Plataforma que recebe dúvidas dos usuários em linguagem natural e apresenta respostas simples e acessíveis sobre direitos e obrigações trabalhistas, sempre indicando a fonte utilizada.
+Plataforma que recebe dúvidas em linguagem natural e apresenta respostas simples e acessíveis sobre direitos e obrigações trabalhistas, sempre indicando a fonte utilizada: a *Cartilha de Direitos e Obrigações no Trabalho* do Tribunal Regional do Trabalho da 4ª Região (TRT4).
 
 Projeto da turma **8NA** de Ciência da Computação, desenvolvido para as disciplinas de Fábrica de Software, Tópicos Avançados e DevOps Tools.
 
-> **Documentação por Sprint:** o que foi pedido e entregue em cada Sprint, com os ajustes (commits) de cada uma, está em **[docs/](docs/README.md)**.
-
-## Proposta
-
-O sistema utiliza uma abordagem de **RAG (Retrieval-Augmented Generation)**: antes de gerar uma resposta, busca as informações relevantes em uma base de conhecimento formada por fontes confiáveis. A referência inicial é a *Cartilha de Direitos e Obrigações no Trabalho* do Tribunal Regional do Trabalho da 4ª Região (TRT4).
-
-Cada disciplina tem um enfoque diferente sobre o mesmo projeto:
-
-| Disciplina | Enfoque |
+| | |
 | --- | --- |
-| Fábrica de Software | Organização e gestão do desenvolvimento |
-| Tópicos Avançados | Inteligência Artificial, RAG, LLM e avaliação das respostas |
-| DevOps Tools | Versionamento, integração, testes, automação e entrega |
+| **Versão** | 1.0.0-rc.1 (Release Candidate) |
+| **Sistema publicado** | https://oraculo-direitos-trabalhistas-8na.vercel.app |
+| **Documentação da API** | [docs/api.md](docs/api.md) e Swagger em https://oraculo-direitos-trabalhistas-8na.vercel.app/api/docs |
+| **Documentação por Sprint** | [docs/](docs/README.md), com o relatório único em PDF em [docs/entrega/](docs/entrega/) |
 
-## Problema
+## Objetivo
 
-O acesso a informações sobre direitos e obrigações trabalhistas é dificultado pelos termos jurídicos, pela quantidade de informação disponível e pela dificuldade de localizar e interpretar conteúdos confiáveis.
+Facilitar o acesso à informação sobre direitos e obrigações trabalhistas por meio de uma plataforma com Inteligência Artificial que responde dúvidas em linguagem acessível, usando só fontes confiáveis.
 
-> Como facilitar o acesso e a compreensão de informações sobre direitos e obrigações trabalhistas por meio de uma plataforma digital que permita ao usuário realizar perguntas em linguagem natural e obter respostas baseadas em fontes confiáveis?
+**Problema:** termos jurídicos, excesso de informação e dificuldade de achar conteúdo confiável afastam as pessoas dos próprios direitos. **Público-alvo:** trabalhadores em geral, com atenção a informais e de aplicativos, domésticos, pessoas com pouca familiaridade com termos jurídicos ou ferramentas digitais, jovens, estudantes e estagiários.
 
-## Objetivos
-
-**Objetivo geral:** facilitar o acesso à informação sobre direitos e obrigações trabalhistas por meio de uma plataforma com Inteligência Artificial capaz de responder dúvidas em linguagem acessível, utilizando fontes confiáveis.
-
-**Objetivos específicos:**
-
-- Permitir que o usuário faça perguntas em linguagem natural.
-- Facilitar a localização de informações sobre direitos e obrigações trabalhistas.
-- Fundamentar as respostas em uma base de conhecimento confiável.
-- Aplicar RAG para recuperar informações relevantes antes de gerar a resposta.
-- Apresentar as respostas em linguagem simples e compreensível.
-- Informar a fonte de cada resposta e permitir a consulta ao conteúdo original.
-- Evitar que a IA responda sem informações suficientes na base de conhecimento.
-- Permitir a solicitação de conteúdos complementares por e-mail.
-- Permitir que o usuário escolha temas para acompanhar e receber atualizações.
-
-## Público-alvo
-
-Trabalhadores que desejam se informar sobre seus direitos e obrigações, com atenção especial para:
-
-- trabalhadores informais e de aplicativos;
-- trabalhadores domésticos;
-- pessoas com pouca familiaridade com termos jurídicos ou ferramentas digitais;
-- jovens no primeiro contato com o mercado de trabalho, incluindo estudantes e estagiários.
-
-A interface deve priorizar simplicidade e clareza, permitindo uma consulta sem conhecimentos técnicos ou jurídicos.
-
-## Tecnologias
-
-- **Backend:** Python 3.12 com [FastAPI](https://fastapi.tiangolo.com/), testes com pytest
-- **Frontend:** React com [Vite](https://vite.dev/)
-- **Banco de dados:** [Supabase](https://supabase.com/) (PostgreSQL), com busca textual em português
-- **Inteligência Artificial:** [Google Gemini](https://ai.google.dev/) (plano gratuito), para gerar respostas e pesquisar materiais complementares no Google
-- **E-mail:** envio pelo Gmail (SMTP), com uma senha de app gratuita
+O sistema usa **RAG (Retrieval-Augmented Generation)**: antes de gerar a resposta, busca os trechos relevantes da cartilha, e a IA escreve **somente** com base neles. Quando a cartilha não trata do assunto, o sistema avisa em vez de inventar.
 
 ## Como funciona
 
-O sistema tem três módulos integrados:
-
 | Módulo | Para quem | O que faz |
 | --- | --- | --- |
-| **1. Gestão da base de conhecimento** | Equipe (administrador e curador) | Mantém os trechos da cartilha que a IA usa; dashboard, relatórios e histórico |
-| **2. Acompanhamento de temas** | Pessoas com conta | Conta com e-mail, temas acompanhados e atualizações enviadas pela equipe por e-mail |
+| **1. Gestão da base de conhecimento** | Equipe (administrador e curador) | Trechos da cartilha, sinônimos da busca, sites e vídeos do "Saber mais", dashboard, relatórios e histórico |
+| **2. Acompanhamento de temas** | Pessoas com conta | Escolher temas e receber por e-mail as novidades publicadas pela equipe |
 | **3. Consulta inteligente** | Qualquer pessoa, sem login | Pergunta → busca na cartilha → resposta da IA com fontes → "Saber mais" por e-mail |
 
-Fluxo da consulta:
+Fluxo da consulta: a pessoa faz a pergunta; o backend busca os trechos mais relevantes no Supabase (dando mais peso às palavras raras); a IA escreve a resposta usando só esses trechos; a tela mostra a resposta com as fontes e o link para a cartilha; em "Quer saber mais sobre o assunto? Sim", a pessoa informa nome e e-mail e recebe a resposta com sites e vídeos escolhidos pela equipe.
 
-1. A pessoa faz uma pergunta.
-2. O backend busca no Supabase os trechos mais relevantes da cartilha do TRT4.
-3. A IA escreve uma resposta simples usando **somente** esses trechos e indica quais usou como fonte.
-4. Abaixo da resposta, em "Quer saber mais sobre o assunto? Sim", a pessoa informa nome e e-mail e recebe a resposta com sites e vídeos do YouTube sobre o assunto, escolhidos pela equipe.
+## Tecnologias
 
-## Estrutura do repositório
+| Camada | Tecnologia |
+| --- | --- |
+| Backend | Python 3.12, [FastAPI](https://fastapi.tiangolo.com/) (API documentada com OpenAPI/Swagger) |
+| Frontend | React 18 com [Vite](https://vite.dev/) |
+| Banco de dados | [Supabase](https://supabase.com/) (PostgreSQL), busca textual em português sem acentos |
+| Inteligência Artificial | [Google Gemini](https://ai.google.dev/) (plano gratuito), com modelo reserva quando o principal está sobrecarregado ou sem cota |
+| E-mail | Gmail (SMTP) com senha de app |
+| Paralelismo | Threads em Python no envio das novidades e no dashboard ([detalhes](docs/paralelismo.md)) |
+| Testes e qualidade | pytest (103 testes), ESLint, roteiro de testes no navegador com Playwright |
+| Integração contínua | GitHub Actions: testes e compilação a cada envio ao GitHub |
+| Publicação | [Vercel](https://vercel.com/) (plano gratuito), atualizada a cada envio ao `main` |
 
-```
-backend/     API em Python (FastAPI): rotas, regras de negócio, testes e scripts
-frontend/    Interface web em React (consulta pública e painel)
-supabase/    Estrutura do banco de dados, em scripts numerados (001 a 007)
-docs/        Documentação: uma página por Sprint, guia de configuração e ferramentas
-iniciar.bat  Executa o sistema completo no Windows (iniciar.sh no Linux/macOS)
-api/         Entrada do backend na Vercel (publicação na internet), com vercel.json
-```
+## Requisitos para executar
 
-O histórico de cada versão enviada ao GitHub está em [CHANGELOG.md](CHANGELOG.md). Cada ajuste é um commit no branch `main`, com data, objetivo, o que foi feito e como agrega ao projeto.
+- **Python 3.12** ou mais novo e **Node.js 20** ou mais novo.
+- Contas gratuitas no **Supabase** (banco) e no **Google AI Studio** (chave do Gemini).
+- Uma conta do **Gmail** com verificação em duas etapas, para gerar a senha de app dos e-mails.
+- Git, para baixar o repositório.
+
+## Instalação e configuração
+
+1. Baixe o projeto:
+
+   ```bash
+   git clone https://github.com/PedroHTLeal/oraculo_direitos_trabalhistas_8na.git
+   ```
+
+2. Copie o modelo das chaves e preencha (o arquivo `.env` nunca vai para o GitHub):
+
+   ```bash
+   cp backend/.env.example backend/.env
+   ```
+
+   | Variável | De onde vem |
+   | --- | --- |
+   | `SUPABASE_URL` e `SUPABASE_SERVICE_ROLE_KEY` | Supabase › Project Settings › API |
+   | `GEMINI_API_KEY` | https://aistudio.google.com › Get API key |
+   | `EMAIL_REMETENTE` e `EMAIL_SENHA_APP` | O Gmail que envia os e-mails e a senha de app dele |
+
+O passo a passo de cada conta, com a solução dos problemas mais comuns, está no [guia de configuração](docs/configuracao.md).
+
+## Banco de dados
+
+1. Crie um projeto no Supabase (região São Paulo).
+2. No **SQL Editor**, execute em ordem os scripts da pasta [`supabase/`](supabase/), do `001` ao `008`.
+3. Carregue a cartilha do TRT4 (25 temas e 217 trechos), na pasta `backend/` com o ambiente virtual ativo:
+
+   ```bash
+   python scripts/carregar_cartilha.py
+   ```
+
+4. Crie o primeiro administrador:
+
+   ```bash
+   python scripts/criar_administrador.py
+   ```
+
+A estrutura final (tabelas, chaves, regras e segurança) está descrita em [docs/banco-de-dados.md](docs/banco-de-dados.md), e os diagramas (MER e modelo relacional), na [Sprint 02](docs/sprints/sprint-02/diagramas.md). No plano gratuito, o Supabase pausa o banco depois de 7 dias sem uso; para reativar, abra o projeto no Supabase e clique em **Restore project**.
 
 ## Como executar
 
-Para publicar na internet de graça (endereço público para apresentar), siga o [guia de publicação na Vercel](docs/publicacao.md).
-
-Pré-requisitos: Python 3.12+ e Node.js 20+, contas gratuitas no Supabase e no Google AI Studio (Gemini) e uma conta do Gmail para enviar os e-mails. O passo a passo para criá-las, criar o banco e preencher o `backend/.env` está no [guia de configuração](docs/configuracao.md).
-
-**Execução completa (deploy local)**, na pasta do projeto:
+**Sistema completo no computador (Windows):**
 
 ```bash
 iniciar.bat
 ```
 
-O script instala as dependências, compila o frontend e abre o sistema em http://localhost:8000. No Linux ou macOS, use `./iniciar.sh`.
+O script cria o ambiente do Python, instala as dependências, compila o frontend e abre o sistema em http://localhost:8000. No Linux ou macOS, use `./iniciar.sh`.
 
-**Primeiro administrador** (uma vez só, depois de configurar o banco):
+**Desenvolvimento** (recarrega a cada alteração): backend em `backend/` com `uvicorn app.main:app --reload --port 8000` e frontend em `frontend/` com `npm run dev` (http://localhost:5173).
+
+**Testes automatizados** (em `backend/`):
 
 ```bash
-backend\.venv\Scripts\python backend\scripts\criar_administrador.py
+pytest
 ```
 
-**Desenvolvimento** (recarrega a tela a cada alteração): rode o backend em `backend/` com `uvicorn app.main:app --reload --port 8000` e o frontend em `frontend/` com `npm run dev` (http://localhost:5173).
+**Publicar na internet:** veja o [guia de publicação na Vercel](docs/publicacao.md). O sistema já publicado fica em https://oraculo-direitos-trabalhistas-8na.vercel.app; a equipe entra pelo endereço `/entrar`.
 
-**Testes automatizados** (em `backend/`): `pytest`
+## Estrutura do projeto
+
+```
+backend/          API em Python (FastAPI)
+  app/            rotas, regras de negócio, IA, busca, e-mail e acesso ao banco
+  tests/          103 testes automatizados (pytest)
+  scripts/        carregar a cartilha, criar o administrador e contas de demonstração
+frontend/         Interface em React (consulta pública e painel da equipe)
+supabase/         Estrutura do banco, em scripts numerados (001 a 008)
+api/              Entrada do backend na Vercel (com vercel.json na raiz)
+docs/             Documentação: Sprints, API, banco, configuração, publicação e ferramentas
+.github/          Integração contínua (GitHub Actions)
+iniciar.bat       Executa o sistema completo no Windows (iniciar.sh no Linux/macOS)
+```
+
+O histórico de cada versão está em [CHANGELOG.md](CHANGELOG.md): cada ajuste é um commit no `main`, com data, objetivo, o que foi feito e como agrega ao projeto.
 
 ## Equipe
 
-**Kaleido Void Studios**
+**Kaleido Void Studios** · Ciência da Computação, turma 8NA
 
-- Pedro Henrique Tenório Leal
-- Gerson Martinho Mesquita Neto
+| Integrante | Matrícula |
+| --- | --- |
+| Pedro Henrique Tenório Leal | 01591056 |
+| Gerson Martinho Mesquita Neto | 01604283 |

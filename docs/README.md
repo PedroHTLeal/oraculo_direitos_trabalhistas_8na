@@ -37,6 +37,8 @@ Esta pasta reúne tudo o que foi pedido e entregue em cada Sprint das disciplina
 | [Guia de configuração](configuracao.md) | Como configurar o Supabase, o Google Gemini e o envio de e-mails pelo Gmail (passo a passo) |
 | [Guia de publicação](publicacao.md) | Como publicar o Oráculo na internet de graça pela Vercel (passo a passo) |
 | [Avaliação das respostas da IA](avaliacao-ia.md) | Perguntas de referência feitas à IA real e se cada resposta atendeu aos critérios (PB12) |
+| [Documentação da API](api.md) | Todas as rotas, métodos, parâmetros, dados de entrada, respostas, acesso e exemplos (também no Swagger em `/api/docs`) |
+| [Banco de dados](banco-de-dados.md) | Estrutura final: scripts, tabelas, chaves, regras e segurança |
 | [Paralelismo e concorrência](paralelismo.md) | Onde o sistema executa tarefas em paralelo, com testes e medição (para a conversa com o orientador) |
 | [Registro de decisões](decisoes.md) | O que foi pensado, testado e trocado durante o projeto (como o WhatsApp) e por quê |
 | [Relatório de entrega (PDF)](entrega/) | Documento único com as Sprints 01 a 09, no estilo do relatório da Sprint 01 |

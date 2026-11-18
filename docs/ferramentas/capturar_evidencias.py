@@ -73,6 +73,24 @@ def criar(r):
     r.ir("/")
     r.print("01-consulta-inicial")
 
+    print("Fluxo principal: pergunta respondida pela IA e janela Saber mais")
+    p.get_by_placeholder("Ex.: Quantos dias de férias eu tenho direito?").fill("Quantos dias de férias eu tenho direito?")
+    p.get_by_role("button", name="Perguntar").click()
+    # A IA do plano gratuito pode levar alguns segundos, mais ainda quando usa o modelo reserva
+    sim = p.get_by_role("button", name="Sim", exact=True).last
+    sim.wait_for(timeout=90000)
+    expect(p.get_by_text("Ver na cartilha").first).to_be_visible()
+    r.print("39-resposta-com-fontes")
+    sim.click()
+    expect(p.get_by_role("button", name="Receber por e-mail")).to_be_disabled()
+    r.print("40-saber-mais")
+    p.get_by_role("button", name="Fechar").click()
+
+    print("Documentação da API (Swagger)")
+    r.ir("/api/docs")
+    p.get_by_text("Fazer uma pergunta").first.wait_for()
+    r.print("41-documentacao-api")
+
     print("Login: validações e erros")
     r.ir("/entrar")
     p.get_by_role("button", name="Entrar", exact=True).last.click()
