@@ -92,6 +92,7 @@ O registro completo, com data e objetivo de cada ajuste, está no [CHANGELOG](..
 
 | Pendência | Como será resolvida |
 | --- | --- |
+| Chave da API do YouTube, para o e-mail trazer os 2 vídeos mais relevantes para cada pergunta (hoje, sem a chave, vai o link da pesquisa no YouTube só com vídeos) | **Responsável: Gerson Martinho Mesquita Neto.** Criar a chave gratuita no Google Cloud e colocá-la no `backend/.env` e na Vercel (`YOUTUBE_API_KEY`), conforme o [guia de configuração](../../configuracao.md), seção 4; depois testar o "Saber mais" com uma pergunta sem vídeos cadastrados |
 | Conversa com o outro orientador sobre paralelismo | A equipe vai apresentar o [material de paralelismo](../../paralelismo.md) e registrar as observações antes da entrega final |
 | Sites e vídeos para as demais perguntas sugeridas | A equipe vai cadastrar os links pela tela **Sites e vídeos** do painel |
 | Revisão de usabilidade com pessoas do público-alvo | Teste com trabalhadores e estudantes antes da apresentação final, com as melhorias registradas na Sprint 08 |

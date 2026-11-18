@@ -15,6 +15,7 @@ Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o
 - Sem a chave, ou se a API falhar, o link volta a ser a pesquisa no YouTube com a própria pergunta, filtrada para só vídeos.
 - Vídeos escolhidos pela equipe continuam tendo prioridade; os testes nunca chamam a API real; 4 testes novos (112 no total).
 - Guia de configuração com o passo a passo da chave do YouTube; README, relatório, decisões e Sprint 10 atualizados.
+- Pendente: configurar a chave do YouTube (responsável: Gerson Martinho Mesquita Neto), registrado na Sprint 10.
 
 **Como agrega:** quem pede mais conteúdo recebe vídeos certos sobre a dúvida, também no celular, sem custo.
 
