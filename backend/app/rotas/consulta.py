@@ -46,7 +46,10 @@ def perguntar(pergunta: Pergunta, repositorio=Depends(obter_repositorio), ia=Dep
             resultado = {"encontrou": False, "resposta": RESPOSTA_SEM_INFORMACAO, "trechos_usados": []}
         except erros_gemini.APIError:
             logger.exception("Falha ao gerar resposta com a IA")
-            raise HTTPException(status_code=502, detail="Não foi possível gerar a resposta agora.")
+            raise HTTPException(
+                status_code=502,
+                detail="A inteligência artificial está muito ocupada agora. Tente de novo em alguns segundos.",
+            )
 
     # A IA só pode citar trechos que foram realmente encontrados na busca
     por_id = {t["id"]: t for t in trechos}

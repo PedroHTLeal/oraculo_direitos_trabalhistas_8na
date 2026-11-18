@@ -25,12 +25,12 @@ from playwright.sync_api import sync_playwright
 RAIZ = Path(__file__).resolve().parents[2]
 DOCS = RAIZ / "docs"
 FERRAMENTAS = DOCS / "ferramentas"
-SAIDA = DOCS / "entrega" / "Oráculo dos Direitos Trabalhistas - 8NA - Sprints 01 a 09.pdf"
+SAIDA = DOCS / "entrega" / "Oráculo dos Direitos Trabalhistas - 8NA - Sprints 01 a 10.pdf"
 GITHUB = "https://github.com/PedroHTLeal/oraculo_direitos_trabalhistas_8na/blob/main/"
 RODAPE = ["Tópicos Integradores em Ciência da Computação", "Oráculo dos Direitos Trabalhistas", "Kaleido Void Studios · 8NA"]
-SUBTITULO = "Sprints 01 a 09: do planejamento à entrega"
+SUBTITULO = "Sprints 01 a 10: do planejamento à Release Candidate"
 
-SPRINTS = [DOCS / "sprints" / f"sprint-{n:02d}" / "README.md" for n in range(2, 10)]
+SPRINTS = [DOCS / "sprints" / f"sprint-{n:02d}" / "README.md" for n in range(2, 11)]
 
 
 def ler(caminho):
@@ -114,7 +114,7 @@ def capitulos(pasta_imagens):
         partes.append((titulo, f'<h1 class="capitulo">{html.escape(titulo)}</h1>{conteudo}', "sprint"))
 
     # Documentos gerais, depois das Sprints
-    for documento in (DOCS / "paralelismo.md", DOCS / "avaliacao-ia.md", DOCS / "decisoes.md"):
+    for documento in (DOCS / "banco-de-dados.md", DOCS / "api.md", DOCS / "paralelismo.md", DOCS / "avaliacao-ia.md", DOCS / "decisoes.md"):
         if not documento.exists():
             continue
         texto = ler(documento)
@@ -178,7 +178,7 @@ def montar_html(partes, paginas):
     logo = (FERRAMENTAS / "logo-cabecalho.png").as_uri()
     corpo = "".join(f'<section class="{tipo}">{conteudo}</section>' for _, conteudo, tipo in partes)
     return f"""<!doctype html>
-<html lang="pt-BR"><head><meta charset="utf-8"><title>Oráculo dos Direitos Trabalhistas - Sprints 01 a 09</title>
+<html lang="pt-BR"><head><meta charset="utf-8"><title>Oráculo dos Direitos Trabalhistas - Sprints 01 a 10</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=block" rel="stylesheet">
 <style>{CSS}</style></head><body>
@@ -217,12 +217,15 @@ def localizar_paginas(pdf, partes):
     documento = fitz.open(pdf)
     textos = [documento[i].get_text() for i in range(documento.page_count)]
     primeira = next(i for i, t in enumerate(textos) if "Identificação da Equipe" in t and i > 0 and "Índice" not in t)
-    paginas = {}
-    for titulo, _, _ in partes:
+    paginas, inicio = {}, primeira
+    for titulo, _, tipo in partes:
         chave = titulo.split(" ", 1)[1] if titulo[0].isdigit() else titulo
-        for i in range(primeira, len(textos)):
-            if chave.replace("—", "").split()[0] in textos[i] and chave[:25] in " ".join(textos[i].split()):
-                paginas[titulo] = i - primeira + 1
+        # Os capítulos aparecem em ordem; os das Sprints e documentos começam no topo de uma página nova.
+        # Assim uma simples citação do título em outra página não confunde o índice.
+        for i in range(inicio, len(textos)):
+            texto = " ".join(textos[i].split())
+            if (texto.startswith(chave[:25]) if tipo != "sprint01" else chave[:25] in texto):
+                paginas[titulo], inicio = i - primeira + 1, i
                 break
     return paginas, primeira
 

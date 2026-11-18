@@ -75,11 +75,19 @@ def criar(r):
 
     print("Fluxo principal: pergunta respondida pela IA e janela Saber mais")
     p.get_by_placeholder("Ex.: Quantos dias de férias eu tenho direito?").fill("Quantos dias de férias eu tenho direito?")
-    p.get_by_role("button", name="Perguntar").click()
-    # A IA do plano gratuito pode levar alguns segundos, mais ainda quando usa o modelo reserva
-    sim = p.get_by_role("button", name="Sim", exact=True).last
-    sim.wait_for(timeout=90000)
-    expect(p.get_by_text("Ver na cartilha").first).to_be_visible()
+    # A IA do plano gratuito pode levar alguns segundos e, nos picos, ficar ocupada: tenta até 4 vezes
+    sim = p.locator(".vitrine-resposta").get_by_role("button", name="Sim", exact=True)
+    aviso_ia = p.get_by_text("A inteligência artificial está muito ocupada")
+    for tentativa in range(4):
+        p.get_by_role("button", name="Perguntar").click()
+        sim.or_(aviso_ia).first.wait_for(timeout=90000)
+        if sim.is_visible():
+            break
+        print("  IA ocupada; tentando de novo em 30 s")
+        time.sleep(30)
+    sim.wait_for(timeout=1000)
+    # A resposta aparece no painel azul (no computador)
+    expect(p.locator(".vitrine-resposta").get_by_text("Ver na cartilha").first).to_be_visible()
     r.print("39-resposta-com-fontes")
     sim.click()
     expect(p.get_by_role("button", name="Receber por e-mail")).to_be_disabled()

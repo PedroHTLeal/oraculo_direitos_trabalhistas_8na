@@ -4,6 +4,24 @@ Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o
 
 ---
 
+## 1.0.0-rc.1 — Release Candidate (Sprint 10)
+
+**Data:** 18/11/2026 · **Branch:** `main` · **Tag:** `v1.0.0-rc.1`
+
+**Objetivo:** consolidar a versão candidata à entrega final: sistema estável, interface final, banco de dados final, APIs documentadas e README atualizado.
+
+**O que foi feito:**
+- API documentada: Swagger em `/api/docs` e [`docs/api.md`](docs/api.md) com as 39 rotas.
+- Banco final conferido no banco real; [`supabase/008_versao_final.sql`](supabase/008_versao_final.sql) e [`docs/banco-de-dados.md`](docs/banco-de-dados.md).
+- README completo, com todos os itens pedidos pela Sprint 10.
+- IA: troca rápida para o modelo reserva em qualquer falha do Google e mensagem clara quando os dois estão ocupados.
+- Banco do Supabase reativado (pausado por falta de uso) e procedimento documentado.
+- Evidências refeitas no sistema real, com o fluxo principal e a API; página da [Sprint 10](docs/sprints/sprint-10/README.md); relatório único com as Sprints 01 a 10.
+
+**Como agrega:** o sistema fica pronto para a validação final e a apresentação, com tudo o que é preciso para instalar, usar e avaliar.
+
+---
+
 ## 0.15.0 — Busca com mais peso para as palavras raras
 
 **Data:** 06/11/2026 · **Branch:** `main`

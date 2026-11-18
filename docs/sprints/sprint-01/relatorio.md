@@ -216,7 +216,7 @@ O desenvolvimento será realizado de forma incremental, utilizando Sprints para 
 
 Observação: o cronograma é inicial e poderá ser ajustado conforme o andamento do projeto e as orientações realizadas durante as próximas Sprints.
 
-Na execução, o projeto seguiu as Sprints 01 a 09 definidas pela disciplina; o que foi entregue em cada uma está nas páginas das Sprints, a seguir neste relatório.
+Na execução, o projeto seguiu as Sprints 01 a 10 definidas pela disciplina; o que foi entregue em cada uma está nas páginas das Sprints, a seguir neste relatório.
 
 ## 11. Repositório GitHub
 
