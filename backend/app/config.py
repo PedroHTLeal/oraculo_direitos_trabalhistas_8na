@@ -18,6 +18,8 @@ class Configuracao:
     # Conta do Gmail que envia os e-mails e a senha de app dela
     email_remetente: str = ""
     email_senha_app: str = ""
+    # Chave da API do YouTube (opcional): com ela, o e-mail traz os vídeos mais relevantes para a pergunta
+    youtube_api_key: str = ""
 
 
 def _ler(nome):
@@ -34,4 +36,5 @@ def carregar_configuracao():
         email_remetente=os.getenv("EMAIL_REMETENTE", "").strip(),
         # O Google mostra a senha de app em blocos separados por espaços
         email_senha_app=os.getenv("EMAIL_SENHA_APP", "").replace(" ", ""),
+        youtube_api_key=os.getenv("YOUTUBE_API_KEY", "").strip(),
     )

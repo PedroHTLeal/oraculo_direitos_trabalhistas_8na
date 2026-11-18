@@ -1,6 +1,6 @@
 # Documentação da API
 
-**Versão:** 1.0.0-rc.3 (Release Candidate) · **Base:** `https://oraculo-direitos-trabalhistas-8na.vercel.app` · **Documentação interativa (Swagger):** [https://oraculo-direitos-trabalhistas-8na.vercel.app/api/docs](https://oraculo-direitos-trabalhistas-8na.vercel.app/api/docs)
+**Versão:** 1.0.0-rc.4 (Release Candidate) · **Base:** `https://oraculo-direitos-trabalhistas-8na.vercel.app` · **Documentação interativa (Swagger):** [https://oraculo-direitos-trabalhistas-8na.vercel.app/api/docs](https://oraculo-direitos-trabalhistas-8na.vercel.app/api/docs)
 
 Gerada a partir da especificação OpenAPI do backend por [`docs/ferramentas/gerar_doc_api.py`](ferramentas/gerar_doc_api.py). No Swagger é possível testar cada rota pelo navegador (botão *Authorize* para usar o token).
 

@@ -15,6 +15,7 @@ from app.ia import AssistenteIA
 from app.repositorio import RepositorioSupabase
 from app.seguranca import hash_token
 from app.envio_email import EnviadorEmail
+from app.videos import BuscadorYouTube
 
 
 @lru_cache
@@ -41,6 +42,12 @@ def obter_email():
     if not (config.email_remetente and config.email_senha_app):
         raise ConfiguracaoAusente("Envio de e-mail não configurado no arquivo backend/.env")
     return EnviadorEmail(config.email_remetente, config.email_senha_app)
+
+def obter_buscador_videos(config=Depends(obter_configuracao)):
+    # Opcional: sem a chave do YouTube, o e-mail traz o link da pesquisa no YouTube
+    chave = config.youtube_api_key
+    return BuscadorYouTube(chave) if chave else None
+
 
 _bearer = HTTPBearer(auto_error=False)
 

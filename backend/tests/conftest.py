@@ -5,7 +5,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from app.config import Configuracao
-from app.dependencias import obter_configuracao, obter_email, obter_ia, obter_repositorio
+from app.dependencias import obter_buscador_videos, obter_configuracao, obter_email, obter_ia, obter_repositorio
 from app.ia import RecusaDaIA
 from app.main import app
 from app.rotas.atualizacoes import email_opcional
@@ -420,6 +420,8 @@ def falsos():
     app.dependency_overrides[obter_repositorio] = lambda: repositorio
     app.dependency_overrides[obter_ia] = lambda: ia
     app.dependency_overrides[obter_email] = lambda: email
+    # Os testes nunca chamam a API real do YouTube
+    app.dependency_overrides[obter_buscador_videos] = lambda: None
     app.dependency_overrides[email_opcional] = lambda: email
     app.dependency_overrides[obter_configuracao] = lambda: Configuracao(
         supabase_url="https://exemplo.supabase.co",

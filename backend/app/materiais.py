@@ -5,9 +5,13 @@ escolhido pelas palavras-chave encontradas na pergunta. Quando nenhum assunto
 combina, vão a página da cartilha do TRT4 sobre o tema e o texto da lei.
 """
 
+import logging
 import re
 import unicodedata
-import urllib.parse
+
+from app.videos import link_da_pesquisa
+
+logger = logging.getLogger("oraculo")
 
 QUANTIDADE = 2
 
@@ -24,10 +28,6 @@ LEIS = {
     "Pessoas com Deficiência": ("Estatuto da Pessoa com Deficiência - Lei nº 13.146/2015 (Planalto)", "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13146.htm"),
     "Trabalho Infantil": ("Estatuto da Criança e do Adolescente - Lei nº 8.069/1990 (Planalto)", "https://www.planalto.gov.br/ccivil_03/leis/l8069.htm"),
 }
-
-
-def busca_de_videos(pergunta):
-    return "https://www.google.com/search?tbm=vid&q=" + urllib.parse.quote_plus(pergunta.strip())
 
 
 def normalizar(texto):
@@ -47,7 +47,7 @@ def escolher_assunto(pergunta, cadastrados):
     return max(pontos, key=pontos.get) if pontos else None
 
 
-def montar_materiais(pergunta, tema, url_cartilha, cadastrados):
+def montar_materiais(pergunta, tema, url_cartilha, cadastrados, buscador_videos=None):
     assunto = escolher_assunto(pergunta, cadastrados)
     escolhidos = sorted((m for m in cadastrados if m["assunto"] == assunto), key=lambda m: m["ordem"])
     sites = [{"titulo": m["titulo"], "url": m["url"]} for m in escolhidos if m["tipo"] == "site"]
@@ -62,9 +62,13 @@ def montar_materiais(pergunta, tema, url_cartilha, cadastrados):
     vistos = {s["url"] for s in sites}
     sites += [c for c in complementos if c["url"] not in vistos]
 
+    if not videos and buscador_videos:
+        # Sem vídeos escolhidos pela equipe: os mais relevantes para a pergunta, pela API do YouTube
+        try:
+            videos = buscador_videos.buscar(pergunta, QUANTIDADE)
+        except Exception:
+            logger.exception("Não foi possível pesquisar vídeos no YouTube")
     if not videos:
-        # Sem vídeos escolhidos para o assunto: uma busca de vídeos pronta com a própria pergunta.
-        # É feita no Google Vídeos porque o aplicativo do YouTube no celular ignora links de busca
-        # e abre a página inicial; o Google abre no navegador e mostra os vídeos (quase todos do YouTube).
-        videos = [{"titulo": "Vídeos sobre a sua pergunta (busca no Google Vídeos)", "url": busca_de_videos(pergunta)}]
+        # Sem a API (ou se ela falhar): a pesquisa no YouTube com a pergunta, só com vídeos
+        videos = [{"titulo": "Vídeos do YouTube sobre a sua pergunta", "url": link_da_pesquisa(pergunta)}]
     return {"sites": sites[:QUANTIDADE], "videos": videos[:QUANTIDADE]}

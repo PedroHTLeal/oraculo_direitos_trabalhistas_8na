@@ -4,6 +4,22 @@ Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o
 
 ---
 
+## 1.0.0-rc.4 — Vídeos do YouTube sobre a pergunta no e-mail
+
+**Data:** 18/11/2026 · **Branch:** `main`
+
+**Objetivo:** atender ao pedido da equipe: o link de vídeos do e-mail deve abrir o YouTube só com vídeos sobre o assunto (na rc.3 ele abria uma busca no Google Vídeos).
+
+**O que foi feito:**
+- [`backend/app/videos.py`](backend/app/videos.py): com a chave gratuita da API oficial do YouTube (`YOUTUBE_API_KEY`), o e-mail traz os 2 vídeos mais relevantes para a pergunta (em português, do Brasil, com filtro de conteúdo), com link direto para cada vídeo, que abre no site ou no aplicativo do YouTube.
+- Sem a chave, ou se a API falhar, o link volta a ser a pesquisa no YouTube com a própria pergunta, filtrada para só vídeos.
+- Vídeos escolhidos pela equipe continuam tendo prioridade; os testes nunca chamam a API real; 4 testes novos (112 no total).
+- Guia de configuração com o passo a passo da chave do YouTube; README, relatório, decisões e Sprint 10 atualizados.
+
+**Como agrega:** quem pede mais conteúdo recebe vídeos certos sobre a dúvida, também no celular, sem custo.
+
+---
+
 ## 1.0.0-rc.3 — Link de vídeos do e-mail que funciona no celular
 
 **Data:** 18/11/2026 · **Branch:** `main`

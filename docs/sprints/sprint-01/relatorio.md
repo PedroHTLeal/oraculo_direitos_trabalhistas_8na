@@ -304,7 +304,7 @@ Em computadores, a resposta aparece no painel azul, no lugar da órbita de temas
 **Saber mais por e-mail (RF10, RF11, UC04, UC05, PB08):**
 
 1. Abaixo da resposta, o convite "Quer saber mais sobre o assunto?" com o botão "Sim" abre uma janela que pede o nome, o e-mail e o consentimento para o uso desses dados, conforme a LGPD (RNF03). Não é preciso ter conta.
-2. O backend registra o pedido e escolhe os sites e vídeos do assunto da pergunta, cadastrados e conferidos pela equipe na tabela `materiais_complementares`. Quando o assunto ainda não tem links cadastrados, vão a página da cartilha do TRT4 sobre o tema, o texto oficial da lei e uma busca de vídeos pronta com a própria pergunta (Google Vídeos).
+2. O backend registra o pedido e escolhe os sites e vídeos do assunto da pergunta, cadastrados e conferidos pela equipe na tabela `materiais_complementares`. Quando o assunto ainda não tem links cadastrados, vão a página da cartilha do TRT4 sobre o tema, o texto oficial da lei e uma os vídeos do YouTube sobre a pergunta (pela API do YouTube ou, sem ela, a pesquisa no YouTube filtrada para só vídeos).
 3. O backend envia pelo Gmail um e-mail com a resposta, os 2 sites e os 2 vídeos. A tela acompanha o envio e confirma quando ele termina. Cada e-mail pode fazer até 5 pedidos por hora, para evitar abuso.
 
 **Registro de erros (RNF06, PB21):** falhas na IA, no banco ou no envio do e-mail são registradas no log do servidor, e um pedido que falha fica marcado como "erro" no banco, sem ficar pendente para sempre.

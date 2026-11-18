@@ -6,7 +6,7 @@ Projeto da turma **8NA** de Ciência da Computação, desenvolvido para as disci
 
 | | |
 | --- | --- |
-| **Versão** | 1.0.0-rc.3 (Release Candidate) |
+| **Versão** | 1.0.0-rc.4 (Release Candidate) |
 | **Sistema publicado** | https://oraculo-direitos-trabalhistas-8na.vercel.app |
 | **Documentação da API** | [docs/api.md](docs/api.md) e Swagger em https://oraculo-direitos-trabalhistas-8na.vercel.app/api/docs |
 | **Documentação por Sprint** | [docs/](docs/README.md), com o relatório único em PDF em [docs/entrega/](docs/entrega/) |
@@ -69,6 +69,7 @@ Fluxo da consulta: a pessoa faz a pergunta; o backend busca os trechos mais rele
    | `SUPABASE_URL` e `SUPABASE_SERVICE_ROLE_KEY` | Supabase › Project Settings › API |
    | `GEMINI_API_KEY` | https://aistudio.google.com › Get API key |
    | `EMAIL_REMETENTE` e `EMAIL_SENHA_APP` | O Gmail que envia os e-mails e a senha de app dele |
+   | `YOUTUBE_API_KEY` (opcional) | Google Cloud › YouTube Data API v3 › Chave de API, para o e-mail trazer os vídeos mais relevantes para a pergunta |
 
 O passo a passo de cada conta, com a solução dos problemas mais comuns, está no [guia de configuração](docs/configuracao.md).
 

@@ -73,12 +73,25 @@ O Oráculo envia por e-mail a resposta, os 2 sites e os 2 vídeos do "Saber mais
 
 ## 4. Sites e vídeos do "Saber mais"
 
-Os sites e vídeos enviados por e-mail são **escolhidos pela equipe**, sem pesquisa automática. Eles ficam na tabela `materiais_complementares` do Supabase, por assunto, cada um com as palavras-chave que o identificam na pergunta (por exemplo, `ferias` ou `13` e `decimo terceiro`, sempre sem acento e em minúsculas).
+Os sites e vídeos enviados por e-mail são, em primeiro lugar, **escolhidos pela equipe**. Eles ficam na tabela `materiais_complementares` do Supabase, por assunto, cada um com as palavras-chave que o identificam na pergunta (por exemplo, `ferias` ou `13` e `decimo terceiro`, sempre sem acento e em minúsculas).
 
 - **Pergunta de um assunto cadastrado:** vão os sites e vídeos da equipe; se faltar um site, entra a página da cartilha do TRT4 sobre o tema.
-- **Outros assuntos:** vão a página da cartilha do TRT4 sobre o tema, o texto oficial da lei (CLT ou a lei própria do tema, no site do Planalto) e uma busca de vídeos pronta com a própria pergunta (Google Vídeos).
+- **Outros assuntos:** vão a página da cartilha do TRT4 sobre o tema, o texto oficial da lei (CLT ou a lei própria do tema, no site do Planalto) e vídeos do YouTube sobre a pergunta:
+  - **com a chave da API do YouTube** (passo a passo abaixo): os 2 vídeos mais relevantes para a pergunta, com link direto para cada vídeo, que abre no site ou no aplicativo do YouTube;
+  - **sem a chave:** o link da pesquisa no YouTube com a própria pergunta, filtrada para só vídeos. No computador, abre direto nos resultados; no celular, o aplicativo do YouTube às vezes ignora a pesquisa e abre a página inicial.
 
 Para incluir ou alterar um assunto, entre no painel como curador ou administrador e abra **Sites e vídeos › + Novo link**. Os sinônimos da busca (palavras do dia a dia traduzidas para os termos da cartilha) ficam em **Sinônimos da busca**.
+
+### Chave da API do YouTube (gratuita, opcional)
+
+A API oficial do YouTube permite 10.000 unidades por dia, e cada pesquisa gasta 100: são até 100 e-mails por dia com vídeos escolhidos automaticamente, sem custo.
+
+1. Acesse https://console.cloud.google.com e entre com uma conta Google. Se pedir, aceite os termos (não precisa de cartão de crédito).
+2. No topo, clique no seletor de projetos › **Novo projeto**, dê um nome (ex.: `oraculo`) e clique em **Criar**.
+3. Com o projeto selecionado, abra https://console.cloud.google.com/apis/library/youtube.googleapis.com e clique em **Ativar** (YouTube Data API v3).
+4. Abra **APIs e serviços › Credenciais › Criar credenciais › Chave de API**. Copie a chave (começa com `AIza`).
+5. Clique em **Editar chave de API** › **Restrições de API** › **Restringir chave** › marque só **YouTube Data API v3** › **Salvar**. Assim a chave serve apenas para pesquisar vídeos.
+6. Coloque a chave em `YOUTUBE_API_KEY=` no `backend/.env` e, na Vercel, em **Settings › Environment Variables** (nome `YOUTUBE_API_KEY`); depois faça **Redeploy**.
 
 ## 5. Conferir
 
