@@ -1,0 +1,18 @@
+# O plano gratuito do Supabase pausa o banco depois de 7 dias sem uso.
+# A cada 2 dias, este fluxo consulta a lista de temas no site publicado, o que usa
+# o banco e o mantém ativo. Se o site ou o banco estiverem fora do ar, o fluxo
+# falha e o GitHub avisa por e-mail quem administra o repositório.
+name: Manter o banco ativo
+
+on:
+  schedule:
+    - cron: "0 12 */2 * *"
+  workflow_dispatch:
+
+jobs:
+  consultar:
+    name: Consultar o site publicado
+    runs-on: ubuntu-latest
+    steps:
+      - name: Consultar a lista de temas
+        run: curl --fail --silent --show-error --retry 3 --retry-delay 20 --output /dev/null https://oraculo-direitos-trabalhistas-8na.vercel.app/api/temas

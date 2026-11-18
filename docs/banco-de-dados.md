@@ -59,4 +59,4 @@ As colunas de cada tabela estão no [modelo relacional](sprints/sprint-02/diagra
 
 ## Manutenção no plano gratuito
 
-O Supabase gratuito **pausa o projeto depois de 7 dias sem uso**. Se o site mostrar "Ocorreu um erro inesperado" ao listar os temas, entre em https://supabase.com/dashboard, abra o projeto e clique em **Restore project** (leva alguns minutos). Os dados continuam salvos.
+O Supabase gratuito **pausa o projeto depois de 7 dias sem uso**. Para evitar isso, a rotina [`manter-ativo.yml`](../.github/workflows/manter-ativo.yml) do GitHub Actions consulta a lista de temas do site publicado a cada 2 dias, o que usa o banco e o mantém ativo; se o site ou o banco estiverem fora do ar, a rotina falha e o GitHub avisa por e-mail. Se mesmo assim o site mostrar "Ocorreu um erro inesperado" ao listar os temas, entre em https://supabase.com/dashboard, abra o projeto e clique em **Restore project** (leva alguns minutos). Os dados continuam salvos.

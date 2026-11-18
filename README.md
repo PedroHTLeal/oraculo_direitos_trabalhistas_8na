@@ -40,7 +40,7 @@ Fluxo da consulta: a pessoa faz a pergunta; o backend busca os trechos mais rele
 | E-mail | Gmail (SMTP) com senha de app |
 | Paralelismo | Threads em Python no envio das novidades e no dashboard ([detalhes](docs/paralelismo.md)) |
 | Testes e qualidade | pytest (103 testes), ESLint, roteiro de testes no navegador com Playwright |
-| Integração contínua | GitHub Actions: testes e compilação a cada envio ao GitHub |
+| Integração contínua | GitHub Actions: testes e compilação a cada envio ao GitHub, e uma rotina a cada 2 dias que mantém o banco ativo |
 | Publicação | [Vercel](https://vercel.com/) (plano gratuito), atualizada a cada envio ao `main` |
 
 ## Requisitos para executar
@@ -88,7 +88,7 @@ O passo a passo de cada conta, com a solução dos problemas mais comuns, está 
    python scripts/criar_administrador.py
    ```
 
-A estrutura final (tabelas, chaves, regras e segurança) está descrita em [docs/banco-de-dados.md](docs/banco-de-dados.md), e os diagramas (MER e modelo relacional), na [Sprint 02](docs/sprints/sprint-02/diagramas.md). No plano gratuito, o Supabase pausa o banco depois de 7 dias sem uso; para reativar, abra o projeto no Supabase e clique em **Restore project**.
+A estrutura final (tabelas, chaves, regras e segurança) está descrita em [docs/banco-de-dados.md](docs/banco-de-dados.md), e os diagramas (MER e modelo relacional), na [Sprint 02](docs/sprints/sprint-02/diagramas.md). No plano gratuito, o Supabase pausa o banco depois de 7 dias sem uso; uma rotina do GitHub Actions usa o banco a cada 2 dias para evitar isso. Se ele pausar, abra o projeto no Supabase e clique em **Restore project**.
 
 ## Como executar
 
@@ -121,7 +121,7 @@ frontend/         Interface em React (consulta pública e painel da equipe)
 supabase/         Estrutura do banco, em scripts numerados (001 a 008)
 api/              Entrada do backend na Vercel (com vercel.json na raiz)
 docs/             Documentação: Sprints, API, banco, configuração, publicação e ferramentas
-.github/          Integração contínua (GitHub Actions)
+.github/          GitHub Actions: testes a cada envio e rotina que mantém o banco ativo
 iniciar.bat       Executa o sistema completo no Windows (iniciar.sh no Linux/macOS)
 ```
 

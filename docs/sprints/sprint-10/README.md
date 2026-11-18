@@ -75,7 +75,7 @@ Prints gerados em 18/11/2026 pelo roteiro automatizado [`capturar_evidencias.py`
 | WhatsApp não entregava as mensagens | Conteúdo complementar e novidades passaram a ser enviados por e-mail ([decisões](../../decisoes.md)) |
 | A IA às vezes falhava nos horários de pico do plano gratuito | Modelo reserva quando o principal está sobrecarregado, com erro ou sem cota, em no máximo 40 s |
 | Links do "Saber mais" inventados pela pesquisa automática | Links escolhidos e conferidos pela equipe, com tela própria no painel |
-| O banco gratuito do Supabase pausa depois de 7 dias sem uso | Procedimento de reativação documentado; o banco foi reativado e conferido nesta Sprint |
+| O banco gratuito do Supabase pausa depois de 7 dias sem uso | Banco reativado e conferido nesta Sprint; rotina automática no GitHub Actions o mantém ativo, e a reativação está documentada |
 
 O registro completo, com data e objetivo de cada ajuste, está no [CHANGELOG](../../../CHANGELOG.md).
 
@@ -94,5 +94,5 @@ O registro completo, com data e objetivo de cada ajuste, está no [CHANGELOG](..
 | Conversa com o outro orientador sobre paralelismo | A equipe vai apresentar o [material de paralelismo](../../paralelismo.md) e registrar as observações antes da entrega final |
 | Sites e vídeos para as demais perguntas sugeridas | A equipe vai cadastrar os links pela tela **Sites e vídeos** do painel |
 | Revisão de usabilidade com pessoas do público-alvo | Teste com trabalhadores e estudantes antes da apresentação final, com as melhorias registradas na Sprint 08 |
-| Limites do plano gratuito (cota diária da IA e pausa do banco) | Abrir o sistema ao menos uma vez por semana e evitar testes desnecessários no dia da apresentação |
+| Limites do plano gratuito (cota diária da IA e pausa do banco) | A pausa do banco é evitada pela rotina automática [`manter-ativo.yml`](../../../.github/workflows/manter-ativo.yml), que usa o banco a cada 2 dias; no dia da apresentação, evitar testes desnecessários para não gastar a cota diária da IA |
 | Conta de teste "João Teste" criada pelo roteiro de evidências | Excluir em **Usuários** (perfil administrador); o roteiro só a apaga quando há uma conta de demonstração de administrador |

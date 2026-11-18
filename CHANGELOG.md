@@ -15,7 +15,7 @@ Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o
 - Banco final conferido no banco real; [`supabase/008_versao_final.sql`](supabase/008_versao_final.sql) e [`docs/banco-de-dados.md`](docs/banco-de-dados.md).
 - README completo, com todos os itens pedidos pela Sprint 10.
 - IA: troca rápida para o modelo reserva em qualquer falha do Google e mensagem clara quando os dois estão ocupados.
-- Banco do Supabase reativado (pausado por falta de uso) e procedimento documentado.
+- Banco do Supabase reativado (pausado por falta de uso) e procedimento documentado; rotina no GitHub Actions ([`manter-ativo.yml`](.github/workflows/manter-ativo.yml)) usa o banco a cada 2 dias para ele não pausar de novo.
 - Evidências refeitas no sistema real, com o fluxo principal e a API; página da [Sprint 10](docs/sprints/sprint-10/README.md); relatório único com as Sprints 01 a 10.
 
 **Como agrega:** o sistema fica pronto para a validação final e a apresentação, com tudo o que é preciso para instalar, usar e avaliar.
