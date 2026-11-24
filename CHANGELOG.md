@@ -4,6 +4,22 @@ Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o
 
 ---
 
+## Documentos da Atividade de Extensão
+
+**Data:** 24/11/2026 · **Branch:** `main`
+
+**Objetivo:** reunir no repositório os documentos da disciplina Atividades Práticas Interdisciplinares de Extensão IV para a ação de extensão do Oráculo.
+
+**O que foi feito:**
+- Pasta [`docs/extensao/`](docs/extensao/README.md) com os modelos da disciplina preenchidos: ofício de solicitação nº 11/2026, declaração para trabalho e autorização de uso de imagem (uma de cada para cada aluno) e declaração de presença.
+- Campos ainda sem informação destacados em amarelo e listados como pendências; RG, CPF, datas de assinatura e período da ação ficam em linhas em branco, para preencher à mão.
+- Telefone pessoal da coordenadora fora do repositório público: as cópias completas ficam numa pasta local ignorada pelo Git.
+- Índice da documentação atualizado.
+
+**Como agrega:** a ação de extensão do projeto fica documentada junto com o restante da entrega, com o que falta preencher à vista.
+
+---
+
 ## 1.0.0-rc.5 — Preparação para entrega (Sprint 11)
 
 **Data:** 18/11/2026 · **Branch:** `main` · **Tag:** `v1.0.0-rc.5`

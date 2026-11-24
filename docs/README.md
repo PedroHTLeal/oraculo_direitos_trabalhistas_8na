@@ -45,6 +45,7 @@ Esta pasta reúne tudo o que foi pedido e entregue em cada Sprint das disciplina
 | [Banco de dados](banco-de-dados.md) | Estrutura final: scripts, tabelas, chaves, regras e segurança |
 | [Paralelismo e concorrência](paralelismo.md) | Onde o sistema executa tarefas em paralelo, com testes e medição (para a conversa com o orientador) |
 | [Registro de decisões](decisoes.md) | O que foi pensado, testado e trocado durante o projeto (como o WhatsApp) e por quê |
+| [Atividade de Extensão](extensao/README.md) | Ofício, declarações e autorizações de imagem da disciplina Atividades Práticas Interdisciplinares de Extensão IV |
 | [Relatório de entrega (PDF)](entrega/) | Documento único com as Sprints 01 a 11, no estilo do relatório da Sprint 01 |
 | [Histórico de versões](../CHANGELOG.md) | Cada versão enviada ao GitHub: data, objetivo, o que mudou e como agrega |
 | [Scripts do banco](../supabase/) | Estrutura do banco, na ordem em que deve ser executada (001 a 008) |
