@@ -19,14 +19,14 @@ Os documentos foram preenchidos a partir dos modelos fornecidos pela disciplina.
 - Projeto: Oráculo dos Direitos Trabalhistas.
 - Coordenadora do curso: Prof.ª Andrea Philipp, que também é a destinatária do ofício.
 - Professor orientador e responsável pela disciplina: Prof. Marlon Silva Ferreira.
+- Local da ação: Up Jetcell, Estrada de Belém, nº 1349, Campo Grande, Recife – PE, CEP 52040-000.
 
 ## Pendências
 
 | Pendência | Documentos |
 | --- | --- |
-| Local da ação (nome e endereço) | Declarações para trabalho, relatório |
 | Data e horário da ação | Declarações para trabalho, relatório (na de presença, à mão) |
-| Empresa onde o projeto será aplicado: nome, CNPJ, endereço, cidade e CEP | Declaração de presença, relatório |
+| CNPJ da empresa (Up Jetcell) | Declaração de presença |
 | Endereço e telefone da UNINASSAU Graças | Rodapé das declarações para trabalho |
 | Quantidade de pessoas beneficiadas e atendidas | Declaração de presença (à mão) |
 | Perfil da empresa, ajustes da descrição ao que ocorreu, fotos e atas | Relatório (depois da ação) |
