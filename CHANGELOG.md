@@ -11,7 +11,8 @@ Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o
 **Objetivo:** deixar os documentos da extensão no repositório prontos para imprimir, com os telefones já informados.
 
 **O que foi feito:**
-- Telefones da coordenadora (Prof.ª Andrea Philipp) e do professor orientador (Prof. Marlon Silva Ferreira) preenchidos no ofício de solicitação e nas declarações para trabalho, como pedido pela disciplina.
+- Telefones da coordenadora (Prof.ª Andreia Philipp) e do professor orientador (Prof. Marlon Silva Ferreira) preenchidos no ofício de solicitação e nas declarações para trabalho, como pedido pela disciplina.
+- Nome da coordenadora corrigido para Andreia em todos os documentos.
 - Fim da pasta local separada `com-telefone/`: a versão do repositório passa a ser a versão completa.
 
 **Como agrega:** quem imprime os documentos direto do repositório não precisa mais preencher os telefones à mão.

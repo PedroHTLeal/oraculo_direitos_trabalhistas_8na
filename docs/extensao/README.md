@@ -17,7 +17,7 @@ Os documentos foram preenchidos a partir dos modelos fornecidos pela disciplina.
 - Alunos: Pedro Henrique Tenório Leal (01591056) e Gerson Martinho Mesquita Neto (01604283).
 - Curso, unidade (UNINASSAU Graças, Recife) e disciplina.
 - Projeto: Oráculo dos Direitos Trabalhistas.
-- Coordenadora do curso: Prof.ª Andrea Philipp, que também é a destinatária do ofício, telefone (81) 99966-7263.
+- Coordenadora do curso: Prof.ª Andreia Philipp, que também é a destinatária do ofício, telefone (81) 99966-7263.
 - Professor orientador e responsável pela disciplina: Prof. Marlon Silva Ferreira, telefone (81) 98583-0280.
 - Local da ação: Up Jetcell, Estrada de Belém, nº 1349, Campo Grande, Recife – PE, CEP 52040-000.
 
