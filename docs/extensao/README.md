@@ -28,8 +28,7 @@ Os documentos foram preenchidos a partir dos modelos fornecidos pela disciplina.
 | Data e horário da ação | Declarações para trabalho, relatório (na de presença, à mão) |
 | Empresa onde o projeto será aplicado: nome, CNPJ, endereço, cidade e CEP | Declaração de presença, relatório |
 | Endereço e telefone da UNINASSAU Graças | Rodapé das declarações para trabalho |
-| Quantidade de pessoas beneficiadas e atendidas | Declaração de presença (à mão), indicadores e resultados do relatório |
-| Código da turma (confirmar se é 8NA), número de orientações com o professor e demais indicadores | Relatório |
+| Quantidade de pessoas beneficiadas e atendidas | Declaração de presença (à mão) |
 | Perfil da empresa, ajustes da descrição ao que ocorreu, fotos e atas | Relatório (depois da ação) |
 | Nome, cargo e instituição de quem assina a presença | Declaração de presença |
 | Data de assinatura de cada documento | Todos (pode ser preenchida à mão) |
