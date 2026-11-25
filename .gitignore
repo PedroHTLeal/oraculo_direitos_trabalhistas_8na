@@ -34,6 +34,3 @@ docs/evidencias/estado.json
 # Caches das ferramentas
 .ruff_cache/
 .pytest_cache/
-
-# Cópias completas dos documentos da extensão (têm telefone pessoal; ficam só no computador)
-docs/extensao/com-telefone/
