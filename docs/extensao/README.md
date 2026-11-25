@@ -29,7 +29,7 @@ Os documentos foram preenchidos a partir dos modelos fornecidos pela disciplina.
 | CNPJ da empresa (Up Jetcell) | Declaração de presença |
 | Endereço e telefone da UNINASSAU Graças | Rodapé das declarações para trabalho |
 | Quantidade de pessoas beneficiadas e atendidas | Declaração de presença (à mão) |
-| Perfil da empresa, ajustes da descrição ao que ocorreu, fotos e atas | Relatório (depois da ação) |
+| Perfil da empresa, envolvimento dos beneficiados, fotos e atas | Relatório (depois da ação) |
 | Nome, cargo e instituição de quem assina a presença | Declaração de presença |
 | Data de assinatura de cada documento | Todos (pode ser preenchida à mão) |
 
