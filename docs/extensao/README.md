@@ -23,7 +23,6 @@ Os documentos foram preenchidos a partir dos modelos fornecidos pela disciplina.
 
 | Pendência | Documentos |
 | --- | --- |
-| Telefone do Prof. Marlon Silva Ferreira | Ofício e declarações para trabalho |
 | Local da ação (nome e endereço) | Declarações para trabalho |
 | Data e horário da ação | Declarações para trabalho e de presença |
 | CNPJ, endereço, CEP e telefone da UNINASSAU Graças | Declaração de presença e rodapé das declarações para trabalho |
@@ -31,4 +30,4 @@ Os documentos foram preenchidos a partir dos modelos fornecidos pela disciplina.
 | Nome, cargo e instituição de quem assina a presença | Declaração de presença |
 | Data de assinatura de cada documento | Todos (pode ser preenchida à mão) |
 
-O telefone da coordenadora não está nas versões do repositório, porque o repositório é público. As cópias completas ficam só no computador da equipe, na pasta `com-telefone/`, que não vai para o GitHub.
+Os telefones da coordenadora e do professor já foram informados, mas não estão nas versões do repositório, porque o repositório é público. Nessas versões, eles aparecem como linhas em branco. As cópias completas ficam só no computador da equipe, na pasta `com-telefone/`, que não vai para o GitHub.
