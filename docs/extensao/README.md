@@ -10,6 +10,7 @@ Os documentos foram preenchidos a partir dos modelos fornecidos pela disciplina.
 | Declaração para trabalho | Declara que cada aluno participará da ação, como requisito da disciplina | [Pedro](2%20-%20Declara%C3%A7%C3%A3o%20para%20trabalho%20-%20Pedro.docx) · [Gerson](2%20-%20Declara%C3%A7%C3%A3o%20para%20trabalho%20-%20Gerson.docx) |
 | Autorização de uso de imagem | Autoriza o uso da imagem e da voz na divulgação da ação | [Pedro](3%20-%20Autoriza%C3%A7%C3%A3o%20de%20uso%20de%20imagem%20-%20Pedro.docx) · [Gerson](3%20-%20Autoriza%C3%A7%C3%A3o%20de%20uso%20de%20imagem%20-%20Gerson.docx) |
 | Declaração de presença | Comprova, depois da ação, a participação dos alunos e o público atendido | [Declaração de presença](4%20-%20Declara%C3%A7%C3%A3o%20de%20presen%C3%A7a.docx) |
+| Relatório discente | Relata o projeto, os indicadores, o cronograma, os resultados e os registros da ação (modelo PEX-MDL-56) | [Relatório discente](5%20-%20Relat%C3%B3rio%20discente.docx) |
 
 ## Já preenchido
 
@@ -23,11 +24,13 @@ Os documentos foram preenchidos a partir dos modelos fornecidos pela disciplina.
 
 | Pendência | Documentos |
 | --- | --- |
-| Local da ação (nome e endereço) | Declarações para trabalho |
-| Data e horário da ação | Declarações para trabalho (na de presença, à mão) |
-| Empresa onde o projeto será aplicado: nome, CNPJ, endereço, cidade e CEP | Declaração de presença |
+| Local da ação (nome e endereço) | Declarações para trabalho, relatório |
+| Data e horário da ação | Declarações para trabalho, relatório (na de presença, à mão) |
+| Empresa onde o projeto será aplicado: nome, CNPJ, endereço, cidade e CEP | Declaração de presença, relatório |
 | Endereço e telefone da UNINASSAU Graças | Rodapé das declarações para trabalho |
-| Quantidade de pessoas beneficiadas e atendidas | Declaração de presença (à mão) |
+| Quantidade de pessoas beneficiadas e atendidas | Declaração de presença (à mão), indicadores e resultados do relatório |
+| Código da turma (confirmar se é 8NA), número de orientações com o professor e demais indicadores | Relatório |
+| Perfil da empresa, ajustes da descrição ao que ocorreu, fotos e atas | Relatório (depois da ação) |
 | Nome, cargo e instituição de quem assina a presença | Declaração de presença |
 | Data de assinatura de cada documento | Todos (pode ser preenchida à mão) |
 

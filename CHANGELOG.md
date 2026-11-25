@@ -4,6 +4,20 @@ Registro de cada versão enviada ao GitHub: quando foi feita, qual o objetivo, o
 
 ---
 
+## Relatório discente da Atividade de Extensão
+
+**Data:** 25/11/2026 · **Branch:** `main`
+
+**Objetivo:** preparar o relatório de intervenção da disciplina Atividades Práticas Interdisciplinares de Extensão IV (modelo PEX-MDL-56).
+
+**O que foi feito:**
+- Relatório preenchido com a identificação do projeto, dos alunos, do professor e da coordenação, os objetivos, o público-alvo, o contexto local, a descrição da atividade, o envolvimento dos alunos, o cronograma de agosto a dezembro de 2026 e as referências em ABNT.
+- O que depende da ação na empresa (local, data, indicadores, resultados, fotos e atas) ficou destacado em amarelo e listado nas pendências.
+
+**Como agrega:** o relatório da extensão fica pronto para ser completado logo depois da ação, sem precisar partir do modelo em branco.
+
+---
+
 ## Documentos da Atividade de Extensão
 
 **Data:** 24/11/2026 · **Branch:** `main`
