@@ -24,10 +24,10 @@ Os documentos foram preenchidos a partir dos modelos fornecidos pela disciplina.
 | Pendência | Documentos |
 | --- | --- |
 | Local da ação (nome e endereço) | Declarações para trabalho |
-| Data e horário da ação | Declarações para trabalho e de presença |
+| Data e horário da ação | Declarações para trabalho (na de presença, à mão) |
 | Empresa onde o projeto será aplicado: nome, CNPJ, endereço, cidade e CEP | Declaração de presença |
 | Endereço e telefone da UNINASSAU Graças | Rodapé das declarações para trabalho |
-| Quantidade de pessoas beneficiadas e atendidas | Declaração de presença |
+| Quantidade de pessoas beneficiadas e atendidas | Declaração de presença (à mão) |
 | Nome, cargo e instituição de quem assina a presença | Declaração de presença |
 | Data de assinatura de cada documento | Todos (pode ser preenchida à mão) |
 
